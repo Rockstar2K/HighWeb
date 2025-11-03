@@ -1,6 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import directions from "@/assets/proceso/directions.png"
+import manual from "@/assets/proceso/manual.png"
+import text from "@/assets/proceso/text.png"
 
 const Proceso = () => {
   const [activeTab, setActiveTab] = useState('branding');
@@ -23,10 +27,35 @@ const Proceso = () => {
         );
       case 'paginas-web':
         return (
-          <div className="p-6 bg-white rounded-lg shadow min-h-[50vh] content-center">
-            <h3 className="text-xl font-semibold mb-4">Páginas Web</h3>
-            <p>Contenido sobre desarrollo de páginas web...</p>
+                <div className="bg-white rounded-3xl p-8 shadow-md  mx-auto w-full">
+        <h2 className="text-gray-500 text-lg font-semibold text-center mb-8">
+          Lo que recibirás
+        </h2>
+
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
+          <div className="flex flex-col items-center text-center">
+            <img src={directions} alt="Estrategia" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">Diseño de Estrategia y guionización</p>
           </div>
+
+          <div className="flex flex-col items-center text-center">
+            <img src={manual} alt="Animación" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">Animación personalizada</p>
+          </div>
+
+          <div className="flex flex-col items-center text-center">
+            <img src={text} alt="Producción musical" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">Producción musical profesional</p>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <Button variant="accent" className="text-base font-semibold px-8 py-3 rounded-xl shadow-md">
+            Cotizar
+          </Button>
+        </div>
+      </div>
+
         );
       case 'redes-sociales':
         return (
@@ -48,7 +77,7 @@ const Proceso = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-24 py-8">
       <div className="flex flex-wrap border-b border-gray-200 mb-6">
         {tabs.map((tab) => (
           <button

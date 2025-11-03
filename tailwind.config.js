@@ -4,15 +4,18 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+
   ],
   theme: {
     extend: {
       colors: {
-        // Add the accent color at the root level
         accent: "#35F099",
-        // Also add it with a different name for testing
         brand: "#35F099",
         hgreen: "#35F099",
+        hpurple: "#7741EA",
+      },
+      boxShadow: {
+        'purple-glow': '0 4px 15px 0 #7741EA', // you can adjust offset & blur
       },
       animation: {
         'marquee': 'marquee var(--duration, 40s) linear infinite',

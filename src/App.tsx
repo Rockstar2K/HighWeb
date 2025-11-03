@@ -9,19 +9,13 @@ import Proceso from "./components/proceso/proceso";
 function App() {
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen w-full gap-[5vh]">
+      <div className="flex flex-col items-center justify-center min-h-screen w-full gap-[15vh]">
         <NavBar />
         <Hero />
-        
         <Servicios />
-
         <SocialSection />
-
         <Proceso />
-
         <CTA />
-
-
       </div>
     </>
   );
