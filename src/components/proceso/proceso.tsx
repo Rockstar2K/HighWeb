@@ -20,19 +20,43 @@ const Proceso = () => {
     switch (activeTab) {
       case 'branding':
         return (
-          <div className="p-6 bg-white rounded-lg shadow min-h-[50vh] content-center">
-            <h3 className="text-xl font-semibold mb-4">Branding</h3>
-            <p>Contenido sobre nuestros servicios de branding...</p>
-          </div>
-        );
-      case 'paginas-web':
-        return (
-                <div className="bg-white rounded-3xl p-8 shadow-md  mx-auto w-full">
+          <div className="bg-white rounded-3xl p-8 shadow-md  mx-auto w-full">
         <h2 className="text-gray-500 text-lg font-semibold text-center mb-8">
           Lo que recibirás
         </h2>
 
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="flex flex-col items-center text-center">
+            <img src={directions} alt="Estrategia" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">3 direcciones de marca</p>
+          </div>
+
+          <div className="flex flex-col items-center text-center">
+            <img src={manual} alt="Animación" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">3 opciones de logotipo</p>
+          </div>
+
+          <div className="flex flex-col items-center text-center">
+            <img src={text} alt="Producción musical" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">Manual de marca</p>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <Button variant="accent" className="text-base font-semibold px-8 py-3 rounded-xl shadow-md">
+            Cotizar
+          </Button>
+        </div>
+      </div>
+        );
+      case 'paginas-web':
+        return (
+        <div className="bg-white rounded-3xl p-8 shadow-md  mx-auto w-full">
+        <h2 className="text-gray-500 text-lg font-semibold text-center mb-8">
+          Lo que recibirás
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div className="flex flex-col items-center text-center">
             <img src={directions} alt="Estrategia" className="w-16 h-16 mb-4"/>
             <p className="text-purple-600 font-semibold">Diseño de Estrategia y guionización</p>
@@ -59,17 +83,65 @@ const Proceso = () => {
         );
       case 'redes-sociales':
         return (
-          <div className="p-6 bg-white rounded-lg shadow min-h-[50vh] content-center">
-            <h3 className="text-xl font-semibold mb-4">Redes Sociales</h3>
-            <p>Contenido sobre gestión de redes sociales...</p>
+         <div className="bg-white rounded-3xl p-8 shadow-md  mx-auto w-full">
+        <h2 className="text-gray-500 text-lg font-semibold text-center mb-8">
+          Lo que recibirás
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="flex flex-col items-center text-center">
+            <img src={directions} alt="Estrategia" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">Diseño de Estrategia y guionización</p>
           </div>
+
+          <div className="flex flex-col items-center text-center">
+            <img src={manual} alt="Animación" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">Animación personalizada</p>
+          </div>
+
+          <div className="flex flex-col items-center text-center">
+            <img src={text} alt="Producción musical" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">Producción musical profesional</p>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <Button variant="accent" className="text-base font-semibold px-8 py-3 rounded-xl shadow-md">
+            Cotizar
+          </Button>
+        </div>
+      </div>
         );
       case 'animaciones':
         return (
-          <div className="p-6 bg-white rounded-lg shadow min-h-[50vh] content-center">
-            <h3 className="text-xl font-semibold mb-4">Animaciones</h3>
-            <p>Contenido sobre creación de animaciones...</p>
+         <div className="bg-white rounded-3xl p-8 shadow-md  mx-auto w-full">
+        <h2 className="text-gray-500 text-lg font-semibold text-center mb-8">
+          Lo que recibirás
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="flex flex-col items-center text-center">
+            <img src={directions} alt="Estrategia" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">Diseño de Estrategia y guionización</p>
           </div>
+
+          <div className="flex flex-col items-center text-center">
+            <img src={manual} alt="Animación" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">Animación personalizada</p>
+          </div>
+
+          <div className="flex flex-col items-center text-center">
+            <img src={text} alt="Producción musical" className="w-16 h-16 mb-4"/>
+            <p className="text-purple-600 font-semibold">Producción musical profesional</p>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <Button variant="accent" className="text-base font-semibold px-8 py-3 rounded-xl shadow-md">
+            Cotizar
+          </Button>
+        </div>
+      </div>
         );
       default:
         return null;
@@ -78,6 +150,9 @@ const Proceso = () => {
 
   return (
     <div className="container mx-auto px-24 py-8">
+      <h2 className="text-4xl font-bold text-center mb-8">
+        Nuestro proceso
+      </h2>
       <div className="flex flex-wrap border-b border-gray-200 mb-6">
         {tabs.map((tab) => (
           <button
