@@ -30,13 +30,13 @@ const TabContent = ({ title, items, buttonText }: { title: string; items: TabIte
           <div className="w-16 h-16 mb-4 shrink-0">
             <img src={item.image} alt={item.alt} className="w-full h-full object-contain"/>
           </div>
-          <p className="text-purple-600 font-semibold w-full break-words">{item.text}</p>
+          <p className="text-[#7741EA] font-semibold w-full break-words">{item.text}</p>
         </div>
       ))}
     </div>
 
     <div className="flex justify-center">
-      <Button variant="accent" className="text-base font-semibold px-8 py-3 rounded-xl shadow-md">
+      <Button variant="white" className="text-base font-semibold px-8 py-3 rounded-xl shadow-md">
         {buttonText}
       </Button>
     </div>
@@ -111,7 +111,7 @@ const Proceso = () => {
             onClick={() => setActiveTab(tab.id)}
             className={`px-6 py-3 rounded-full font-medium transition-colors ${
               activeTab === tab.id
-                ? 'bg-purple-600 text-white'
+                ? 'bg-[#7741EA]! text-white!'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >

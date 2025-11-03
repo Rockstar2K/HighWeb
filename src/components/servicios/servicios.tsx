@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '../ui/button';
+
 import branding from '@/assets/servicios/branding.png';
 import web from '@/assets/servicios/web.png';
 import redes from '@/assets/servicios/redes.png';
@@ -63,7 +64,7 @@ const Servicios = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2 w-full">{service.title}</h3>
                 <p className="text-gray-600 mb-6 flex-grow">{service.description}</p>
-                <Button variant="outline" className="group mx-auto mt-auto">
+                <Button variant="green" className="group mx-auto mt-auto">
                   {service.buttonText}
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Button>
