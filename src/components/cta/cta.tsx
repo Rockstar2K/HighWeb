@@ -65,11 +65,9 @@ const CTA = () => {
           {/* Content Column */}
           <div className="flex flex-col justify-center space-y-6">
             <div className="space-y-4">
-              <h3 className="text-2xl font-bold">Why choose us?</h3>
+              <h3 className="text-2xl font-bold">Agenda una reunión sin compromiso</h3>
               <p className="text-gray-500 dark:text-gray-400">
-                Our team of experts is dedicated to providing the best service possible. 
-                We'll work with you to understand your needs and deliver a solution that 
-                exceeds your expectations.
+                Sin compromisos, sin obligaciónes. Solo una reunión de 15 minutos para concernos mejor y responder cualquier duda que tengas.
               </p>
               <ul className="space-y-2 text-gray-500 dark:text-gray-400">
                 <li className="flex items-center space-x-2">
