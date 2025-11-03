@@ -12,6 +12,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.0.17",
+    "@types/react-slick": "^0.23.13",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cobe": "^0.6.5",
@@ -20,6 +21,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.1",
+    "react-slick": "^0.31.0",
+    "slick-carousel": "^1.8.1",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.17",
     "tw-animate-css": "^1.2.5"
@@ -34,6 +37,8 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "less": "^4.4.2",
+    "less-loader": "^12.3.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0"

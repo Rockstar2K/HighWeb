@@ -5,6 +5,7 @@ import Servicios from "./components/servicios/servicios";
 import CTA from "./components/cta/cta.tsx";
 import NavBar from "./components/navBar/navBar";
 import Proceso from "./components/proceso/proceso";
+import Proyectos from "./components/proyectos/proyectos";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <NavBar />
         <Hero />
         <Servicios />
+        <Proyectos />
         <SocialSection />
         <Proceso />
         <CTA />
