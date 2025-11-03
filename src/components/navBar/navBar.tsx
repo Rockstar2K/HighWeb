@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import highLogo from '@/assets/highLogo.png';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,12 +10,12 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md w-full fixed top-0 z-50">
+    <nav className="backdrop-blur-md bg-white/50 shadow w-full fixed top-0 z-50 border-b border-white/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="shrink-0 flex items-center">
-            <span className="text-xl font-bold text-gray-800">LOGO</span>
+          <div className="flex-shrink-0 flex items-center h-full ">
+            <img src={highLogo} alt="Logo" className="h-full w-auto object-contain" />
           </div>
 
           {/* Mobile menu button */}
