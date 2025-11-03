@@ -81,7 +81,7 @@ const ReviewCard = ({
 export function SocialSection() {
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-      <h2 className="text-3xl font-bold mb-8">What People Are Saying</h2>
+      <h2 className="text-4xl font-bold mb-8">Muy bien pero...<br></br><span className="text-[#7741EA]">¿Qué dicen de ustedes?</span></h2>
       <Marquee pauseOnHover className="[--duration:20s]">
         {firstRow.map((review) => (
           <ReviewCard key={review.username} {...review} />

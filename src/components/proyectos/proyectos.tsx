@@ -77,7 +77,7 @@ const Proyectos = () => {
   return (
     <section className="py-16 px-4 bg-white">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">Proyectos recientes</h2>
+        <h2 className="text-4xl font-bold text-center mb-12">Proyectos recientes</h2>
         <Slider {...settings}>
           {projects.map((project) => (
             <div key={project.id} className="px-2">
