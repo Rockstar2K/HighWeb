@@ -7,30 +7,36 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick-theme.less';
 import 'slick-carousel/slick/slick.less';
 
+import ayro from '@/assets/proyectos/ayro.svg';
+import obliqua from '@/assets/proyectos/obliqua.svg';
+import florida from '@/assets/proyectos/florida.svg';
+import kimal from '@/assets/proyectos/kimal.svg';
+import loyers from '@/assets/proyectos/loyers.svg';
+
 const projects = [
   {
     id: 1,
     title: 'Loyers',
     description: 'Descripción del proyecto 1 con detalles sobre el trabajo realizado y tecnologías utilizadas.',
-    image: '/images/projects/project1.jpg',
+    image: loyers,
   },
   {
     id: 2,
     title: 'Hoteles Kimal',
     description: 'Descripción del proyecto 2 con detalles sobre el trabajo realizado y tecnologías utilizadas.',
-    image: '/images/projects/project2.jpg',
+    image: kimal,
   },
   {
     id: 3,
     title: 'Florida y tú',
     description: 'Descripción del proyecto 3 con detalles sobre el trabajo realizado y tecnologías utilizadas.',
-    image: '/images/projects/project3.jpg',
+    image: florida,
   },
   {
     id: 1,
     title: 'Ayro',
     description: 'Descripción del proyecto 1 con detalles sobre el trabajo realizado y tecnologías utilizadas.',
-    image: '/images/projects/project1.jpg',
+    image: ayro,
   },
   {
     id: 2,
@@ -75,12 +81,12 @@ const Proyectos = () => {
         <Slider {...settings}>
           {projects.map((project) => (
             <div key={project.id} className="px-2">
-              <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div className="h-48 overflow-hidden">
+              <div className="bg-white rounded-4xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
+                <div className="h-80 w-full flex items-center justify-center overflow-hidden bg-gray-50">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover"
+                    className="max-w-40 max-h-40 object-contain"
                   />
                 </div>
                 <div className="p-6">
