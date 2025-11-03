@@ -17,25 +17,25 @@ const projects = [
   {
     id: 1,
     title: 'Loyers',
-    description: 'Descripción del proyecto 1 con detalles sobre el trabajo realizado y tecnologías utilizadas.',
+    description: 'Una agencia legal con la ambición de cambiarlo todo en el mundo de las leyes.',
     image: loyers,
   },
   {
     id: 2,
     title: 'Hoteles Kimal',
-    description: 'Descripción del proyecto 2 con detalles sobre el trabajo realizado y tecnologías utilizadas.',
+    description: 'Una cadena de hoteles en que busca un turismo ético y conectado con la naturaleza que la rodea.',
     image: kimal,
   },
   {
     id: 3,
     title: 'Florida y tú',
-    description: 'Descripción del proyecto 3 con detalles sobre el trabajo realizado y tecnologías utilizadas.',
+    description: '¿Una agencia de viajes? ¿Asesorías sobre visados? Florida Y Tú es todo esto y más, ofreciendo la oportunidad de viajar o emprender en los Estados Unidos sin fricciones.',
     image: florida,
   },
   {
     id: 1,
     title: 'Ayro',
-    description: 'Descripción del proyecto 1 con detalles sobre el trabajo realizado y tecnologías utilizadas.',
+    description: 'Una start-up de robótica que ofrece limpieza automática de plantas de paneles solares.',
     image: ayro,
   },
   {

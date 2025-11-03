@@ -5,8 +5,8 @@ import { Textarea } from '@/components/ui/textarea';
 
 const CTA = () => {
   return (
-    <section className="w-full py-28 md:py-24 lg:py-48 bg-black shadow-lg">
-      <div className="w-full container px-6 md:px-8 lg:px-48">
+    <section className="w-full py-28 md:py-24 lg:py-48 bg-black shadow-lg overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-24">
         <div className="text-center mb-10 space-y-4">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">
             ¿Todavía te quedan <span className="text-[#7741EA]">dudas?</span>
