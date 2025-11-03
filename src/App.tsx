@@ -9,7 +9,7 @@ import Proceso from "./components/proceso/proceso";
 function App() {
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center justify-center min-h-screen w-full gap-[5vh]">
         <NavBar />
         <Hero />
         

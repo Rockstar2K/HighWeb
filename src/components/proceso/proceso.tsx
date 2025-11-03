@@ -48,7 +48,7 @@ const Proceso = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 mt-[10%] mb-[10%]">
+    <div className="container mx-auto px-4 py-8">
       <div className="flex flex-wrap border-b border-gray-200 mb-6">
         {tabs.map((tab) => (
           <button

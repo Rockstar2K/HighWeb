@@ -5,10 +5,10 @@ import { Textarea } from '@/components/ui/textarea';
 
 const CTA = () => {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32  dark:bg-gray-900">
+    <section className="w-full py-28 md:py-24 lg:py-48 bg-black">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-10 space-y-4">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">
             ¿Todavía te quedan dudas?
           </h2>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
@@ -65,63 +65,10 @@ const CTA = () => {
           {/* Content Column */}
           <div className="flex flex-col justify-center space-y-6">
             <div className="space-y-4">
-              <h3 className="text-2xl font-bold">Agenda una reunión sin compromiso</h3>
+              <h3 className="text-2xl font-bold text-white">Agenda una reunión sin compromiso</h3>
               <p className="text-gray-500 dark:text-gray-400">
                 Sin compromisos, sin obligaciónes. Solo una reunión de 15 minutos para concernos mejor y responder cualquier duda que tengas.
               </p>
-              <ul className="space-y-2 text-gray-500 dark:text-gray-400">
-                <li className="flex items-center space-x-2">
-                  <svg
-                    className="h-5 w-5 text-green-500"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                  <span>24/7 Customer Support</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <svg
-                    className="h-5 w-5 text-green-500"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                  <span>Fast Response Time</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <svg
-                    className="h-5 w-5 text-green-500"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                  <span>Custom Solutions</span>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
