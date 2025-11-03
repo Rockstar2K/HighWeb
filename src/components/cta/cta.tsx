@@ -25,23 +25,29 @@ const CTA = () => {
 
                 <div className="space-y-2">
                   <label 
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="bg-white/10 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     htmlFor="first-name"
                   >
                     
                   </label>
-                  <Input id="first-name" placeholder="Nombre completo" />
-                </div>
+                  <Input
+                    id="first-name"
+                    placeholder="Nombre completo"
+                    className="bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:border-white/40 focus:ring-0"
+                  />
+                  </div>
                 
               </div>
               <div className="space-y-2">
                 <label 
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="bg-white/10 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   htmlFor="email"
                 >
                  
                 </label>
-                <Input id="email" placeholder="Correo electrónico" type="email" />
+                <Input id="email" placeholder="Correo electrónico" type="email" 
+                className="bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:border-white/40 focus:ring-0"
+                />
               </div>
               <div className="space-y-2">
                 <label 
@@ -51,12 +57,13 @@ const CTA = () => {
                   
                 </label>
                 <Textarea 
-                  className="min-h-[120px]" 
+                  className="min-h-[120px] bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:border-white/40 focus:ring-0" 
                   id="message" 
                   placeholder="Cuentanos sobre tu proyecto, tu color favorito y cómo tu negocio puede cambiar el mundo" 
+                  
                 />
               </div>
-              <Button className="w-full" type="submit">
+              <Button className="w-full hover:bg-hgreen/80" style={{ backgroundColor: '#35F099' }} type="submit">
                 Enviar
               </Button>
             </form>
