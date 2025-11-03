@@ -4,6 +4,7 @@ import { Hero } from "./components/hero/hero.tsx";
 import Servicios from "./components/servicios/servicios";
 import CTA from "./components/cta/cta.tsx";
 import NavBar from "./components/navBar/navBar";
+import Proceso from "./components/proceso/proceso";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <Servicios />
 
         <SocialSection />
+
+        <Proceso />
 
         <CTA />
 

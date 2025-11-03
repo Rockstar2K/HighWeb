@@ -27,7 +27,15 @@ export function Hero() {
             </p>
           </div>
           <div className="flex flex-col gap-4 min-[400px]:flex-row">
-            <Button size="lg" className="bg-accent! text-white hover:bg-gray-100">
+            <Button 
+              size="lg"
+              className="hover:brightness-105 transition-all"
+              style={{
+                backgroundColor: '#35F099',
+                color: 'white',
+                borderColor: '#35F099',
+              }}
+            >
               Servicios
             </Button>
             <Button size="lg" variant="outline" className="bg-transparent text-black border-black hover:bg-black/10 hover:text-black">

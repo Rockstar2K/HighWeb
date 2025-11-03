@@ -9,10 +9,10 @@ const CTA = () => {
       <div className="container px-4 md:px-6">
         <div className="text-center mb-10 space-y-4">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Ready to get started?
+            ¿Todavía te quedan dudas?
           </h2>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-            Fill out the form and our team will get back to you within 24 hours.
+            Cuentanos sobre cualquier idea o consulta que tengas.
           </p>
         </div>
         
@@ -20,50 +20,44 @@ const CTA = () => {
           {/* Form Column */}
           <div className="space-y-6">
             <form className="space-y-4">
+
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
                 <div className="space-y-2">
                   <label 
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     htmlFor="first-name"
                   >
-                    First name
+                    
                   </label>
-                  <Input id="first-name" placeholder="Enter your first name" />
+                  <Input id="first-name" placeholder="Nombre completo" />
                 </div>
-                <div className="space-y-2">
-                  <label 
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    htmlFor="last-name"
-                  >
-                    Last name
-                  </label>
-                  <Input id="last-name" placeholder="Enter your last name" />
-                </div>
+                
               </div>
               <div className="space-y-2">
                 <label 
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   htmlFor="email"
                 >
-                  Email
+                 
                 </label>
-                <Input id="email" placeholder="Enter your email" type="email" />
+                <Input id="email" placeholder="Correo electrónico" type="email" />
               </div>
               <div className="space-y-2">
                 <label 
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   htmlFor="message"
                 >
-                  Message
+                  
                 </label>
                 <Textarea 
                   className="min-h-[120px]" 
                   id="message" 
-                  placeholder="Tell us about your project" 
+                  placeholder="Cuentanos sobre tu proyecto, tu color favorito y cómo tu negocio puede cambiar el mundo" 
                 />
               </div>
               <Button className="w-full" type="submit">
-                Send Message
+                Enviar
               </Button>
             </form>
           </div>

@@ -8,7 +8,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Add the accent color at the root level
         accent: "#35F099",
+        // Also add it with a different name for testing
+        brand: "#35F099",
+        hgreen: "#35F099",
       },
       animation: {
         'marquee': 'marquee var(--duration, 40s) linear infinite',
