@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import highLogo from '@/assets/highLogo.png';
+import { Button } from '../ui/button';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,7 +36,7 @@ const NavBar = () => {
             <a href="#" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Servicios</a>
             <a href="#" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Trabajos</a>
             <a href="#" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Blog</a>
-            <a href="#" className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">Contáctanos</a>
+            <Button variant="outline" className="">Contáctanos</Button>
           </div>
         </div>
       </div>

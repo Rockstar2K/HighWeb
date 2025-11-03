@@ -19,8 +19,8 @@ export function Hero() {
         <div className="container px-4 md:px-6 relative">
         <div className="flex flex-col items-center space-y-6 text-center">
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter text-black sm:text-5xl md:text-6xl lg:text-7xl drop-shadow-lg">
-              Desbloquea el poder de una marca poderosa
+            <h1 className="text-4xl font-bold tracking-tighter text-black sm:text-5xl md:text-6xl lg:text-7xl ">
+              Desbloquea el poder <br></br><span className="text-[#35F099]">de una marca poderosa</span>
             </h1>
             <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
               Creación de marcas - Sitios Web - Redes sociales - Animación
