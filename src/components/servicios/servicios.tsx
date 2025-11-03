@@ -1,30 +1,34 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '../ui/button';
+import branding from '@/assets/servicios/branding.png';
+import web from '@/assets/servicios/web.png';
+import redes from '@/assets/servicios/redes.png';
+import animaciones from '@/assets/servicios/animaciones.png';
 
 const services = [
   {
     title: 'Branding',
     description: 'Diseñamos contigo la marca de tus sueños basados en un proceso de estrategia único en Chile.',
-    icon: 'https://cdn-icons-png.flaticon.com/512/1005/1005141.png',
+    icon: branding,
     buttonText: 'Saber más'
   },
   {
     title: 'Páginas Web',
     description: 'Diseño y desarrollo de páginas web modernas y atractivas que se adaptan a todos los dispositivos.',
-    icon: 'https://cdn-icons-png.flaticon.com/512/3242/3242257.png',
+    icon: web,
     buttonText: 'Saber más'
   },
   {
     title: 'Redes sociales',
     description: 'Diseño y desarrollo de páginas web modernas y atractivas que se adaptan a todos los dispositivos.',
-    icon: 'https://cdn-icons-png.flaticon.com/512/1903/1903162.png',
+    icon: redes,
     buttonText: 'Saber más'
   },
   {
     title: 'Animaciones',
     description: 'Animaciones para tus proyectos web y redes sociales.',
-    icon: 'https://cdn-icons-png.flaticon.com/512/2933/2933245.png',
+    icon: animaciones,
     buttonText: 'Saber más'
   }
 ];
