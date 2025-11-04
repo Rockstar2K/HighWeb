@@ -1,18 +1,12 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import heroBg from "@/assets/hero/hero-bg.png"
 
 export function Hero() {
   return (
     <section 
       className="relative w-screen h-screen overflow-hidden"
-      style={{
-        backgroundImage: 'url("/src/assets/hero/hero-bg.png")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        position: 'relative'
-      }}
     >
       <div className="absolute inset-0 bg-white/10" />
       <div className="h-full flex items-center justify-center">

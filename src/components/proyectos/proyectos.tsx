@@ -29,7 +29,7 @@ const projects = [
   {
     id: 3,
     title: 'Florida y tú',
-    description: '¿Una agencia de viajes? ¿Asesorías sobre visados? Florida Y Tú es todo esto y más, ofreciendo la oportunidad de viajar o emprender en los Estados Unidos sin fricciones.',
+    description: 'Florida y tú ofrece la oportunidad de viajar o emprender en los Estados Unidos sin fricciones.',
     image: florida,
   },
   {
@@ -41,8 +41,8 @@ const projects = [
   {
     id: 2,
     title: 'Obliqua',
-    description: 'Descripción del proyecto 2 con detalles sobre el trabajo realizado y tecnologías utilizadas.',
-    image: '/images/projects/project2.jpg',
+    description: 'La decentralización y la IA revolucionarán el futuro. Obliqua ayuda a negocios a no quedarse atrás.',
+    image: obliqua,
   },
  
 ];
