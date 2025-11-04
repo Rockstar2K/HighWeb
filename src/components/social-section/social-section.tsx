@@ -3,40 +3,40 @@ import { Marquee } from "@/components/ui/marquee"
 
 const reviews = [
   {
-    name: "Jack",
-    username: "@jack",
-    body: "I've never seen anything like this before. It's amazing. I love it.",
-    img: "https://avatar.vercel.sh/jack",
+    name: "Sofía Martínez",
+    username: "@sofi.mart",
+    body: "¡Increíble trabajo en el rediseño de nuestra web! El equipo de High Design captó perfectamente nuestra esencia y la llevó a otro nivel. Totalmente recomendados.",
+    img: "https://avatar.vercel.sh/sofi.mart",
   },
   {
-    name: "Jill",
-    username: "@jill",
-    body: "I don't know what to say. I'm speechless. This is amazing.",
-    img: "https://avatar.vercel.sh/jill",
+    name: "Carlos Gutiérrez",
+    username: "@carlosg",
+    body: "La campaña de redes sociales que crearon para nosotros superó todas nuestras expectativas. ¡El engagement se disparó un 200%! Profesionales de primera.",
+    img: "https://avatar.vercel.sh/carlosg",
   },
   {
-    name: "John",
-    username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/john",
+    name: "Ana Lucía Ríos",
+    username: "@anar_design",
+    body: "Trabajar con High Design fue una experiencia excepcional. Su atención al detalle y creatividad en las animaciones nos dejó sin palabras. ¡Volveremos por más!",
+    img: "https://avatar.vercel.sh/anar_design",
   },
   {
-    name: "Jane",
-    username: "@jane",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/jane",
+    name: "Miguel Ángel Torres",
+    username: "@miguel.torres",
+    body: "El rediseño de identidad visual que nos hicieron transformó por completo nuestra marca. Ahora tenemos una imagen coherente en todos los canales. ¡Excelente trabajo!",
+    img: "https://avatar.vercel.sh/miguel.torres",
   },
   {
-    name: "Jenny",
-    username: "@jenny",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/jenny",
+    name: "Valentina Rojas",
+    username: "@valeroj",
+    body: "Las ilustraciones personalizadas que crearon para nuestra app son simplemente increíbles. Captaron perfectamente lo que necesitábamos y lo superaron con creces.",
+    img: "https://avatar.vercel.sh/valeroj",
   },
   {
-    name: "James",
-    username: "@james",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/james",
+    name: "Andrés López",
+    username: "@andres.lpz",
+    body: "La estrategia de contenidos digitales que desarrollaron para nosotros fue un antes y después. Muy profesionales, creativos y siempre atentos a los detalles.",
+    img: "https://avatar.vercel.sh/andres.lpz",
   },
 ]
 
@@ -73,7 +73,7 @@ const ReviewCard = ({
           <p className="text-xs font-medium dark:text-white/40">{username}</p>
         </div>
       </div>
-      <blockquote className="mt-2 text-sm">{body}</blockquote>
+      <blockquote className="mt-2 text-sm text-left">{body}</blockquote>
     </figure>
   )
 }
