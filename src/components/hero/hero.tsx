@@ -30,15 +30,11 @@ export function Hero() {
             <Button 
               size="lg"
               className="hover:brightness-105 transition-all"
-              style={{
-                backgroundColor: '#35F099',
-                color: 'white',
-                borderColor: '#35F099',
-              }}
+              variant="green"
             >
               Servicios
             </Button>
-            <Button size="lg" variant="outline" className="bg-transparent text-black border-black hover:bg-black/10 hover:text-black">
+            <Button size="lg" variant="white" className="bg-transparent text-black border-black hover:bg-black/10 hover:text-black">
               Contacto
             </Button>
           </div>
