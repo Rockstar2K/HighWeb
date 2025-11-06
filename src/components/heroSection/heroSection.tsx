@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import heroBg from "@/assets/hero/hero-bg.png"
 
-export function Hero() {
+export function HeroSection() {
   return (
     <section 
       className="relative w-screen h-screen overflow-hidden"

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-const CTA = () => {
+const CTASection = () => {
   return (
     <section className="w-full py-28 md:py-24 lg:py-48 bg-black shadow-lg overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-24">
@@ -78,4 +78,4 @@ const CTA = () => {
   );
 };
 
-export default CTA;
+export default CTASection;

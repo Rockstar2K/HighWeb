@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import highLogo from '@/assets/highLogo.png';
 import { Button } from '../ui/button';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,11 +33,13 @@ const NavBar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Inicio</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Servicios</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Trabajos</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Blog</a>
-            <Button variant="outline" className="">Contáctanos</Button>
+            <Link to="/" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Inicio</Link>
+            <Link to="/servicios" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Servicios</Link>
+            <Link to="/proyectos" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Trabajos</Link>
+            <Link to="/blog" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Blog</Link>
+            <Link to="/contacto">
+              <Button variant="outline">Contáctanos</Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -45,11 +48,11 @@ const NavBar = () => {
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
-            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Inicio</a>
-            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Servicios</a>
-            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Trabajos</a>
-            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Blog</a>
-            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white hover:bg-blue-700 text-center">Contáctanos</a>
+            <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Inicio</Link>
+            <Link to="/servicios" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Servicios</Link>
+            <Link to="/proyectos" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Trabajos</Link>
+            <Link to="/blog" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Blog</Link>
+            <Link to="/contacto" className="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white hover:bg-blue-700 text-center">Contáctanos</Link>
           </div>
         </div>
       )}

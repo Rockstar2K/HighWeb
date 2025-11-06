@@ -43,7 +43,7 @@ const TabContent = ({ title, items, buttonText }: { title: string; items: TabIte
   </div>
 );
 
-const Proceso = () => {
+const ProcesoSection = () => {
   const [activeTab, setActiveTab] = useState('branding');
 
   const tabs: TabItem[] = [
@@ -133,4 +133,4 @@ const Proceso = () => {
   );
 };
 
-export default Proceso;
+export default ProcesoSection;

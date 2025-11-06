@@ -34,7 +34,7 @@ const services = [
   }
 ];
 
-const Servicios = () => {
+const ServiciosSection = () => {
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
@@ -77,4 +77,4 @@ const Servicios = () => {
   );
 };
 
-export default Servicios;
+export default ServiciosSection;

@@ -47,7 +47,7 @@ const projects = [
  
 ];
 
-const Proyectos = () => {
+const ProyectosSection = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -102,4 +102,4 @@ const Proyectos = () => {
   );
 };
 
-export default Proyectos;
+export default ProyectosSection;
