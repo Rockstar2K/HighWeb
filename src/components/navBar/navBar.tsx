@@ -38,7 +38,7 @@ const NavBar = () => {
             <Link to="/proyectos" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Trabajos</Link>
             <Link to="/blog" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Blog</Link>
             <Link to="/contacto">
-              <Button variant="outline">Contáctanos</Button>
+              <Button variant="purple">Contáctanos</Button>
             </Link>
           </div>
         </div>
