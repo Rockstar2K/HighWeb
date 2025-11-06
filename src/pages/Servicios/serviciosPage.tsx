@@ -31,7 +31,13 @@ interface TabItem {
 }
 
 const PlanCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: boolean }) => (
-  <div className={`relative flex flex-col p-6 rounded-2xl h-full ${isPopular ? 'bg-[#F9F5FF] border-2 border-[#7741EA]' : 'bg-white border border-gray-200'}`}>
+  <div 
+    className={`relative flex flex-col p-6 rounded-2xl h-full transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
+      isPopular 
+        ? 'bg-[#F9F5FF] border-2 border-[#7741EA] hover:shadow-[#7741EA]/20' 
+        : 'bg-white border border-gray-200 hover:border-[#7741EA]/30 hover:shadow-[#7741EA]/10'
+    }`}
+  >
     {isPopular && (
       <div className="absolute top-0 right-4 -translate-y-1/2 bg-[#7741EA] text-white text-xs font-semibold px-3 py-1 rounded-full">
         Más popular
@@ -53,7 +59,14 @@ const PlanCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: boolean
         </li>
       ))}
     </ul>
-    <Button variant="purple" className={`w-full mt-auto ${isPopular ? 'bg-[#7741EA] hover:bg-[#6a3ac8] text-white' : 'bg-white text-[#7741EA] border border-[#7741EA] hover:bg-gray-50'}`}>
+    <Button 
+      variant="purple" 
+      className={`w-full mt-auto transition-all duration-200 ease-in-out ${
+        isPopular 
+          ? 'bg-[#7741EA] hover:bg-[#6a3ac8] text-white hover:shadow-md hover:shadow-[#7741EA]/30' 
+          : 'bg-white text-[#7741EA] border border-[#7741EA] hover:bg-[#F9F5FF] hover:border-[#7741EA] hover:text-[#6a3ac8]'
+      }`}
+    >
       Contratar {plan.type}
     </Button>
   </div>
@@ -82,7 +95,7 @@ const TabContent = ({ title, description, items, buttonText, plans }: TabItem) =
 
     <div className="mb-8">
       <h3 className="text-xl font-semibold mb-6 text-center text-gray-800">Planes disponibles</h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {plans.map((plan, index) => (
           <PlanCard 
             key={plan.type}
