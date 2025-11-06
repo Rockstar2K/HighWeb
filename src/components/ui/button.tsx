@@ -20,9 +20,9 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
-        green: "bg-[#35F099]! text-black! font-semibold! hover:bg-[#7741EA]! hover:text-white! transition-all duration-200 ease-in-out",
-        purple: "bg-[#7741EA]! text-white! font-semibold! hover:bg-white! hover:text-[#7741EA]! hover:border hover:border-[#7741EA]! transition-all duration-200 ease-in-out",
-        white: "bg-white! text-[#7741EA]! font-semibold! border-[#7741EA]! hover:bg-[#7741EA]! hover:text-white!  transition-all duration-200 ease-in-out"
+        green: "bg-[#35F099]! text-black! font-semibold! hover:bg-[#7741EA]! hover:text-white! transition-all! duration-200! ease-in-out!",
+        purple: "bg-[#7741EA]! text-white! font-semibold! hover:bg-white! hover:text-[#7741EA]! hover:border hover:border-[#7741EA]! transition-all! duration-200! ease-in-out!",
+        white: "bg-white! text-[#7741EA]! font-semibold! border-[#7741EA]! hover:bg-[#7741EA]! hover:text-white!  transition-all! duration-200! ease-in-out!"
       },
       size: {
         default: "h-9 px-4 py-2",

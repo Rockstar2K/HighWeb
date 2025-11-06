@@ -14,19 +14,12 @@ interface Plan {
   popular?: boolean;
 }
 
-interface ServiceItem {
-  image: string;
-  alt: string;
-  text: string;
-}
-
 interface TabItem {
   id: string;
   label: string;
   title: string;
   description: string;
   buttonText: string;
-  items: ServiceItem[];
   plans: Plan[];
 }
 
@@ -72,7 +65,7 @@ const PlanCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: boolean
   </div>
 );
 
-const TabContent = ({ title, description, items, buttonText, plans }: TabItem) => (
+const TabContent = ({ title, description, plans }: TabItem) => (
   <div className="bg-white rounded-3xl p-8 shadow-md mx-auto w-full max-w-6xl">
     <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">
       {title}
@@ -82,19 +75,7 @@ const TabContent = ({ title, description, items, buttonText, plans }: TabItem) =
       {description}
     </p>
 
-    <div className="grid grid-cols-3 gap-8 mb-10">
-      {items.map((item, index) => (
-        <div key={index} className="flex flex-col items-center text-center">
-          <div className="w-16 h-16 mb-4">
-            <img src={item.image} alt={item.alt} className="w-full h-full object-contain"/>
-          </div>
-          <p className="text-[#7741EA] font-semibold">{item.text}</p>
-        </div>
-      ))}
-    </div>
-
     <div className="mb-8">
-      <h3 className="text-xl font-semibold mb-6 text-center text-gray-800">Planes disponibles</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {plans.map((plan, index) => (
           <PlanCard 
@@ -118,11 +99,6 @@ const ServiciosPage = () => {
       title: 'Creación de Marca',
       description: 'Diseño de identidad de marca profesional que comunique la esencia de tu negocio',
       buttonText: 'Cotizar Ahora',
-      items: [
-        { image: directions, alt: 'Estrategia', text: 'Estrategia de Marca' },
-        { image: manual, alt: 'Diseño', text: 'Diseño de Identidad' },
-        { image: text, alt: 'Entrega', text: 'Materiales Finales' },
-      ],
       plans: [
         {
           type: 'Pymes',
@@ -172,11 +148,6 @@ const ServiciosPage = () => {
       title: 'Desarrollo Web Profesional',
       description: 'Sitios web a medida, rápidos y optimizados para conversiones',
       buttonText: 'Cotizar Ahora',
-      items: [
-        { image: directions, alt: 'Diseño', text: 'Diseño UI/UX' },
-        { image: manual, alt: 'Desarrollo', text: 'Desarrollo Web' },
-        { image: text, alt: 'Optimización', text: 'Optimización SEO' },
-      ],
       plans: [
         {
           type: 'Pymes',
@@ -226,11 +197,6 @@ const ServiciosPage = () => {
       title: 'Gestión de Redes Sociales',
       description: 'Estrategias de contenido que generan engagement y crecimiento orgánico',
       buttonText: 'Cotizar Ahora',
-      items: [
-        { image: directions, alt: 'Estrategia', text: 'Estrategia de Contenido' },
-        { image: manual, alt: 'Creación', text: 'Creación de Contenido' },
-        { image: text, alt: 'Análisis', text: 'Análisis de Resultados' },
-      ],
       plans: [
         {
           type: 'Pymes',
@@ -280,11 +246,6 @@ const ServiciosPage = () => {
       title: 'Animaciones Creativas',
       description: 'Contenido animado que cuenta la historia de tu marca',
       buttonText: 'Cotizar Ahora',
-      items: [
-        { image: directions, alt: 'Concepto', text: 'Concepto y Guión' },
-        { image: manual, alt: 'Diseño', text: 'Diseño y Animación' },
-        { image: text, alt: 'Entrega', text: 'Edición Final' },
-      ],
       plans: [
         {
           type: 'Pymes',
