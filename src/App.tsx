@@ -21,6 +21,7 @@ function App() {
     <Routes>
       <Route path="/servicios" element={<ServiciosPage />} />
       <Route path="/trabajos" element={<TrabajosPage />} />
+      <Route path="/contacto" element={<ContactoPage />} />
       <Route path="/" element={
         <>
           <HeroSection />

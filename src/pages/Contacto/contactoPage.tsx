@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 
 // Add Font Awesome CSS
 const addFontAwesome = () => {
@@ -26,7 +27,7 @@ const ContactoPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8 mt-[15vh]">
       <div className="max-w-4xl mx-auto">
         {/* Contact Title */}
         <h1 className="text-4xl font-bold text-center mb-12 text-gray-900">Contacto</h1>
@@ -48,17 +49,17 @@ const ContactoPage = () => {
         </div>
 
         {/* Contact Info */}
-        <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-12 mb-16">
-          <div className="flex items-center">
-            <i className="fas fa-map-marker-alt text-gray-600 mr-2 text-xl"></i>
-            <span className="text-gray-700">Buenos Aires, Argentina</span>
+        <div className="flex flex-col sm:flex-row justify-center items-center space-y-8 sm:space-y-0 sm:space-x-12 mb-16">
+          <div className="flex flex-col items-center space-y-2">
+            <i className="fas fa-map-marker-alt text-[#35F099] text-3xl"></i>
+            <span className="text-gray-700 text-center">Buenos Aires, Argentina</span>
           </div>
-          <div className="flex items-center">
-            <i className="fas fa-phone text-gray-600 mr-2 text-xl"></i>
+          <div className="flex flex-col items-center space-y-2">
+            <i className="fas fa-phone text-[#35F099] text-3xl"></i>
             <span className="text-gray-700">+54 11 1234-5678</span>
           </div>
-          <div className="flex items-center">
-            <i className="fas fa-envelope text-gray-600 mr-2 text-xl"></i>
+          <div className="flex flex-col items-center space-y-2">
+            <i className="fas fa-envelope text-[#35F099] text-3xl"></i>
             <span className="text-gray-700">info@highdesign.com</span>
           </div>
         </div>
@@ -110,12 +111,13 @@ const ContactoPage = () => {
             </div>
             
             <div className="text-center">
-              <button
+              <Button
                 type="submit"
+                variant="purple"
                 className="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
               >
                 Enviar
-              </button>
+              </Button>
             </div>
           </form>
         </div>
