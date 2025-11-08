@@ -16,12 +16,13 @@ const TrabajosPage = () => {
       <h1 className="text-center my-8">Nuestros Trabajos</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full">
         {workImages.map((image) => (
-          <div key={image.id} className="relative w-full aspect-square overflow-hidden cursor-pointer bg-gray-100 flex items-center justify-center border-1 border-white">
+          <div key={image.id} className="relative w-full aspect-square overflow-hidden cursor-pointer bg-gray-100 flex items-center justify-center border-1 border-white group">
             <img 
               src={image.src} 
               alt={image.alt}
-              className="max-w-full max-h-full object-contain p-4 opacity-80 hover:opacity-100 transition-opacity duration-300"
+              className="max-w-full max-h-full object-contain p-4"
             />
+            <div className="absolute inset-0 bg-black/10 group-hover:opacity-0 transition-opacity duration-300 z-10"></div>
           </div>
         ))}
       </div>
