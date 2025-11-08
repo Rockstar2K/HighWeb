@@ -9,6 +9,8 @@ import ProyectosSection from "./components/proyectosSection/proyectosSection.tsx
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ServiciosPage from "./pages/Servicios/serviciosPage.tsx";
+import TrabajosPage from "./pages/Trabajos/trabajosPage.tsx";
+import ContactoPage from "./pages/Contacto/contactoPage.tsx";
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
     <NavBar />
     <Routes>
       <Route path="/servicios" element={<ServiciosPage />} />
+      <Route path="/trabajos" element={<TrabajosPage />} />
       <Route path="/" element={
         <>
           <HeroSection />
