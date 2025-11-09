@@ -100,7 +100,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
       
       if (response.ok) {
         setSubmitStatus('success');
-        setSubmitMessage('¡Gracias por contactarnos! Este mensaje se cerrará en 10 segundos.');
+        setSubmitMessage('¡Gracias por contactarnos! Recibirás una propuesta dentro de poco.');
         form.reset();
         setFormData({
           nombre: '',
