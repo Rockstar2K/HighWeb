@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick-theme.less';
 import 'slick-carousel/slick/slick.less';
+import './proyectosSection.css';
 
 import ayro from '@/assets/proyectos/ayro.svg';
 import obliqua from '@/assets/proyectos/obliqua.svg';
@@ -56,6 +57,7 @@ const ProyectosSection = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+    dotsClass: 'slick-dots',
     responsive: [
       {
         breakpoint: 1024,
@@ -80,8 +82,8 @@ const ProyectosSection = () => {
         <h2 className="text-4xl font-bold text-center mb-12">Proyectos recientes</h2>
         <Slider {...settings}>
           {projects.map((project) => (
-            <div key={project.id} className="px-2">
-              <div className="bg-white rounded-4xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
+            <div key={project.id} className="px-4">
+              <div className="bg-white rounded-4xl overflow-hidden shadow-md hover:shadow-[0_0_20px_rgba(119,65,234,0.2)] transition-shadow duration-300 mb-4">
                 <div className="h-80 w-full flex items-center justify-center overflow-hidden bg-gray-50">
                   <img
                     src={project.image}

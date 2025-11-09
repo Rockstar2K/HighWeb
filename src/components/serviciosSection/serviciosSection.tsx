@@ -47,7 +47,7 @@ const ServiciosSection = () => {
           {services.map((service, index) => (
             <div 
               key={index}
-              className="bg-white rounded-4xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              className="bg-white rounded-4xl shadow-md overflow-hidden hover:shadow-[0_0_20px_rgba(119,65,234,0.2)] transition-shadow duration-300"
             >
               <div className="p-6 h-full flex flex-col items-center text-center">
                 <div className="mb-4 flex justify-center w-full">
