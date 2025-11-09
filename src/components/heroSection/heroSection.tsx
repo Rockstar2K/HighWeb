@@ -1,13 +1,20 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import heroBg from "@/assets/hero/hero-bg.png"
+import { DotPattern } from "@/components/ui/dot-pattern"
+import { cn } from "@/lib/utils"
 
 export function HeroSection() {
   return (
     <section 
-      className="relative w-screen h-screen overflow-hidden"
+      className="relative w-screen h-screen overflow-hidden" 
     >
+      <DotPattern
+        glow={true}
+        className={cn(
+          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)]"
+        )}
+      />
       <div className="absolute inset-0 bg-white/10" />
       <div className="h-full flex items-center justify-center">
         <div className="container px-4 md:px-6 relative">
