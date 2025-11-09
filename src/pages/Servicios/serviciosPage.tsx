@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { ContactModal } from '@/components/contactModal/ContactModal';
 import directions from "@/assets/proceso/directions.png"
 import manual from "@/assets/proceso/manual.png"
 import text from "@/assets/proceso/text.png"
@@ -23,7 +24,13 @@ interface TabItem {
   plans: Plan[];
 }
 
-const PlanCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: boolean }) => (
+interface PlanCardProps {
+  plan: Plan;
+  isPopular?: boolean;
+  onSelectPlan: (service: string, plan: string) => void;
+}
+
+const PlanCard: React.FC<PlanCardProps> = ({ plan, isPopular = false, onSelectPlan }) => (
   <div 
     className={`relative flex flex-col p-6 rounded-2xl h-full transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
       isPopular 
@@ -54,6 +61,7 @@ const PlanCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: boolean
     </ul>
     <Button 
       variant="purple" 
+      onClick={() => onSelectPlan(plan.type, plan.description)}
       className={`w-full mt-auto transition-all duration-200 ease-in-out ${
         isPopular 
           ? 'bg-[#7741EA] hover:bg-[#6a3ac8] text-white hover:shadow-md hover:shadow-[#7741EA]/30' 
@@ -65,7 +73,11 @@ const PlanCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: boolean
   </div>
 );
 
-const TabContent = ({ title, description, plans }: TabItem) => (
+interface TabContentProps extends Omit<TabItem, 'id' | 'label' | 'buttonText'> {
+  onSelectPlan: (service: string, plan: string) => void;
+}
+
+const TabContent: React.FC<TabContentProps> = ({ title, description, plans, onSelectPlan }) => (
   <div className="bg-white rounded-3xl p-8 shadow-md mx-auto w-full max-w-6xl">
     <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">
       {title}
@@ -82,6 +94,7 @@ const TabContent = ({ title, description, plans }: TabItem) => (
             key={plan.type}
             plan={plan}
             isPopular={index === 1} // Middle plan is marked as popular
+            onSelectPlan={onSelectPlan}
           />
         ))}
       </div>
@@ -91,6 +104,16 @@ const TabContent = ({ title, description, plans }: TabItem) => (
 
 const ServiciosPage = () => {
   const [activeTab, setActiveTab] = useState('branding');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState({ title: '', plan: '' });
+
+  const handlePlanSelect = (service: string, plan: string) => {
+    setSelectedPlan({
+      title: service,
+      plan: plan
+    });
+    setIsModalOpen(true);
+  };
 
   const tabs: TabItem[] = [
     {
@@ -291,35 +314,46 @@ const ServiciosPage = () => {
     },
   ];
 
+// ... (rest of the code remains the same)
+
   const activeTabData = tabs.find(tab => tab.id === activeTab);
 
   if (!activeTabData) return null;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-[15vh]">
-      <div className="flex flex-col items-center mb-12">
-        <h1 className="text-4xl font-bold text-center mb-6">¿Cuánto vale todo esto?</h1>
-        
-      </div>
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <ContactModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={`Solicitar ${selectedPlan.title} - ${selectedPlan.plan}`}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-[15vh]">
+        <div className="flex flex-col items-center mb-12">
+          <h1 className="text-4xl font-bold text-center mb-6">¿Cuánto vale todo esto?</h1>
+        </div>
 
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-6 py-3 rounded-full font-medium transition-colors ${
-              activeTab === tab.id
-                ? 'bg-[#7741EA]! text-white!'
-                : 'bg-gray-100! text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-6 py-3 rounded-full font-medium transition-colors ${
+                activeTab === tab.id
+                  ? 'bg-[#7741EA] text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-      <div className="mt-8">
-        <TabContent {...activeTabData} />
+        <div className="mt-8">
+          <TabContent 
+            {...activeTabData} 
+            onSelectPlan={handlePlanSelect}
+          />
+        </div>
       </div>
     </div>
   );
