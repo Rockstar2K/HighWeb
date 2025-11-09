@@ -58,7 +58,7 @@ const ReviewCard = ({
     <figure
       className={cn(
         "relative h-full w-64 cursor-pointer overflow-hidden rounded-xl p-4",
-        "bg-[#ECE3FF]/[.5] hover:bg-[#ECE3FF]/[.25]",
+        "bg-[#ECE3FF]/[.3] hover:bg-[#ECE3FF]/[.15]",
       )}
     >
       <div className="flex flex-row items-center gap-3">
@@ -85,12 +85,12 @@ export function SocialSection() {
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
       <h2 className="text-4xl font-bold mb-8">Muy bien pero...<br></br><span className="text-[#7741EA]">¿Qué dicen de ustedes?</span></h2>
-      <Marquee pauseOnHover className="[--duration:20s]">
+      <Marquee  className="[--duration:20s]">
         {firstRow.map((review) => (
           <ReviewCard key={review.username} {...review} />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:20s]">
+      <Marquee reverse  className="[--duration:20s]">
         {secondRow.map((review) => (
           <ReviewCard key={review.username} {...review} />
         ))}
