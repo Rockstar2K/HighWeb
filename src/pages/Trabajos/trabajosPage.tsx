@@ -1,12 +1,17 @@
 import React from 'react';
+import loyers from '@/assets/proyectos/loyers.svg';
+import kimal from '@/assets/proyectos/kimal.svg';
+import florida from '@/assets/proyectos/florida.svg';
+import obliqua from '@/assets/proyectos/obliqua.svg';
+import ayro from '@/assets/proyectos/ayro.svg';
 
 // Sample work images - replace these with your actual work images
 const workImages = [
-  { id: 1, src: 'src/assets/proyectos/loyers.svg', alt: 'Work 1' },
-  { id: 2, src: 'src/assets/proyectos/kimal.svg', alt: 'Work 2' },
-  { id: 3, src: 'src/assets/proyectos/florida.svg', alt: 'Work 3' },
-  { id: 4, src: 'src/assets/proyectos/obliqua.svg', alt: 'Work 4' },
-  { id: 5, src: 'src/assets/proyectos/ayro.svg', alt: 'Work 5' },
+  { id: 1, src: loyers, alt: 'Work 1' },
+  { id: 2, src: kimal, alt: 'Work 2' },
+  { id: 3, src: florida, alt: 'Work 3' },
+  { id: 4, src: obliqua, alt: 'Work 4' },
+  { id: 5, src: ayro, alt: 'Work 5' },
 ];
 
 

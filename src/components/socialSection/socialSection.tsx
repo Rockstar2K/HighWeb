@@ -90,7 +90,7 @@ export function SocialSection() {
           <ReviewCard key={review.username} {...review} />
         ))}
       </Marquee>
-      <Marquee reverse  className="[--duration:20s]">
+      <Marquee reverse className="[--duration:20s]">
         {secondRow.map((review) => (
           <ReviewCard key={review.username} {...review} />
         ))}
