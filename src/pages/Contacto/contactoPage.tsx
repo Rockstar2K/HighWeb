@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { handleFormSubmit } from '@/lib/formUtils';
 
 // Add Font Awesome CSS
 const addFontAwesome = () => {
@@ -17,14 +18,47 @@ const addFontAwesome = () => {
 };
 
 const ContactoPage = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null);
+  const [submitMessage, setSubmitMessage] = useState('');
+
   useEffect(() => {
     const removeFontAwesome = addFontAwesome();
     return () => removeFontAwesome();
   }, []);
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-  };
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    
+    const form = e.target as HTMLFormElement;
+    
+    try {
+      const { success, message } = await handleFormSubmit(form, {
+        formName: 'contacto',
+        onSuccess: () => {
+          setSubmitStatus('success');
+          form.reset();
+        },
+        onError: () => {
+          setSubmitStatus('error');
+        }
+      });
+      
+      if (message) {
+        setSubmitMessage(message);
+      }
+      
+      if (!success) {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setSubmitMessage('Hubo un error inesperado. Por favor, inténtalo de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
 
   return (
     <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8 mt-[15vh]">
@@ -67,7 +101,12 @@ const ContactoPage = () => {
         {/* Contact Form */}
         <div className="bg-gray-50 p-8 rounded-lg shadow-md">
           <h3 className="text-2xl font-semibold text-center mb-6 text-gray-800">Contáctanos por aquí</h3>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form action="https://formspree.io/f/xvgdpypj" method="POST" onSubmit={handleSubmit} className="space-y-6">
+            {/* Honeypot field - hidden from users but visible to bots */}
+            <div className="hidden">
+              <label htmlFor="website-contact">No llenar este campo</label>
+              <input type="text" id="website-contact" name="website" tabIndex={-1} />
+            </div>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                 Nombre
@@ -110,13 +149,28 @@ const ContactoPage = () => {
               ></textarea>
             </div>
             
+            {submitStatus && (
+              <div className={`p-4 rounded-lg ${
+                submitStatus === 'success' 
+                  ? 'bg-green-50 text-green-800 border border-green-200' 
+                  : 'bg-red-50 text-red-800 border border-red-200'
+              }`}>
+                {submitMessage || (submitStatus === 'success' 
+                  ? '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.' 
+                  : 'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.')}
+              </div>
+            )}
+            
             <div className="text-center">
               <Button
                 type="submit"
                 variant="purple"
-                className="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                disabled={isSubmitting}
+                className={`px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors ${
+                  isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
+                }`}
               >
-                Enviar
+                {isSubmitting ? 'Enviando...' : 'Enviar'}
               </Button>
             </div>
           </form>

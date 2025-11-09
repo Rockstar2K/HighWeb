@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { handleFormSubmit } from '../../lib/formUtils';
 
 const CTASection = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null);
+  const [submitMessage, setSubmitMessage] = useState('');
   return (
     <section className="w-full py-28 md:py-24 lg:py-48 bg-black overflow-x-hidden relative shadow-[0_0_100px_rgba(119,65,234,1)]">
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-24">
@@ -19,7 +23,38 @@ const CTASection = () => {
         <div className="grid gap-10 md:grid-cols-2">
           {/* Form Column */}
           <div className="space-y-6">
-            <form className="space-y-4">
+            <form 
+              action="https://formspree.io/f/movyabay" 
+              method="POST"
+              className="space-y-4"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setIsSubmitting(true);
+                setSubmitStatus(null);
+                
+                const form = e.target as HTMLFormElement;
+                const { success, message } = await handleFormSubmit(form, {
+                  formName: 'cta',
+                  onSuccess: () => {
+                    setSubmitStatus('success');
+                    form.reset();
+                  },
+                  onError: () => {
+                    setSubmitStatus('error');
+                  }
+                });
+                
+                if (message) {
+                  setSubmitMessage(message);
+                }
+                
+                if (!success) {
+                  setSubmitStatus('error');
+                }
+                
+                setIsSubmitting(false);
+              }}
+            >
               <div className="space-y-2">
                 <label 
                   className="bg-white/10 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -30,6 +65,8 @@ const CTASection = () => {
                   id="first-name"
                   placeholder="Nombre completo"
                   className="w-full bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:border-white/40 focus:ring-0"
+                  name="nombre"
+                  required
                 />
               </div>
               <div className="space-y-2">
@@ -39,8 +76,13 @@ const CTASection = () => {
                 >
                  
                 </label>
-                <Input id="email" placeholder="Correo electrónico" type="email" 
-                className="bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:border-white/40 focus:ring-0"
+                <Input 
+                  id="email" 
+                  name="email"
+                  placeholder="Correo electrónico" 
+                  type="email" 
+                  required
+                  className="bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:border-white/40 focus:ring-0"
                 />
               </div>
               <div className="space-y-2">
@@ -53,12 +95,34 @@ const CTASection = () => {
                 <Textarea 
                   className="min-h-[120px] bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:border-white/40 focus:ring-0" 
                   id="message" 
+                  name="mensaje"
+                  required
                   placeholder="Cuentanos sobre tu proyecto, tu color favorito y cómo tu negocio puede cambiar el mundo" 
-                  
                 />
+                {/* Honeypot field - hidden from users but visible to bots */}
+                <div className="hidden">
+                  <label htmlFor="website-cta">No llenar este campo</label>
+                  <input type="text" id="website-cta" name="website" tabIndex={-1} />
+                </div>
               </div>
-              <Button className="" style={{ backgroundColor: '#35F099' }} type="submit">
-                Enviar
+              {submitStatus && (
+                <div className={`p-3 rounded-lg text-sm ${
+                  submitStatus === 'success' 
+                    ? 'bg-green-50 text-green-800 border border-green-200' 
+                    : 'bg-red-50 text-red-800 border border-red-200'
+                }`}>
+                  {submitMessage || (submitStatus === 'success' 
+                    ? '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.' 
+                    : 'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.')}
+                </div>
+              )}
+              <Button 
+                className="w-full" 
+                style={{ backgroundColor: '#35F099' }} 
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Enviando...' : 'Enviar'}
               </Button>
             </form>
           </div>

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { DotPattern } from "@/components/ui/dot-pattern"
 import { cn } from "@/lib/utils"
+import { Link } from 'react-router-dom';
 
 export function HeroSection() {
   return (
@@ -33,10 +34,10 @@ export function HeroSection() {
               className="hover:brightness-105 transition-all"
               variant="green"
             >
-              Servicios
+             <Link to="/servicios">Servicios</Link>
             </Button>
             <Button size="lg" variant="white" className="bg-transparent text-black border-black hover:bg-black/10 hover:text-black">
-              Contacto
+             <Link to="/contacto">Contacto</Link>
             </Button>
           </div>
         </div>
