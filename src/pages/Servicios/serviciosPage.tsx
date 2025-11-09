@@ -321,7 +321,7 @@ const ServiciosPage = () => {
   if (!activeTabData) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  py-12 px-4 sm:px-6 lg:px-8">
       <ContactModal 
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -339,7 +339,7 @@ const ServiciosPage = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`px-6 py-3 rounded-full font-medium transition-colors ${
                 activeTab === tab.id
-                  ? 'bg-[#7741EA] text-white'
+                  ? 'bg-[#7741EA]! text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
