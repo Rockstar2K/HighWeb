@@ -15,6 +15,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
     sitioWeb: ''
   });
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null);
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -34,24 +38,83 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    if (submitStatus === 'success') {
+      setIsSuccess(true);
+      // Auto-close after 10 seconds on success
+      timer = setTimeout(() => {
+        onClose();
+        // Reset success state after closing
+        setTimeout(() => setIsSuccess(false), 300); // Wait for animation to complete
+      }, 10000);
+    }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [submitStatus, onClose]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // You can add your form submission logic here
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    
+    try {
+      const form = e.target as HTMLFormElement;
+      const formData = new FormData(form);
+      
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        setSubmitStatus('success');
+        setSubmitMessage('¡Gracias por contactarnos! Este mensaje se cerrará en 10 segundos.');
+        form.reset();
+        setFormData({
+          nombre: '',
+          email: '',
+          telefono: '',
+          organizacion: '',
+          sitioWeb: ''
+        });
+      } else {
+        throw new Error('Error al enviar el formulario');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setSubmitMessage('Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isOpen) return null;
 
   return (
     <div 
-      className={`fixed inset-0 bg-gradient-to-br from-blue-50/90 to-purple-50/90 backdrop-blur-sm flex justify-center items-center z-50 p-4 transition-opacity duration-300 ${
+      className={`fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50 p-4 transition-all duration-300 ${
         isVisible ? 'opacity-100' : 'opacity-0'
+      } ${
+        isSuccess 
+          ? 'bg-gradient-to-br from-green-50/90 to-emerald-50/90' 
+          : 'bg-gradient-to-br from-blue-50/90 to-purple-50/90'
       }`}
       onClick={onClose}
     >
       <div 
-        className={`bg-white/80 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md relative shadow-2xl border border-white/20 transition-all duration-300 transform ${
+        className={`backdrop-blur-lg rounded-2xl p-8 w-full max-w-md relative shadow-2xl border transition-all duration-300 transform ${
           isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+        } ${
+          isSuccess 
+            ? 'bg-green-50/90 border-green-200' 
+            : 'bg-white/80 border-white/20'
         }`}
         onClick={e => e.stopPropagation()}
       >
@@ -75,7 +138,41 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
           <p className="text-gray-500 text-sm mt-2">Completa el formulario y nos pondremos en contacto contigo</p>
         </div>
         
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form 
+          action="https://formspree.io/f/mldarzqp" 
+          method="POST" 
+          onSubmit={handleSubmit}
+          className="space-y-5 relative"
+          noValidate
+        >
+          {submitStatus && (
+            <div 
+              className={`p-4 rounded-xl mb-6 ${
+                submitStatus === 'success' 
+                  ? 'bg-green-50 text-green-800 border border-green-200' 
+                  : 'bg-red-50 text-red-800 border border-red-200'
+              }`}
+            >
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  {submitStatus === 'success' ? (
+                    <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                  ) : (
+                    <svg className="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium">
+                    {submitMessage}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
           <div className="space-y-5">
             <div className="relative">
               <input
@@ -85,6 +182,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
                 value={formData.nombre}
                 onChange={handleChange}
                 required
+                minLength={2}
+                maxLength={100}
                 className="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all duration-200 placeholder-transparent peer"
                 placeholder=" "
               />
@@ -104,6 +203,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
                 value={formData.email}
                 onChange={handleChange}
                 required
+                maxLength={100}
                 className="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all duration-200 placeholder-transparent peer"
                 placeholder=" "
               />
@@ -123,6 +223,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
                 value={formData.telefono}
                 onChange={handleChange}
                 required
+                pattern="[0-9+\-\s()]{8,20}"
+                title="Por favor ingresa un número de teléfono válido"
                 className="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all duration-200 placeholder-transparent peer"
                 placeholder=" "
               />
@@ -141,6 +243,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
                 name="organizacion"
                 value={formData.organizacion}
                 onChange={handleChange}
+                maxLength={100}
                 className="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all duration-200 placeholder-transparent peer"
                 placeholder=" "
               />
@@ -159,6 +262,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
                 name="sitioWeb"
                 value={formData.sitioWeb}
                 onChange={handleChange}
+                pattern="https?://.+"
                 className="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all duration-200 placeholder-transparent peer"
                 placeholder=" "
               />
@@ -173,9 +277,26 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
           
           <button 
             type="submit" 
-            className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white py-3 px-4 rounded-xl font-medium hover:from-purple-600 hover:to-blue-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2 transform hover:-translate-y-0.5 shadow-lg hover:shadow-purple-200"
+            disabled={isSubmitting || submitStatus === 'success'}
+            className={`w-full mt-2 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 transform ${
+              isSubmitting || submitStatus === 'success' 
+                ? 'opacity-70 cursor-not-allowed ' 
+                : 'hover:-translate-y-0.5 hover:shadow-purple-200 hover:from-purple-600 hover:to-blue-600'
+            } ${
+              submitStatus === 'success'
+                ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-500 hover:to-emerald-500 focus:ring-green-300'
+                : 'bg-gradient-to-r from-purple-500 to-blue-500 focus:ring-purple-300'
+            }`}
           >
-            Recibir propuesta
+            {isSubmitting ? (
+              <div className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Enviando...
+              </div>
+            ) : submitStatus === 'success' ? '¡Mensaje Enviado!' : 'Recibir propuesta'}
           </button>
           
           <p className="text-xs text-center text-gray-400 mt-4">
