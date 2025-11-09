@@ -56,8 +56,33 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
     };
   }, [submitStatus, onClose]);
 
+  const checkDailySubmissions = (): boolean => {
+    if (typeof window === 'undefined') return false;
+    
+    const today = new Date().toISOString().slice(0, 10);
+    const stored = JSON.parse(localStorage.getItem('submissions') || '{}');
+    const count = stored[today] || 0;
+
+    if (count >= 5) {
+      setSubmitStatus('error');
+      setSubmitMessage('Has alcanzado el límite de 5 envíos por día. Por favor, inténtalo de nuevo mañana.');
+      return false;
+    }
+
+    // Update the count for this day
+    stored[today] = count + 1;
+    localStorage.setItem('submissions', JSON.stringify(stored));
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check daily submission limit
+    if (!checkDailySubmissions()) {
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitStatus(null);
     
