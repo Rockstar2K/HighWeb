@@ -91,7 +91,7 @@ const ProyectosSection = () => {
   };
 
   return (
-    <section className="py-8 sm:py-12 md:py-16 bg-white overflow-hidden">
+    <section className="py-8 sm:py-12 md:py-16 bg-white x-overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Proyectos recientes</h2>
         <div className="mx-[-8px]">

@@ -98,7 +98,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
 
   return (
     <div 
-      className={`fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50 p-4 transition-all duration-300 ${
+      className={`fixed inset-0 backdrop-blur-sm flex items-start justify-center z-50 p-4 pt-16 pb-8 overflow-y-auto transition-all duration-300 ${
         isVisible ? 'opacity-100' : 'opacity-0'
       } ${
         isSuccess 
@@ -108,7 +108,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
       onClick={onClose}
     >
       <div 
-        className={`backdrop-blur-lg rounded-2xl p-8 w-full max-w-md relative shadow-2xl border transition-all duration-300 transform ${
+        className={`backdrop-blur-lg rounded-2xl p-6 sm:p-8 w-full max-w-md relative shadow-2xl border my-8 transition-all duration-300 transform ${
           isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
         } ${
           isSuccess 

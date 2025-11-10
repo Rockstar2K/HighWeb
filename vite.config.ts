@@ -40,5 +40,5 @@ export default defineConfig({
   },
   // Ensure assets are properly copied
   publicDir: 'public',
-  assetsInclude: ['**/*.svg', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.webp'],
+  assetsInclude: ['**/*.svg', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.JPG', '**/*.JPEG', '**/*.gif', '**/*.webp'],
 })

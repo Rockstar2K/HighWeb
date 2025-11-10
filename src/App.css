@@ -7,8 +7,8 @@
 /*force font*/
 body {
   font-family: 'Kontora', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
   
 }
 

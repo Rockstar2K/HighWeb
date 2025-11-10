@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import directions from "@/assets/proceso/directions.png"
 import manual from "@/assets/proceso/manual.png"
 import text from "@/assets/proceso/text.png"
+import { Link } from 'react-router-dom';
 
 interface TabItem {
   id: string;
@@ -36,9 +37,11 @@ const TabContent = ({ title, items, buttonText }: { title: string; items: TabIte
     </div>
 
     <div className="flex justify-center">
-      <Button variant="white" className="text-sm sm:text-base font-semibold px-6 sm:px-8 py-2 sm:py-3 rounded-xl shadow-md">
-        {buttonText}
-      </Button>
+      <Link to="/servicios">
+        <Button variant="white" className="text-sm sm:text-base font-semibold px-6 sm:px-8 py-2 sm:py-3 rounded-xl shadow-md">
+          {buttonText}
+        </Button>
+      </Link>
     </div>
   </div>
 );
@@ -104,13 +107,13 @@ const ProcesoSection = () => {
         </p>
       </div>
 
-      <div className="w-full overflow-x-auto pb-2 mb-8 sm:mb-12">
-      <div className="flex space-x-2 sm:justify-center min-w-max sm:min-w-0 sm:flex-wrap sm:gap-2">
+      <div className="w-full mb-8 sm:mb-12">
+      <div className="flex flex-wrap justify-center gap-2">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium text-sm sm:text-base whitespace-nowrap transition-colors ${
+            className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium text-sm sm:text-base whitespace-nowrap transition-colors flex-shrink-0 ${
               activeTab === tab.id
                 ? 'bg-[#7741EA]! text-white!'
                 : 'bg-gray-100! text-gray-700! hover:bg-gray-200!'
