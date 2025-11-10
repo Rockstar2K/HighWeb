@@ -19,24 +19,24 @@ interface TabItem {
 }
 
 const TabContent = ({ title, items, buttonText }: { title: string; items: TabItem['items']; buttonText: string }) => (
-  <div className="bg-white rounded-3xl p-8 shadow-md mx-auto w-[1000px]">
-    <h2 className="text-gray-500 text-lg font-semibold text-center mb-8">
+  <div className="bg-white rounded-3xl p-4 sm:p-6 md:p-8 shadow-md w-full max-w-5xl mx-auto">
+    <h2 className="text-gray-500 text-base sm:text-lg font-semibold text-center mb-6 sm:mb-8">
       {title}
     </h2>
 
-    <div className="grid grid-cols-3 gap-8 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
       {items.map((item, index) => (
-        <div key={index} className="flex flex-col items-center text-c enter w-full min-w-0">
-          <div className="w-16 h-16 mb-4 shrink-0">
+        <div key={index} className="flex flex-col items-center text-center w-full min-w-0 px-2">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-3 sm:mb-4 shrink-0">
             <img src={item.image} alt={item.alt} className="w-full h-full object-contain"/>
           </div>
-          <p className="text-[#7741EA] font-semibold w-full break-words">{item.text}</p>
+          <p className="text-[#7741EA] text-sm sm:text-base font-semibold w-full break-words">{item.text}</p>
         </div>
       ))}
     </div>
 
     <div className="flex justify-center">
-      <Button variant="white" className="text-base font-semibold px-8 py-3 rounded-xl shadow-md">
+      <Button variant="white" className="text-sm sm:text-base font-semibold px-6 sm:px-8 py-2 sm:py-3 rounded-xl shadow-md">
         {buttonText}
       </Button>
     </div>
@@ -96,29 +96,31 @@ const ProcesoSection = () => {
   const activeTabData = tabs.find(tab => tab.id === activeTab);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="flex flex-col items-center mb-12">
-        <h1 className="text-4xl font-bold text-center mb-6">Nuestro Proceso</h1>
-        <p className="text-gray-600 text-center max-w-2xl">
+    <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="flex flex-col items-center mb-8 sm:mb-12">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 sm:mb-6">Nuestro Proceso</h1>
+        <p className="text-gray-600 text-sm sm:text-base text-center max-w-2xl">
           Descubre cómo trabajamos para llevar tu marca al siguiente nivel con nuestro proceso creativo y profesional.
         </p>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="w-full overflow-x-auto pb-2 mb-8 sm:mb-12">
+      <div className="flex space-x-2 sm:justify-center min-w-max sm:min-w-0 sm:flex-wrap sm:gap-2">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-6 py-3 rounded-full font-medium transition-colors ${
+            className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium text-sm sm:text-base whitespace-nowrap transition-colors ${
               activeTab === tab.id
                 ? 'bg-[#7741EA]! text-white!'
-                : 'bg-gray-100! text-gray-700 hover:bg-gray-200'
+                : 'bg-gray-100! text-gray-700! hover:bg-gray-200!'
             }`}
           >
             {tab.label}
           </button>
         ))}
       </div>
+    </div>
 
       <div className="mt-8">
         {activeTabData && (

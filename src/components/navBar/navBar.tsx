@@ -17,7 +17,7 @@ const NavBar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 flex items-center h-full ">
-            <img src={highLogo} alt="Logo" className="h-full w-auto object-contain" /> 
+            <img src={highLogo} alt="Logo" className="h-full w-auto object-contain max-w-[100px] max-h-[60px]" /> 
           </Link>
 
           {/* Mobile menu button */}
