@@ -7,6 +7,9 @@
 /*force font*/
 body {
   font-family: 'Kontora', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+  
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -29,6 +32,8 @@ p{
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
+ 
 
 @keyframes logo-spin {
   from {

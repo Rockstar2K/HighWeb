@@ -56,49 +56,65 @@ const ProyectosSection = () => {
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 4000,
     dotsClass: 'slick-dots',
+    arrows: false,
+    centerMode: false,
+    centerPadding: '0',
+    swipeToSlide: true,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 1,
-        },
+        }
       },
       {
         breakpoint: 768,
         settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          centerMode: false,
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-        },
-      },
-    ],
+          centerMode: true,
+          centerPadding: '20px',
+        }
+      }
+    ]
   };
 
   return (
-    <section className="py-16 px-4 bg-white">
-      <div className="container mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-12">Proyectos recientes</h2>
-        <Slider {...settings}>
-          {projects.map((project) => (
-            <div key={project.id} className="px-4">
-              <div className="bg-white rounded-4xl overflow-hidden shadow-md hover:shadow-[0_0_20px_rgba(119,65,234,0.2)] transition-shadow duration-300 mb-4">
-                <div className="h-80 w-full flex items-center justify-center overflow-hidden bg-gray-50">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="max-w-40 max-h-40 object-contain"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                  <p className="text-gray-600">{project.description}</p>
+    <section className="py-8 sm:py-12 md:py-16 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Proyectos recientes</h2>
+        <div className="mx-[-8px]">
+          <Slider {...settings}>
+            {projects.map((project) => (
+              <div key={`${project.id}-${project.title}`} className="px-2">
+                <div className="project-card">
+                  <div className="h-48 sm:h-64 md:h-80 w-full flex items-center justify-center overflow-hidden bg-gray-50 p-4">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="max-w-[80%] max-h-[80%] sm:max-w-40 sm:max-h-40 object-contain transition-transform duration-300 hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-4 sm:p-6 flex-1 flex flex-col">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2 text-gray-900">{project.title}</h3>
+                    <p className="text-sm sm:text-base text-gray-600 flex-1">{project.description}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </Slider>
+            ))}
+          </Slider>
+        </div>
       </div>
     </section>
   );
