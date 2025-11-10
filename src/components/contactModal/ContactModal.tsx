@@ -118,7 +118,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
         onClick={e => e.stopPropagation()}
       >
         <button 
-          className="absolute -top-4 -right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white border-2 border-gray-800 text-gray-900 hover:bg-gray-100 hover:border-red-500 hover:text-red-600 transition-all shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 z-10"
+          className="absolute top-4 right-4 sm:-top-4 sm:-right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white! border-2 border-gray-800 text-gray-900 hover:bg-gray-100 hover:border-red-500 hover:text-red-600 transition-all shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 z-10"
           onClick={onClose}
           aria-label="Cerrar"
         >

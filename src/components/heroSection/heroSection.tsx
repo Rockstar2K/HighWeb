@@ -34,10 +34,10 @@ export function HeroSection() {
               className="hover:brightness-105 transition-all"
               variant="green"
             >
-             <Link to="/servicios">Servicios</Link>
+             <Link className="text-white!" to="/servicios">Servicios</Link>
             </Button>
-            <Button size="lg" variant="white" className="bg-transparent text-black border-black hover:bg-black/10 hover:text-black">
-             <Link to="/contacto">Contacto</Link>
+            <Button size="lg" variant="white" className="bg-transparent ">
+             <Link className="text-[#7741EA]! hover:text-white!" to="/contacto">Contacto</Link>
             </Button>
           </div>
         </div>

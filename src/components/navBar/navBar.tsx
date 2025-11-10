@@ -33,9 +33,24 @@ const NavBar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/servicios" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Servicios</Link>
-            <Link to="/trabajos" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Trabajos</Link>
-            <Link to="/contacto">
+            <Link 
+              to="/servicios" 
+              onClick={() => setIsOpen(false)}
+              className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+            >
+              Servicios
+            </Link>
+            <Link 
+              to="/trabajos" 
+              onClick={() => setIsOpen(false)}
+              className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+            >
+              Trabajos
+            </Link>
+            <Link 
+              to="/contacto"
+              onClick={() => setIsOpen(false)}
+            >
               <Button variant="purple">Contáctanos</Button>
             </Link>
           </div>
@@ -45,10 +60,28 @@ const NavBar = () => {
       {/* Mobile Navigation */}
       {isOpen && (
         <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
-            <Link to="/servicios" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Servicios</Link>
-            <Link to="/trabajos" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Trabajos</Link>
-            <Link to="/contacto" className="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white hover:bg-blue-700 text-center">Contáctanos</Link>
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white! shadow-lg">
+            <Link 
+              to="/servicios" 
+              onClick={() => setIsOpen(false)}
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+            >
+              Servicios
+            </Link>
+            <Link 
+              to="/trabajos" 
+              onClick={() => setIsOpen(false)}
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+            >
+              Trabajos
+            </Link>
+            <Link 
+              to="/contacto" 
+              onClick={() => setIsOpen(false)}
+              className="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white! hover:bg-blue-700 text-center"
+            >
+              Contáctanos
+            </Link>
           </div>
         </div>
       )}
