@@ -36,7 +36,7 @@ const ContactoPage = () => {
     
     try {
       const { success, message } = await handleFormSubmit(form, {
-        formName: 'contacto',
+        formName: 'global_submissions',
         onSuccess: () => {
           setSubmitStatus('success');
           form.reset();

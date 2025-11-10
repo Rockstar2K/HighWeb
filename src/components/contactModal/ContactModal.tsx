@@ -66,7 +66,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
     const form = e.target as HTMLFormElement;
     
     const { success, message } = await handleFormSubmit(form, {
-      formName: 'contact',
+      formName: 'global_submissions',
       onSuccess: () => {
         setSubmitStatus('success');
         setFormData({

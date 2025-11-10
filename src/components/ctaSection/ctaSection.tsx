@@ -34,7 +34,7 @@ const CTASection = () => {
                 
                 const form = e.target as HTMLFormElement;
                 const { success, message } = await handleFormSubmit(form, {
-                  formName: 'cta',
+                  formName: 'global_submissions',
                   onSuccess: () => {
                     setSubmitStatus('success');
                     form.reset();
