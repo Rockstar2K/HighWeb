@@ -2,9 +2,19 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import analysis from "@/assets/proceso/analysis.png"
+import communityGroup from "@/assets/proceso/community-group.png"
+import content from "@/assets/proceso/content.png"
+import creativity from "@/assets/proceso/creativity.png"
 import directions from "@/assets/proceso/directions.png"
+import guion from "@/assets/proceso/guion.png"
 import manual from "@/assets/proceso/manual.png"
+import production from "@/assets/proceso/production.png"
+import seopositioning from "@/assets/proceso/seopositioning.png"
 import text from "@/assets/proceso/text.png"
+import userpersona from "@/assets/proceso/userpersona.png"
+import uxdesign from "@/assets/proceso/uxdesign.png"
+
 import { Link } from 'react-router-dom';
 
 interface TabItem {
@@ -57,8 +67,8 @@ const ProcesoSection = () => {
       buttonText: 'Cotizar',
       items: [
         { image: directions, alt: 'Estrategia', text: '3 Direcciones de marca' },
-        { image: manual, alt: 'Logotipo', text: '3 Opciones de logotipo' },
-        { image: text, alt: 'Manual', text: 'Manual de marca' },
+        { image: text, alt: 'Logotipo', text: '3 Opciones de logotipo' },
+        { image: manual, alt: 'Manual', text: 'Manual de marca' },
       ],
     },
     {
@@ -67,9 +77,9 @@ const ProcesoSection = () => {
       title: 'Lo que recibirás',
       buttonText: 'Cotizar',
       items: [
-        { image: directions, alt: 'Investigación', text: 'Investigación de usuario y funnel de ventas' },
-        { image: manual, alt: 'Interfaz', text: 'Diseño de interfaz y de experiencia de usuario' },
-        { image: text, alt: 'SEO', text: 'Implementación y posicionamiento SEO' },
+        { image: userpersona, alt: 'Investigación', text: 'Investigación de usuario y funnel de ventas' },
+        { image: uxdesign, alt: 'Interfaz', text: 'Diseño de interfaz y de experiencia de usuario' },
+        { image: seopositioning, alt: 'SEO', text: 'Implementación y posicionamiento SEO' },
       ],
     },
     {
@@ -78,9 +88,9 @@ const ProcesoSection = () => {
       title: 'Lo que recibirás',
       buttonText: 'Cotizar',
       items: [
-        { image: directions, alt: 'Estrategia', text: 'Diseño de Estrategia de contenidos' },
-        { image: manual, alt: 'Contenido', text: 'Creación de contenido y comunidad' },
-        { image: text, alt: 'Analisis', text: 'Analisis mensual de rendimiento' },
+        { image: analysis, alt: 'Estrategia', text: 'Diseño de Estrategia de contenidos' },
+        { image: communityGroup, alt: 'Contenido', text: 'Creación de contenido y comunidad' },
+        { image: content, alt: 'Analisis', text: 'Analisis mensual de rendimiento' },
       ],
     },
     {
@@ -89,9 +99,9 @@ const ProcesoSection = () => {
       title: 'Lo que recibirás',
       buttonText: 'Cotizar',
       items: [
-        { image: directions, alt: 'Estrategia', text: 'Diseño de Estrategia y guionización' },
-        { image: manual, alt: 'Animación', text: 'Animación personalizada' },
-        { image: text, alt: 'Producción', text: 'Producción musical profesional' },
+        { image: guion, alt: 'Estrategia', text: 'Diseño de Estrategia y guionización' },
+        { image: creativity, alt: 'Animación', text: 'Animación personalizada' },
+        { image: production, alt: 'Producción', text: 'Producción musical profesional' },
       ],
     },
   ];
