@@ -7,15 +7,14 @@ import { Link } from 'react-router-dom';
 export function HeroSection() {
   return (
     <section 
-      className="relative w-screen h-screen overflow-hidden" 
+      className="relative w-screen h-screen overflow-hidden"
     >
       <div 
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 w-full h-full hidden lg:grid"
         style={{
-          display: 'grid',
           gridTemplateColumns: 'repeat(9, 1fr)',
           gridTemplateRows: 'repeat(6, 1fr)',
-          aspectRatio: '9/6'
+          aspectRatio: '9/6',
         }}
       >
         {Array.from({ length: 6 * 9 }).map((_, i) => {
@@ -24,7 +23,7 @@ export function HeroSection() {
             const offsetX = Math.floor(Math.random() * 5); // 0-4px
             const offsetY = Math.floor(Math.random() * 5); // 0-4px
             const blur = 10 + Math.floor(Math.random() * 16); // 10-25px
-            const spread = 1 + Math.floor(Math.random() * 5); // 1-5px
+            const spread = 3 + Math.floor(Math.random() * 5); // 1-5px
             const opacity = 0.05 + (Math.random() * 0.1); // 0.05-0.15
             return `${offsetX}px ${offsetY}px ${blur}px ${spread}px rgba(0, 0, 0, ${opacity.toFixed(2)})`;
           };
@@ -83,7 +82,7 @@ export function HeroSection() {
               shadow: getRandomShadow()
             },
              {
-              position: 18, // Position 18 (0-based index 17)
+              position: 19, // Position 18 (0-based index 17)
               type: 'square',
               color: 'red',
               borderWidth: '2px',
@@ -91,11 +90,19 @@ export function HeroSection() {
               shadow: getRandomShadow()
             },
              {
-              position: 28, // Position 28 (0-based index 27)
+              position: 27, // Position 28 (0-based index 27)
               type: 'square',
               color: 'red',
               borderWidth: '2px',
               borderRadius: '0 45px 0 45px',
+              shadow: getRandomShadow()
+            },
+              {
+              position: 28, // Position 28 (0-based index 27)
+              type: 'circle',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '0%',
               shadow: getRandomShadow()
             },
               {
@@ -106,14 +113,7 @@ export function HeroSection() {
               borderRadius: '45px 0 45px 0',
               shadow: getRandomShadow()
             },
-               {
-              position: 36, // Position 36 (0-based index 35)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '0 0 45px 0',
-              shadow: getRandomShadow()
-            },
+             
                  {
               position: 37, // Position 37 (0-based index 36)
               type: 'square',
@@ -124,6 +124,14 @@ export function HeroSection() {
             },
                  {
               position: 42, // Position 37 (0-based index 36)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '45px 45px 0 0',
+              shadow: getRandomShadow()
+            },
+             {
+              position: 45, // Position 37 (0-based index 36)
               type: 'square',
               color: 'red',
               borderWidth: '2px',
@@ -181,7 +189,7 @@ export function HeroSection() {
               className=" relative" // Grid cell border
             >
               {currentShape && (
-                <div className="absolute inset-0 flex items-center justify-center z-10 p-1">
+                <div className="absolute inset-0 flex items-center justify-center z-10 p-0">
                   {currentShape.type === 'circle' ? (
                     <div className="relative flex items-center justify-center h-full" style={{ width: 'auto' }}>
                       <div 
