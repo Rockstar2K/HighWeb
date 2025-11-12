@@ -19,8 +19,36 @@ export function HeroSection() {
         }}
       >
         {Array.from({ length: 6 * 9 }).map((_, i) => {
-          // Common styles
-          const commonShadow = '0 0 25px 5px rgba(0, 0, 0, 0.15)';
+          // Function to generate random shadow within limits
+          const getRandomShadow = () => {
+            const offsetX = Math.floor(Math.random() * 5); // 0-4px
+            const offsetY = Math.floor(Math.random() * 5); // 0-4px
+            const blur = 10 + Math.floor(Math.random() * 16); // 10-25px
+            const spread = 1 + Math.floor(Math.random() * 5); // 1-5px
+            const opacity = 0.05 + (Math.random() * 0.1); // 0.05-0.15
+            return `${offsetX}px ${offsetY}px ${blur}px ${spread}px rgba(0, 0, 0, ${opacity.toFixed(2)})`;
+          };
+
+          // Function to generate random gradient
+          const getRandomGradient = () => {
+            const directions = [
+              'to right',
+              'to left',
+              'to bottom',
+              'to top',
+              'to bottom right',
+              'to top left',
+              'to bottom left',
+              'to top right'
+            ];
+            const direction = directions[Math.floor(Math.random() * directions.length)];
+            // Generate a random light gray (lighter than F3F3F3)
+            const minLightness = 245; // Lighter than F3F3F3 (243)
+            const randomLightness = minLightness + Math.floor(Math.random() * (256 - minLightness));
+            const randomColor = `rgb(${randomLightness}, ${randomLightness}, ${randomLightness})`;
+            
+            return `linear-gradient(${direction}, #FFFFFF, ${randomColor})`;
+          };
           
           // Shape configurations
           const shapes = [
@@ -29,14 +57,14 @@ export function HeroSection() {
               type: 'circle',
               color: 'red',
               borderWidth: '2px',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
             {
               position: 24, // 7x4 (4th row, 7th column)
               type: 'circle',
               color: 'red',
               borderWidth: '2px',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
             {
               position: 15, // Position 16 (0-based index 15)
@@ -44,7 +72,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '0%', // Start with 0% (square), can be increased to make it rounded
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
             {
               position: 16, // Position 17 (0-based index 16)
@@ -52,7 +80,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '0 0 45px 0',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
              {
               position: 18, // Position 18 (0-based index 17)
@@ -60,7 +88,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '0 45px 0 0',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
              {
               position: 28, // Position 28 (0-based index 27)
@@ -68,7 +96,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '0 45px 0 45px',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
               {
               position: 35, // Position 35 (0-based index 34)
@@ -76,7 +104,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '45px 0 45px 0',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
                {
               position: 36, // Position 36 (0-based index 35)
@@ -84,7 +112,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '0 0 45px 0',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
                  {
               position: 37, // Position 37 (0-based index 36)
@@ -92,7 +120,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '45px 45px 0 45px',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
                  {
               position: 42, // Position 37 (0-based index 36)
@@ -100,7 +128,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '45px 45px 0 0',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
                   {
               position: 48, // Position 37 (0-based index 36)
@@ -108,7 +136,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '0%',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
                   {
               position: 49, // Position 37 (0-based index 36)
@@ -116,7 +144,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '0 0 45px 0',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
                    {
               position: 50, // Position 37 (0-based index 36)
@@ -124,7 +152,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '0 45px 0 45px',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
                       {
               position: 51, // Position 37 (0-based index 36)
@@ -132,7 +160,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '2px',
               borderRadius: '0 0 45px 0 ',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
                                   {
               position: 52, // Position 37 (0-based index 36)
@@ -140,7 +168,7 @@ export function HeroSection() {
               color: 'red',
               borderWidth: '0',
               borderRadius: '0%',
-              shadow: commonShadow
+              shadow: getRandomShadow()
             },
               
           ];
@@ -153,7 +181,7 @@ export function HeroSection() {
               className=" relative" // Grid cell border
             >
               {currentShape && (
-                <div className="absolute inset-0 flex items-center justify-center z-10 p-2">
+                <div className="absolute inset-0 flex items-center justify-center z-10 p-1">
                   {currentShape.type === 'circle' ? (
                     <div className="relative flex items-center justify-center h-full" style={{ width: 'auto' }}>
                       <div 
@@ -161,6 +189,7 @@ export function HeroSection() {
                         style={{
                           aspectRatio: '1/1',
                           boxShadow: currentShape.shadow,
+                          background: getRandomGradient()
                         }}
                       />
                     </div>
@@ -169,7 +198,7 @@ export function HeroSection() {
                       className="w-full h-full "
                       style={{
                         boxShadow: currentShape.shadow,
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        background: getRandomGradient(),
                         borderRadius: currentShape.borderRadius
                       }}
                     />
@@ -180,6 +209,7 @@ export function HeroSection() {
           );
         })}
       </div>
+
       <div className="absolute inset-0 bg-white/5" />
       <div className="h-full flex items-center justify-center">
         <div className="container px-4 md:px-6 relative">
