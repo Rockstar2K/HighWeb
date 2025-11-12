@@ -78,7 +78,7 @@ export function HeroSection() {
               type: 'square',
               color: 'red',
               borderWidth: '2px',
-              borderRadius: '0 0 45px 0',
+              borderRadius: '0 0 65px 0',
               shadow: getRandomShadow()
             },
              {
@@ -86,7 +86,7 @@ export function HeroSection() {
               type: 'square',
               color: 'red',
               borderWidth: '2px',
-              borderRadius: '0 45px 0 0',
+              borderRadius: '0 65px 0 0',
               shadow: getRandomShadow()
             },
              {
@@ -94,7 +94,7 @@ export function HeroSection() {
               type: 'square',
               color: 'red',
               borderWidth: '2px',
-              borderRadius: '0 45px 0 45px',
+              borderRadius: '0 65px 0 65px',
               shadow: getRandomShadow()
             },
               {
@@ -110,7 +110,7 @@ export function HeroSection() {
               type: 'square',
               color: 'red',
               borderWidth: '2px',
-              borderRadius: '45px 0 45px 0',
+              borderRadius: '65px 0 65px 0',
               shadow: getRandomShadow()
             },
              
@@ -119,7 +119,7 @@ export function HeroSection() {
               type: 'square',
               color: 'red',
               borderWidth: '2px',
-              borderRadius: '45px 45px 0 45px',
+              borderRadius: '65px 65px 0 65px',
               shadow: getRandomShadow()
             },
                  {
@@ -127,7 +127,7 @@ export function HeroSection() {
               type: 'square',
               color: 'red',
               borderWidth: '2px',
-              borderRadius: '45px 45px 0 0',
+              borderRadius: '65px 65px 0 0',
               shadow: getRandomShadow()
             },
              {
@@ -135,7 +135,7 @@ export function HeroSection() {
               type: 'square',
               color: 'red',
               borderWidth: '2px',
-              borderRadius: '45px 45px 0 0',
+              borderRadius: '65px 65px 0 0',
               shadow: getRandomShadow()
             },
                   {
@@ -151,7 +151,7 @@ export function HeroSection() {
               type: 'square',
               color: 'red',
               borderWidth: '2px',
-              borderRadius: '0 0 45px 0',
+              borderRadius: '0 0 65px 0',
               shadow: getRandomShadow()
             },
                    {
@@ -159,7 +159,7 @@ export function HeroSection() {
               type: 'square',
               color: 'red',
               borderWidth: '2px',
-              borderRadius: '0 45px 0 45px',
+              borderRadius: '0 65px 0 65px',
               shadow: getRandomShadow()
             },
                       {
@@ -167,7 +167,7 @@ export function HeroSection() {
               type: 'square',
               color: 'red',
               borderWidth: '2px',
-              borderRadius: '0 0 45px 0 ',
+              borderRadius: '0 0 65px 0 ',
               shadow: getRandomShadow()
             },
                                   {
