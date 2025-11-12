@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { DotPattern } from "@/components/ui/dot-pattern"
 import { cn } from "@/lib/utils"
 import { Link } from 'react-router-dom';
 
@@ -10,13 +9,177 @@ export function HeroSection() {
     <section 
       className="relative w-screen h-screen overflow-hidden" 
     >
-      <DotPattern
-        glow={true}
-        className={cn(
-          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)]"
-        )}
-      />
-      <div className="absolute inset-0 bg-white/10" />
+      <div 
+        className="absolute inset-0 w-full h-full"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(9, 1fr)',
+          gridTemplateRows: 'repeat(6, 1fr)',
+          aspectRatio: '9/6'
+        }}
+      >
+        {Array.from({ length: 6 * 9 }).map((_, i) => {
+          // Shape configurations
+          const shapes = [
+            {
+              position: 10, // 2x2 (2nd row, 2nd column)
+              type: 'circle',
+              color: 'red',
+              borderWidth: '2px',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+            {
+              position: 24, // 7x4 (4th row, 7th column)
+              type: 'circle',
+              color: 'red',
+              borderWidth: '2px',
+              shadow: '0 0 10px 5px rgba(0, 0 , 255, 0.5)'
+            },
+            {
+              position: 15, // Position 16 (0-based index 15)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '0%', // Start with 0% (square), can be increased to make it rounded
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+            {
+              position: 16, // Position 17 (0-based index 16)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '0 0 45px 0',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+             {
+              position: 18, // Position 18 (0-based index 17)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '0 45px 0 0',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+             {
+              position: 28, // Position 28 (0-based index 27)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '0 45px 0 45px',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+              {
+              position: 35, // Position 35 (0-based index 34)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '45px 0 45px 0',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+               {
+              position: 36, // Position 36 (0-based index 35)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '0 0 45px 0',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+                 {
+              position: 37, // Position 37 (0-based index 36)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '45px 45px 0 45px',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+                 {
+              position: 42, // Position 37 (0-based index 36)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '45px 45px 0 0',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+                  {
+              position: 48, // Position 37 (0-based index 36)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '0%',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+                  {
+              position: 49, // Position 37 (0-based index 36)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '0 0 45px 0',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+                   {
+              position: 50, // Position 37 (0-based index 36)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '0 45px 0 45px',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+                      {
+              position: 51, // Position 37 (0-based index 36)
+              type: 'square',
+              color: 'red',
+              borderWidth: '2px',
+              borderRadius: '0 0 45px 0 ',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+                                  {
+              position: 52, // Position 37 (0-based index 36)
+              type: 'circle',
+              color: 'red',
+              borderWidth: '0',
+              borderRadius: '0%',
+              shadow: '0 0 10px 5px rgba(255, 0, 0, 0.5)'
+            },
+              
+          ];
+          
+          const currentShape = shapes.find(shape => shape.position === i);
+          
+          return (
+            <div 
+              key={i} 
+              className="border border-grey/10 relative"
+            >
+              {currentShape && (
+                <div className="absolute inset-0 flex items-center justify-center z-10 p-2">
+                  {currentShape.type === 'circle' ? (
+                    <div className="relative flex items-center justify-center h-full" style={{ width: 'auto' }}>
+                      <div 
+                        className="relative h-full rounded-full border-2"
+                        style={{
+                          aspectRatio: '1/1',
+                          borderColor: currentShape.color === 'red' ? '#ef4444' : '#3b82f6',
+                          boxShadow: currentShape.shadow,
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div 
+                      className="w-full h-full border-2"
+                      style={{
+                        borderColor: currentShape.color === 'green' ? '#10b981' : '#a855f7',
+                        boxShadow: currentShape.shadow,
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        borderRadius: currentShape.borderRadius
+                      }}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="absolute inset-0 bg-white/5" />
       <div className="h-full flex items-center justify-center">
         <div className="container px-4 md:px-6 relative">
         <div className="flex flex-col items-center space-y-6 text-center">

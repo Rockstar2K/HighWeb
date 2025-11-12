@@ -4,12 +4,27 @@
   text-align: center;
 }
 
-/*force font*/
+
 body {
   font-family: 'Kontora', system-ui, Avenir, Helvetica, Arial, sans-serif;
   overflow-x: hidden !important;
   overflow-y: auto !important;
+  max-width: 100vw;
+  width: 100%;
+  position: relative;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
   
+  body {
+    width: 100%;
+    position: relative;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
