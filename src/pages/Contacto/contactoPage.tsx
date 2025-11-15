@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { handleFormSubmit } from '@/lib/formUtils';
+import { ShapeGridBackground } from '@/components/decorations/shapeGridBackground';
 
 // Add Font Awesome CSS
 const addFontAwesome = () => {
@@ -18,13 +19,45 @@ const addFontAwesome = () => {
 };
 
 const ContactoPage = () => {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const removeFontAwesome = addFontAwesome();
     return () => removeFontAwesome();
+  }, []);
+
+  useEffect(() => {
+    let frame: number | null = null;
+
+    const updateProgress = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const sectionHeight = rect.height || 1;
+      const offset = Math.min(Math.max(-rect.top, 0), sectionHeight);
+      const progress = offset / sectionHeight;
+      setScrollProgress(progress);
+    };
+
+    const handleScroll = () => {
+      if (frame) {
+        cancelAnimationFrame(frame);
+      }
+      frame = requestAnimationFrame(updateProgress);
+    };
+
+    updateProgress();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (frame) {
+        cancelAnimationFrame(frame);
+      }
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -62,47 +95,86 @@ const ContactoPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8 mt-[15vh]">
-      <div className="max-w-4xl mx-auto">
-        {/* Contact Title */}
-        <h1 className="text-4xl font-bold text-center mb-12 text-gray-900">Contacto</h1>
-        
-        {/* Social Icons */}
-        <div className="flex justify-center space-x-6 mb-12">
-          <a href="#" className="text-gray-600 hover:text-gray-900">
-            <i className="fab fa-instagram text-3xl"></i>
-          </a>
-          <a href="#" className="text-gray-600 hover:text-gray-900">
-            <i className="fab fa-facebook text-3xl"></i>
-          </a>
-          <a href="#" className="text-gray-600 hover:text-gray-900">
-            <i className="fab fa-twitter text-3xl"></i>
-          </a>
-          <a href="#" className="text-gray-600 hover:text-gray-900">
-            <i className="fab fa-linkedin text-3xl"></i>
-          </a>
-        </div>
+    <div ref={sectionRef} className="relative z-0 min-h-screen w-full overflow-hidden mt-[15vh]">
+      <ShapeGridBackground 
+        scrollProgress={scrollProgress}
+        showOnMobile
+        className="opacity-100"
+        hiddenColumns={[1]}
+      />
+      <div className="absolute inset-0 bg-white/5 pointer-events-none" aria-hidden />
+      <div className="relative z-10 container mx-auto py-12 px-4 sm:px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-9 gap-10 items-start">
+          <div className="space-y-10 lg:col-span-4">
+            <div className="space-y-4 text-center lg:text-left">
+              <p className="text-sm uppercase tracking-[0.3em] text-gray-500">Contacto</p>
+              <h1 className="text-4xl font-bold text-gray-900 leading-tight">
+                Conversemos sobre tu próximo proyecto
+              </h1>
+              <p className="text-gray-600 max-w-md">
+                Estamos listos para construir tu marca, diseñar tu sitio o llevar tus redes sociales al siguiente nivel.
+              </p>
+            </div>
 
-        {/* Contact Info */}
-        <div className="flex flex-col sm:flex-row justify-center items-center space-y-8 sm:space-y-0 sm:space-x-12 mb-16">
-          <div className="flex flex-col items-center space-y-2">
-            <i className="fas fa-map-marker-alt text-[#35F099] text-3xl"></i>
-            <span className="text-gray-700 text-center">Buenos Aires, Argentina</span>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <i className="fas fa-phone text-[#35F099] text-3xl"></i>
-            <span className="text-gray-700">+54 11 1234-5678</span>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <i className="fas fa-envelope text-[#35F099] text-3xl"></i>
-            <span className="text-gray-700">info@highdesign.com</span>
-          </div>
-        </div>
+            <div className="flex justify-center lg:justify-start space-x-6">
+              <a
+                href="https://www.instagram.com/highdesign.cl"
+                target="_blank"
+                rel="noreferrer"
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+                aria-label="Instagram"
+              >
+                <i className="fab fa-instagram text-3xl"></i>
+              </a>
+              <a
+                href="https://www.behance.net/natnortega"
+                target="_blank"
+                rel="noreferrer"
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+                aria-label="Behance"
+              >
+                <i className="fab fa-behance text-3xl"></i>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/high-design-cl/"
+                target="_blank"
+                rel="noreferrer"
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+                aria-label="LinkedIn"
+              >
+                <i className="fab fa-linkedin text-3xl"></i>
+              </a>
+            </div>
 
-        {/* Contact Form */}
-        <div className="bg-gray-50 p-8 rounded-lg shadow-md">
-          <h3 className="text-2xl font-semibold text-center mb-6 text-gray-800">Contáctanos por aquí</h3>
-          <form action="https://formspree.io/f/xvgdpypj" method="POST" onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-6">
+              <div className="flex items-start space-x-4">
+                <i className="fas fa-map-marker-alt text-[#35F099] text-2xl mt-1"></i>
+                <div>
+                  <p className="text-sm uppercase tracking-wide text-gray-500">Ubicación</p>
+                  <p className="text-gray-800">Buenos Aires, Argentina</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-4">
+                <i className="fas fa-phone text-[#35F099] text-2xl mt-1"></i>
+                <div>
+                  <p className="text-sm uppercase tracking-wide text-gray-500">Teléfono</p>
+                  <p className="text-gray-800">+54 11 1234-5678</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-4">
+                <i className="fas fa-envelope text-[#35F099] text-2xl mt-1"></i>
+                <div>
+                  <p className="text-sm uppercase tracking-wide text-gray-500">Email</p>
+                  <p className="text-gray-800">info@highdesign.com</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5">
+            <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-[0_20px_60px_rgba(15,23,42,0.12)] border border-white/60">
+              <h3 className="text-2xl font-semibold text-left mb-6 text-gray-900">Contáctanos por aquí</h3>
+              <form action="https://formspree.io/f/xvgdpypj" method="POST" onSubmit={handleSubmit} className="space-y-6">
             {/* Honeypot field - hidden from users but visible to bots */}
             <div className="hidden">
               <label htmlFor="website-contact">No llenar este campo</label>
@@ -162,7 +234,7 @@ const ContactoPage = () => {
               </div>
             )}
             
-            <div className="text-center">
+            <div className="text-left">
               <Button
                 type="submit"
                 variant="purple"
@@ -174,7 +246,9 @@ const ContactoPage = () => {
                 {isSubmitting ? 'Enviando...' : 'Enviar'}
               </Button>
             </div>
-          </form>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>

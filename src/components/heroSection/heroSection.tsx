@@ -1,80 +1,13 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button"
 import { Link } from 'react-router-dom';
-
-type ShapeConfig = {
-  position: number;
-  type: 'circle' | 'square';
-  borderRadius?: string;
-};
-
-type ShapeStyle = ShapeConfig & {
-  background: string;
-  boxShadow: string;
-};
-
-const SHAPE_CONFIGS: ShapeConfig[] = [
-  { position: 10, type: 'circle' },
-  { position: 24, type: 'circle' },
-  { position: 15, type: 'square', borderRadius: '0%' },
-  { position: 16, type: 'square', borderRadius: '0 0 65px 0' },
-  { position: 19, type: 'square', borderRadius: '0 65px 0 0' },
-  { position: 27, type: 'square', borderRadius: '0 65px 0 65px' },
-  { position: 28, type: 'circle' },
-  { position: 35, type: 'square', borderRadius: '65px 0 65px 0' },
-  { position: 37, type: 'square', borderRadius: '65px 65px 0 65px' },
-  { position: 42, type: 'square', borderRadius: '65px 65px 0 0' },
-  { position: 45, type: 'square', borderRadius: '65px 65px 0 0' },
-  { position: 48, type: 'square', borderRadius: '0%' },
-  { position: 49, type: 'square', borderRadius: '0 0 65px 0' },
-  { position: 50, type: 'square', borderRadius: '0 65px 0 65px' },
-  { position: 51, type: 'square', borderRadius: '0 0 65px 0' },
-  { position: 52, type: 'circle' },
-];
+import { ShapeGridBackground } from "@/components/decorations/shapeGridBackground";
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const shapes = useMemo(() => {
-    const getRandomShadow = () => {
-      const offsetX = Math.floor(Math.random() * 5);
-      const offsetY = Math.floor(Math.random() * 5);
-      const blur = 16 + Math.floor(Math.random() * 24);
-      const spread = 4 + Math.floor(Math.random() * 8);
-      const opacity = 0.1 + (Math.random() * 0.15);
-      return `${offsetX}px ${offsetY}px ${blur}px ${spread}px rgba(0, 0, 0, ${opacity.toFixed(2)})`;
-    };
-
-    const getRandomGradient = () => {
-      const directions = [
-        'to right',
-        'to left',
-        'to bottom',
-        'to top',
-        'to bottom right',
-        'to top left',
-        'to bottom left',
-        'to top right'
-      ];
-      const direction = directions[Math.floor(Math.random() * directions.length)];
-      const minLightness = 245;
-      const randomLightness = minLightness + Math.floor(Math.random() * (256 - minLightness));
-      const randomColor = `rgb(${randomLightness}, ${randomLightness}, ${randomLightness})`;
-
-      return `linear-gradient(${direction}, #FFFFFF, ${randomColor})`;
-    };
-
-    return SHAPE_CONFIGS.reduce<Map<number, ShapeStyle>>((acc, config) => {
-      acc.set(config.position, {
-        ...config,
-        background: getRandomGradient(),
-        boxShadow: getRandomShadow(),
-      });
-      return acc;
-    }, new Map());
-  }, []);
 
   useEffect(() => {
     let frame: number | null = null;
@@ -107,67 +40,15 @@ export function HeroSection() {
     };
   }, []);
 
-  const getScrollParallaxStyle = (strength: number) => {
-    const effectiveProgress = Math.min(scrollProgress, 0.6);
-    return {
-      transform: `translate3d(0, ${effectiveProgress * strength}px, 0)`
-    };
-  };
-
   return (
     <section 
       ref={sectionRef}
       className="relative w-screen h-screen overflow-visible z-0"
     >
-      <div 
-        className="absolute inset-0 w-full h-full hidden lg:grid overflow-visible pointer-events-none -z-10"
-        style={{
-          gridTemplateColumns: 'repeat(9, 1fr)',
-          gridTemplateRows: 'repeat(6, 1fr)',
-          aspectRatio: '9/6',
-        }}
-      >
-        {Array.from({ length: 6 * 9 }).map((_, i) => {
-          const currentShape = shapes.get(i);
-          const depth = 140 + (Math.floor(i / 9) * 28);
-          
-          return (
-            <div 
-              key={i} 
-              className=" relative" // Grid cell border
-            >
-              {currentShape && (
-                <div 
-                  className="absolute inset-0 flex items-center justify-center p-0"
-                  style={getScrollParallaxStyle(depth)}
-                >
-                  {currentShape.type === 'circle' ? (
-                    <div className="relative flex items-center justify-center h-full" style={{ width: 'auto' }}>
-                      <div 
-                        className="relative h-full rounded-full "
-                        style={{
-                          aspectRatio: '1/1',
-                          boxShadow: currentShape.boxShadow,
-                          background: currentShape.background
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <div 
-                      className="w-full h-full "
-                      style={{
-                        boxShadow: currentShape.boxShadow,
-                        background: currentShape.background,
-                        borderRadius: currentShape.borderRadius
-                      }}
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      <ShapeGridBackground 
+        scrollProgress={scrollProgress}
+        style={{ aspectRatio: '9/6' }}
+      />
 
       <div className="absolute inset-0 bg-white/5 z-0 pointer-events-none" />
       <div className="h-full flex items-center justify-center relative z-10">

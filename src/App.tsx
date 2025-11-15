@@ -29,7 +29,7 @@ function App() {
         <>
           <HeroSection />
           <div className="relative w-full">
-            <div className="z-15">
+            <div className="z-15 mt-60">
             <ServiciosSection />
             </div>
             <div className="pointer-events-none absolute -bottom-46  z-1 right-25 sm:right-55" aria-hidden="true">
