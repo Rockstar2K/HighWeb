@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 const NAV_LINKS = [
   { label: 'Servicios', to: '/servicios' },
   { label: 'Trabajo Destacado', to: '/trabajos' },
-  { label: 'Blog', to: '/blog', disabled: true },
 ];
 
 const GRID_TEMPLATE = {
@@ -161,7 +160,7 @@ const NavBar = () => {
               <div className="col-span-2 relative z-10 flex items-center justify-end gap-4 pr-6">
                 <Link
                   to="/contacto"
-                  className="flex-1 min-w-[180px] text-center text-sm font-semibold text-black tracking-wide uppercase py-5"
+                  className="flex-1 min-w-[180px] text-center text-base font-semibold text-black py-5"
                   style={{ color: '#000' }}
                 >
                   Contáctanos
