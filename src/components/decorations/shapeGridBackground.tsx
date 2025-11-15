@@ -36,7 +36,6 @@ const SHAPE_CONFIGS: ShapeConfig[] = [
 export interface ShapeGridBackgroundProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
   scrollProgress?: number
-  showOnMobile?: boolean
   rows?: number
   columns?: number
   visibleRows?: number
@@ -52,7 +51,6 @@ export function ShapeGridBackground({
   scrollProgress = 0,
   className = "",
   style,
-  showOnMobile = false,
   rows = DEFAULT_ROWS,
   columns = DEFAULT_COLUMNS,
   visibleRows,
@@ -116,9 +114,7 @@ export function ShapeGridBackground({
   return (
     <div
       {...rest}
-      className={`absolute inset-0 w-full h-full overflow-visible pointer-events-none -z-10 ${
-        showOnMobile ? "grid" : "hidden lg:grid"
-      } ${className}`}
+      className={`absolute inset-0 w-full h-full overflow-visible pointer-events-none -z-10 hidden lg:grid ${className}`}
       style={combinedStyle}
     >
       {Array.from({ length: rows * columns }).map((_, index) => {

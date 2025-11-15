@@ -370,7 +370,6 @@ const ServiciosPage = () => {
   return (
     <div className="relative z-0 min-h-screen w-full overflow-hidden">
       <ShapeGridBackground 
-        showOnMobile
         className="opacity-70 scale-100"
         style={{ top: -25, height: '100vh' }}
       />

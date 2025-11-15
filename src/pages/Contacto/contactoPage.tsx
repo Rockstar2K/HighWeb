@@ -98,7 +98,6 @@ const ContactoPage = () => {
     <div ref={sectionRef} className="relative z-0 min-h-screen w-full overflow-hidden mt-[15vh]">
       <ShapeGridBackground 
         scrollProgress={scrollProgress}
-        showOnMobile
         className="opacity-100"
         hiddenColumns={[1]}
       />

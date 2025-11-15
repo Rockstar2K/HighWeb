@@ -19,7 +19,6 @@ const TrabajosPage = () => {
   return (
     <div className="relative z-0 min-h-screen w-full overflow-hidden">
       <ShapeGridBackground 
-        showOnMobile 
         visibleRows={1}
         rowStart={1}
         className="opacity-70 scale-100"
