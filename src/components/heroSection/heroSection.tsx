@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 import { Link } from 'react-router-dom';
 
 export function HeroSection() {
@@ -219,7 +218,7 @@ export function HeroSection() {
       </div>
 
       <div className="absolute inset-0 bg-white/5" />
-      <div className="h-full flex items-center justify-center">
+      <div className="h-full flex items-center justify-center relative z-10">
         <div className="container px-4 md:px-6 relative">
         <div className="flex flex-col items-center space-y-6 text-center">
           <div className="space-y-4">

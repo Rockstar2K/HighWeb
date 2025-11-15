@@ -2,20 +2,9 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import analysis from "@/assets/proceso/analysis.png"
-import communityGroup from "@/assets/proceso/community-group.png"
-import content from "@/assets/proceso/content.png"
-import creativity from "@/assets/proceso/creativity.png"
-import directions from "@/assets/proceso/directions.png"
-import guion from "@/assets/proceso/guion.png"
-import manual from "@/assets/proceso/manual.png"
-import production from "@/assets/proceso/production.png"
-import seopositioning from "@/assets/proceso/seopositioning.png"
-import text from "@/assets/proceso/text.png"
-import userpersona from "@/assets/proceso/userpersona.png"
-import uxdesign from "@/assets/proceso/uxdesign.png"
-
 import { Link } from 'react-router-dom';
+import { LottieAnimation } from '@/components/ui/lottie-animation';
+import { lottiePath } from '@/lib/lottiePaths';
 
 interface TabItem {
   id: string;
@@ -23,7 +12,7 @@ interface TabItem {
   title: string;
   buttonText: string;
   items: Array<{
-    image: string;
+    lottie: string;
     alt: string;
     text: string;
   }>;
@@ -38,9 +27,11 @@ const TabContent = ({ title, items, buttonText }: { title: string; items: TabIte
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
       {items.map((item, index) => (
         <div key={index} className="flex flex-col items-center text-center w-full min-w-0 px-2">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-3 sm:mb-4 shrink-0">
-            <img src={item.image} alt={item.alt} className="w-full h-full object-contain"/>
-          </div>
+          <LottieAnimation
+            path={item.lottie}
+            className="w-20 h-20 mb-3 sm:mb-4 shrink-0"
+            ariaLabel={item.alt}
+          />
           <p className="text-[#7741EA] text-sm sm:text-base font-semibold w-full break-words">{item.text}</p>
         </div>
       ))}
@@ -66,9 +57,9 @@ const ProcesoSection = () => {
       title: 'Lo que recibirás',
       buttonText: 'Cotizar',
       items: [
-        { image: directions, alt: 'Estrategia', text: '3 Direcciones de marca' },
-        { image: text, alt: 'Logotipo', text: '3 Opciones de logotipo' },
-        { image: manual, alt: 'Manual', text: 'Manual de marca' },
+        { lottie: lottiePath('3 direcciones de marca.json'), alt: 'Direcciones de marca', text: '3 Direcciones de marca' },
+        { lottie: lottiePath('CreacionDeLogo.json'), alt: 'Opciones de logo', text: '3 Opciones de logotipo' },
+        { lottie: lottiePath('Manual de Marca.json'), alt: 'Manual de marca', text: 'Manual de marca' },
       ],
     },
     {
@@ -77,9 +68,9 @@ const ProcesoSection = () => {
       title: 'Lo que recibirás',
       buttonText: 'Cotizar',
       items: [
-        { image: userpersona, alt: 'Investigación', text: 'Investigación de usuario y funnel de ventas' },
-        { image: uxdesign, alt: 'Interfaz', text: 'Diseño de interfaz y de experiencia de usuario' },
-        { image: seopositioning, alt: 'SEO', text: 'Implementación y posicionamiento SEO' },
+        { lottie: lottiePath('Investigacion de Usuario.json'), alt: 'Investigación de usuario', text: 'Investigación de usuario y funnel de ventas' },
+        { lottie: lottiePath('UX.json'), alt: 'Diseño UX', text: 'Diseño de interfaz y experiencia de usuario' },
+        { lottie: lottiePath('SEO.json'), alt: 'Posicionamiento SEO', text: 'Implementación y posicionamiento SEO' },
       ],
     },
     {
@@ -88,9 +79,9 @@ const ProcesoSection = () => {
       title: 'Lo que recibirás',
       buttonText: 'Cotizar',
       items: [
-        { image: analysis, alt: 'Estrategia', text: 'Diseño de Estrategia de contenidos' },
-        { image: communityGroup, alt: 'Contenido', text: 'Creación de contenido y comunidad' },
-        { image: content, alt: 'Analisis', text: 'Analisis mensual de rendimiento' },
+        { lottie: lottiePath('Target.json'), alt: 'Estrategia de contenidos', text: 'Diseño de estrategia de contenidos' },
+        { lottie: lottiePath('Creacion de Comunidad.json'), alt: 'Comunidad', text: 'Creación de contenido y comunidad' },
+        { lottie: lottiePath('ReporteMensual.json'), alt: 'Reporte mensual', text: 'Análisis mensual de rendimiento' },
       ],
     },
     {
@@ -99,9 +90,9 @@ const ProcesoSection = () => {
       title: 'Lo que recibirás',
       buttonText: 'Cotizar',
       items: [
-        { image: guion, alt: 'Estrategia', text: 'Diseño de Estrategia y guionización' },
-        { image: creativity, alt: 'Animación', text: 'Animación personalizada' },
-        { image: production, alt: 'Producción', text: 'Producción musical profesional' },
+        { lottie: lottiePath('Nuestro Proceso Branding.json'), alt: 'Estrategia', text: 'Diseño de estrategia y guionización' },
+        { lottie: lottiePath('Caja de Animaciones.json'), alt: 'Animación personalizada', text: 'Animación personalizada' },
+        { lottie: lottiePath('Corazon.json'), alt: 'Producción musical', text: 'Producción musical profesional' },
       ],
     },
   ];
@@ -109,7 +100,7 @@ const ProcesoSection = () => {
   const activeTabData = tabs.find(tab => tab.id === activeTab);
 
   return (
-    <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="relative w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 overflow-visible">
       <div className="flex flex-col items-center mb-8 sm:mb-12">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 sm:mb-6">Nuestro Proceso</h1>
         <p className="text-gray-600 text-sm sm:text-base text-center max-w-2xl">
@@ -143,6 +134,22 @@ const ProcesoSection = () => {
             buttonText={activeTabData.buttonText}
           />
         )}
+      </div>
+
+      <div className=" relative flex justify-end mr-50">
+        <div className="bg-white rounded-3xl shadow-lg mt-30 px-6 py-5 max-w-2xl text-right text-gray-700 font-medium">
+          Todo lo que hacemos incluye una estrategia personalizada para tí y tus clientes.
+          <br />
+          Nada de logos genéricos de ChatGPT.
+        </div>
+        <div className="hidden md:block absolute left-40 md:left-84 top-1/2 -translate-y-1/2 w-52 h-52 pointer-events-none">
+          <LottieAnimation 
+          path={lottiePath('Linea3.json')} 
+          className="w-80 h-50" 
+          loop={false}
+          autoplay={true}
+          />
+        </div>
       </div>
     </div>
   );
