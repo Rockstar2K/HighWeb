@@ -94,14 +94,13 @@ export function ShapeGridBackground({
   const combinedStyle: CSSProperties = {
     gridTemplateColumns: `repeat(${columns}, 1fr)`,
     gridTemplateRows: `repeat(${rows}, 1fr)`,
-    aspectRatio: `${columns}/${rows}`,
     ...style,
   }
 
   return (
     <div
       {...rest}
-      className={`absolute inset-0 w-full h-full overflow-visible pointer-events-none ml-7 -z-10 ${
+      className={`absolute inset-0 w-full h-full overflow-visible pointer-events-none -z-10 ${
         showOnMobile ? "grid" : "hidden lg:grid"
       } ${className}`}
       style={combinedStyle}
@@ -111,26 +110,26 @@ export function ShapeGridBackground({
         const depth = 140 + Math.floor(i / columns) * 28
 
         return (
-          <div key={i} className="relative " >
+          <div key={i} className="relative w-full">
+            <div aria-hidden style={{ paddingBottom: "100%" }} />
             {currentShape && (
               <div
-                className="absolute inset-0 flex items-center justify-center p-0 "         heightScale={0.5}
-
+                className="absolute inset-0 flex items-center justify-center p-0"
                 style={{
                   transform: `translate3d(0, ${effectiveProgress * depth}px, 0)`,
                 }}
-                >
-                  <div
-                    className="w-full h-full"
-                    style={{
-                      boxShadow: currentShape.boxShadow,
-                      background: currentShape.background,
-                      borderRadius: currentShape.borderRadius ?? "0",
-                    }}
-                  />
-                </div>
-              )}
-            </div>
+              >
+                <div
+                  className="w-full h-full"
+                  style={{
+                    boxShadow: currentShape.boxShadow,
+                    background: currentShape.background,
+                    borderRadius: currentShape.borderRadius ?? "0",
+                  }}
+                />
+              </div>
+            )}
+          </div>
         )
       })}
     </div>

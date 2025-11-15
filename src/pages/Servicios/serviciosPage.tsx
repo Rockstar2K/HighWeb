@@ -368,14 +368,14 @@ const ServiciosPage = () => {
   if (!activeTabData) return null;
 
   return (
-    <div className="relative z-0 min-h-screen py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div className="relative z-0 min-h-screen w-full overflow-hidden">
       <ShapeGridBackground 
         showOnMobile
-        className="opacity-70 scale-110"
-        style={{ top:53, height: '80vh' }}
+        className="opacity-70 scale-100"
+        style={{ top: -25, height: '100vh' }}
       />
       <div className="absolute inset-0 bg-white/50 pointer-events-none z-0" aria-hidden />
-      <div className="relative z-10">
+      <div className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
         <ContactModal 
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
