@@ -27,7 +27,7 @@ const TrabajosPage = () => {
       <div className="absolute inset-0 bg-white/40 pointer-events-none z-0" aria-hidden />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-20 mt-[10vh]">
         <h1 className="text-center mb-12 text-4xl font-bold">Nuestros Trabajos</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full mt-30">
+        <div className="grid grid-cols-1 gap-0 w-full mt-30">
           {workImages.map((image) => (
             <div key={image.id} className="relative w-full aspect-square overflow-hidden cursor-pointer bg-gray-100 border-1 border-white group">
               <img 

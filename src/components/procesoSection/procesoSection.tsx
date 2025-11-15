@@ -5,6 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { LottieAnimation } from '@/components/ui/lottie-animation';
 import { lottiePath } from '@/lib/lottiePaths';
+import { Clapperboard, PenSquare, Music2 } from 'lucide-react';
+
+type TabIcon = React.ComponentType<{ className?: string }>;
 
 interface TabItem {
   id: string;
@@ -12,7 +15,8 @@ interface TabItem {
   title: string;
   buttonText: string;
   items: Array<{
-    lottie: string;
+    lottie?: string;
+    icon?: TabIcon;
     alt: string;
     text: string;
     size?: 'default' | 'large';
@@ -29,11 +33,20 @@ const TabContent = ({ title, items, buttonText }: { title: string; items: TabIte
       {items.map((item, index) => (
         <div key={index} className="flex flex-col items-center text-center w-full min-w-0 px-2">
           <div className="h-32 flex items-end justify-center mb-3 sm:mb-4 shrink-0">
-            <LottieAnimation
-              path={item.lottie}
-              className={item.size === 'large' ? 'w-40 h-40' : 'w-20 h-20'}
-              ariaLabel={item.alt}
-            />
+            {item.icon ? (
+              <item.icon
+                className={`text-[#7741EA] ${item.size === 'large' ? 'w-20 h-20' : 'w-14 h-14'}`}
+                aria-hidden="true"
+              />
+            ) : (
+              item.lottie && (
+                <LottieAnimation
+                  path={item.lottie}
+                  className={item.size === 'large' ? 'w-40 h-40' : 'w-20 h-20'}
+                  ariaLabel={item.alt}
+                />
+              )
+            )}
           </div>
           <p className="text-[#7741EA] text-sm sm:text-base font-semibold w-full break-words min-h-[56px] flex items-center justify-center">
             {item.text}
@@ -94,9 +107,9 @@ const ProcesoSection = () => {
       title: 'Lo que recibirás',
       buttonText: 'Cotizar',
       items: [
-        { lottie: lottiePath('Nuestro Proceso Branding.json'), alt: 'Estrategia', text: 'Diseño de estrategia y guionización' },
-        { lottie: lottiePath('Caja de Animaciones.json'), alt: 'Animación personalizada', text: 'Animación personalizada' },
-        { lottie: lottiePath('Corazon.json'), alt: 'Producción musical', text: 'Producción musical profesional' },
+        { icon: Clapperboard, alt: 'Estrategia', text: 'Diseño de estrategia y guionización', size: 'large' },
+        { icon: PenSquare, alt: 'Animación personalizada', text: 'Animación personalizada' },
+        { icon: Music2, alt: 'Producción musical', text: 'Producción musical profesional' },
       ],
     },
   ];

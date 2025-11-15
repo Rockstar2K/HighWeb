@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, PhoneCall, Globe } from 'lucide-react';
-import highLogo from '@/assets/highLogo.png';
+import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+const logoPath = '/logo.svg';
 
 type NavLink = {
   label: string;
@@ -58,7 +59,7 @@ const NavBar = () => {
           <div className="flex items-center justify-between h-16 lg:hidden">
             <Link to="/" className="flex items-center h-full">
               <img
-                src={highLogo}
+                src={logoPath}
                 alt="High Design"
                 className="h-full w-auto object-contain max-w-[100px]"
               />
@@ -117,7 +118,7 @@ const NavBar = () => {
                 style={{ color: '#000' }}
               >
                 <img
-                  src={highLogo}
+                  src={logoPath}
                   alt="High Design"
                   className="h-[100px] w-auto object-contain mx-20"
                 />
@@ -171,20 +172,6 @@ const NavBar = () => {
                 >
                   Contáctanos
                 </Link>
-                <button
-                  type="button"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 text-green-600 shadow-sm bg-white hover:shadow-md transition-shadow"
-                  aria-label="Llámanos"
-                >
-                  <PhoneCall size={18} strokeWidth={1.5} />
-                </button>
-                <button
-                  type="button"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 text-slate-700 shadow-sm bg-white hover:shadow-md transition-shadow"
-                  aria-label="Seleccionar idioma"
-                >
-                  <Globe size={18} strokeWidth={1.5} />
-                </button>
               </div>
             </div>
           </div>
