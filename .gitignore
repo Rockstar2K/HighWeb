@@ -28,3 +28,4 @@ dist/index.html
 dist/index.html
 .gitignore
 dist/index.html
+*.cache
