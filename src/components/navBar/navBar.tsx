@@ -3,7 +3,13 @@ import { Menu, X, PhoneCall, Globe } from 'lucide-react';
 import highLogo from '@/assets/highLogo.png';
 import { Link } from 'react-router-dom';
 
-const NAV_LINKS = [
+type NavLink = {
+  label: string;
+  to: string;
+  disabled?: boolean;
+};
+
+const NAV_LINKS: NavLink[] = [
   { label: 'Servicios', to: '/servicios' },
   { label: 'Trabajo Destacado', to: '/trabajos' },
 ];
