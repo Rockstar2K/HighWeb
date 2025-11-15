@@ -6,6 +6,7 @@ import { ContactModal } from '@/components/contactModal/ContactModal';
 import { LottieAnimation } from '@/components/ui/lottie-animation';
 import { lottiePath } from '@/lib/lottiePaths';
 import { AnimatePresence, motion } from 'motion/react';
+import { ShapeGridBackground } from '@/components/decorations/shapeGridBackground';
 
 interface Plan {
   type: 'Pymes' | 'Startups' | 'Empresas';
@@ -367,61 +368,69 @@ const ServiciosPage = () => {
   if (!activeTabData) return null;
 
   return (
-    <div className="min-h-screen  py-12 px-4 sm:px-6 lg:px-8">
-      <ContactModal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={`Solicitar ${selectedPlan.title} - ${selectedPlan.plan}`}
+    <div className="relative z-0 min-h-screen py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <ShapeGridBackground 
+        showOnMobile
+        className="opacity-70 scale-110"
+        style={{ top:53, height: '80vh' }}
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-[15vh]">
-        <div className="flex flex-col items-center mb-12">
-          <h1 className="text-4xl font-bold text-center mb-6">¿Cuánto vale todo esto?</h1>
-        </div>
+      <div className="absolute inset-0 bg-white/50 pointer-events-none z-0" aria-hidden />
+      <div className="relative z-10">
+        <ContactModal 
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title={`Solicitar ${selectedPlan.title} - ${selectedPlan.plan}`}
+        />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-[15vh]">
+          <div className="flex flex-col items-center mb-12">
+            <h1 className="text-4xl font-bold z-0 text-center mb-6">¿Cuánto vale todo esto?</h1>
+          </div>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {tabs.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <motion.button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveTab(tab.id)}
-                className="relative px-6 py-3 rounded-full font-semibold overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7741EA]"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <motion.button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id)}
+                  className="relative px-6 py-3 rounded-full font-semibold overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7741EA]"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  {isActive ? (
+                    <motion.span 
+                      layoutId="active-tab-pill"
+                      className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7741EA] via-[#a855f7] to-[#ec4899] shadow-[0_20px_45px_rgba(119,65,234,0.35)]"
+                      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                    />
+                  ) : (
+                    <span className="absolute inset-0 rounded-full bg-white/80 border border-gray-200" aria-hidden />
+                  )}
+                  <span className={`relative z-10 ${isActive ? 'text-white' : 'text-gray-700'}`}>
+                    {tab.label}
+                  </span>
+                </motion.button>
+              );
+            })}
+          </div>
+
+          <div className="mt-8">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 60, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -60, scale: 0.97 }}
+                transition={{ duration: 0.6, ease: 'easeInOut' }}
               >
-                {isActive ? (
-                  <motion.span 
-                    layoutId="active-tab-pill"
-                    className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7741EA] via-[#a855f7] to-[#ec4899] shadow-[0_20px_45px_rgba(119,65,234,0.35)]"
-                    transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-                  />
-                ) : (
-                  <span className="absolute inset-0 rounded-full bg-white/80 border border-gray-200" aria-hidden />
-                )}
-                <span className={`relative z-10 ${isActive ? 'text-white' : 'text-gray-700'}`}>
-                  {tab.label}
-                </span>
-              </motion.button>
-            );
-          })}
-        </div>
-
-        <div className="mt-8">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 60, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -60, scale: 0.97 }}
-              transition={{ duration: 0.6, ease: 'easeInOut' }}
-            >
-              <TabContent 
-                {...activeTabData} 
-                onSelectPlan={handlePlanSelect}
-              />
-            </motion.div>
-          </AnimatePresence>
+                <TabContent 
+                  {...activeTabData} 
+                  onSelectPlan={handlePlanSelect}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>
