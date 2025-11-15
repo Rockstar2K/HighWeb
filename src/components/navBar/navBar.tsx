@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, X, PhoneCall, Globe } from 'lucide-react';
 import highLogo from '@/assets/highLogo.png';
 import { Link } from 'react-router-dom';
@@ -25,13 +25,29 @@ const NAV_SHAPES = [
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 40);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50" style={{ color: '#000' }}>
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-white/70 backdrop-blur-2xl border-b border-white/60 shadow-lg' : 'bg-transparent'
+      }`}
+      style={{ color: '#000' }}
+    >
       <div className="w-full px-4 sm:px-6 lg:px-0">
         <div className="w-full">
           <div className="flex items-center justify-between h-16 lg:hidden">
@@ -51,35 +67,43 @@ const NavBar = () => {
             </button>
           </div>
 
-          <div className="relative hidden lg:block h-[150px]">
-            <div
-              className="absolute inset-0 hidden lg:grid pointer-events-none -z-10"
-              style={{ ...GRID_TEMPLATE }}
-            >
-              {NAV_SHAPES.map((shape) => (
-                <div
-                  key={shape.id}
-                  className={`relative flex items-center -ml-20 ${
-                    shape.justify === 'end' ? 'justify-end' : 'justify-start'
-                  }`}
-                  style={{ gridColumn: shape.column }}
-                >
+          <div
+            className={`relative hidden lg:block transition-all duration-500 ${
+              isScrolled ? 'h-[110px]' : 'h-[150px]'
+            }`}
+          >
+            {!isScrolled && (
+              <div
+                className="absolute inset-0 hidden lg:grid pointer-events-none -z-10"
+                style={{ ...GRID_TEMPLATE }}
+              >
+                {NAV_SHAPES.map((shape) => (
                   <div
-                    className="h-[140px]"
-                    style={{
-                      width: `${SHAPE_HEIGHT}px`,
-                      borderRadius: shape.borderRadius,
-                      boxShadow: '0 45px 60px rgba(15, 23, 42, 0.12)',
-                      background:
-                        'linear-gradient(145deg, rgba(255,255,255,0.95), rgba(240,240,240,0.9))',
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
+                    key={shape.id}
+                    className={`relative flex items-center -ml-20 ${
+                      shape.justify === 'end' ? 'justify-end' : 'justify-start'
+                    }`}
+                    style={{ gridColumn: shape.column }}
+                  >
+                    <div
+                      className="h-[140px]"
+                      style={{
+                        width: `${SHAPE_HEIGHT}px`,
+                        borderRadius: shape.borderRadius,
+                        boxShadow: '0 45px 60px rgba(15, 23, 42, 0.12)',
+                        background:
+                          'linear-gradient(145deg, rgba(255,255,255,0.95), rgba(240,240,240,0.9))',
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div
-              className="relative z-10 grid h-full grid-cols-9 items-center text-sm text-black"
+              className={`relative z-10 grid h-full grid-cols-9 items-center text-sm text-black transition-all duration-300 ${
+                isScrolled ? 'rounded-3xl bg-white/80 backdrop-blur-xl border border-white/70 shadow-xl px-4' : ''
+              }`}
               style={{ ...GRID_TEMPLATE, color: '#000' }}
             >
               <Link
@@ -197,7 +221,7 @@ const NavBar = () => {
             <Link
               to="/contacto"
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 rounded-md text-base font-semibold text-center text-white bg-emerald-500 hover:bg-emerald-600"
+              className="block px-3 py-2 rounded-md text-base font-semibold text-center text-white! bg-purple-500 hover:bg-emerald-600"
             >
               Contáctanos
             </Link>
