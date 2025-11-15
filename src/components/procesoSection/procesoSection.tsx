@@ -15,6 +15,7 @@ interface TabItem {
     lottie: string;
     alt: string;
     text: string;
+    size?: 'default' | 'large';
   }>;
 }
 
@@ -27,16 +28,19 @@ const TabContent = ({ title, items, buttonText }: { title: string; items: TabIte
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
       {items.map((item, index) => (
         <div key={index} className="flex flex-col items-center text-center w-full min-w-0 px-2">
-          <LottieAnimation
-            path={item.lottie}
-            className="w-20 h-20 mb-3 sm:mb-4 shrink-0"
-            ariaLabel={item.alt}
-          />
-          <p className="text-[#7741EA] text-sm sm:text-base font-semibold w-full break-words">{item.text}</p>
+          <div className="h-32 flex items-end justify-center mb-3 sm:mb-4 shrink-0">
+            <LottieAnimation
+              path={item.lottie}
+              className={item.size === 'large' ? 'w-40 h-40' : 'w-20 h-20'}
+              ariaLabel={item.alt}
+            />
+          </div>
+          <p className="text-[#7741EA] text-sm sm:text-base font-semibold w-full break-words min-h-[56px] flex items-center justify-center">
+            {item.text}
+          </p>
         </div>
       ))}
     </div>
-
     <div className="flex justify-center">
       <Link to="/servicios">
         <Button variant="white" className="text-sm sm:text-base font-semibold px-6 sm:px-8 py-2 sm:py-3 rounded-xl shadow-md">
@@ -58,7 +62,7 @@ const ProcesoSection = () => {
       buttonText: 'Cotizar',
       items: [
         { lottie: lottiePath('3 direcciones de marca.json'), alt: 'Direcciones de marca', text: '3 Direcciones de marca' },
-        { lottie: lottiePath('CreacionDeLogo.json'), alt: 'Opciones de logo', text: '3 Opciones de logotipo' },
+        { lottie: lottiePath('CreacionDeLogo.json'), alt: 'Opciones de logo', text: '3 Opciones de logotipo', size: 'large' },
         { lottie: lottiePath('Manual de Marca.json'), alt: 'Manual de marca', text: 'Manual de marca' },
       ],
     },
@@ -69,7 +73,7 @@ const ProcesoSection = () => {
       buttonText: 'Cotizar',
       items: [
         { lottie: lottiePath('Investigacion de Usuario.json'), alt: 'Investigación de usuario', text: 'Investigación de usuario y funnel de ventas' },
-        { lottie: lottiePath('UX.json'), alt: 'Diseño UX', text: 'Diseño de interfaz y experiencia de usuario' },
+        { lottie: lottiePath('UX.json'), alt: 'Diseño UX', text: 'Diseño de interfaz y experiencia de usuario', size: 'large' },
         { lottie: lottiePath('SEO.json'), alt: 'Posicionamiento SEO', text: 'Implementación y posicionamiento SEO' },
       ],
     },
@@ -79,8 +83,8 @@ const ProcesoSection = () => {
       title: 'Lo que recibirás',
       buttonText: 'Cotizar',
       items: [
-        { lottie: lottiePath('Target.json'), alt: 'Estrategia de contenidos', text: 'Diseño de estrategia de contenidos' },
-        { lottie: lottiePath('Creacion de Comunidad.json'), alt: 'Comunidad', text: 'Creación de contenido y comunidad' },
+        { lottie: lottiePath('Target.json'), alt: 'Estrategia de contenidos', text: 'Diseño de estrategia de contenidos', size: 'large' },
+        { lottie: lottiePath('Creacion de Comunidad.json'), alt: 'Comunidad', text: 'Creación de contenido y comunidad', size: 'large' },
         { lottie: lottiePath('ReporteMensual.json'), alt: 'Reporte mensual', text: 'Análisis mensual de rendimiento' },
       ],
     },
@@ -136,8 +140,8 @@ const ProcesoSection = () => {
         )}
       </div>
 
-      <div className=" relative flex justify-end mr-50">
-        <div className="bg-white rounded-3xl shadow-lg mt-30 px-6 py-5 max-w-2xl text-right text-gray-700 font-medium">
+      <div className=" relative flex justify-end mr-50 ">
+        <div className="bg-white rounded-3xl shadow-lg mt-30 px-6 py-5 max-w-2xl text-right text-gray-700 font-medium z-10">
           Todo lo que hacemos incluye una estrategia personalizada para tí y tus clientes.
           <br />
           Nada de logos genéricos de ChatGPT.

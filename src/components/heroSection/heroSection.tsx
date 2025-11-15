@@ -1,15 +1,123 @@
 "use client"
 
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button"
 import { Link } from 'react-router-dom';
 
+type ShapeConfig = {
+  position: number;
+  type: 'circle' | 'square';
+  borderRadius?: string;
+};
+
+type ShapeStyle = ShapeConfig & {
+  background: string;
+  boxShadow: string;
+};
+
+const SHAPE_CONFIGS: ShapeConfig[] = [
+  { position: 10, type: 'circle' },
+  { position: 24, type: 'circle' },
+  { position: 15, type: 'square', borderRadius: '0%' },
+  { position: 16, type: 'square', borderRadius: '0 0 65px 0' },
+  { position: 19, type: 'square', borderRadius: '0 65px 0 0' },
+  { position: 27, type: 'square', borderRadius: '0 65px 0 65px' },
+  { position: 28, type: 'circle' },
+  { position: 35, type: 'square', borderRadius: '65px 0 65px 0' },
+  { position: 37, type: 'square', borderRadius: '65px 65px 0 65px' },
+  { position: 42, type: 'square', borderRadius: '65px 65px 0 0' },
+  { position: 45, type: 'square', borderRadius: '65px 65px 0 0' },
+  { position: 48, type: 'square', borderRadius: '0%' },
+  { position: 49, type: 'square', borderRadius: '0 0 65px 0' },
+  { position: 50, type: 'square', borderRadius: '0 65px 0 65px' },
+  { position: 51, type: 'square', borderRadius: '0 0 65px 0' },
+  { position: 52, type: 'circle' },
+];
+
 export function HeroSection() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const shapes = useMemo(() => {
+    const getRandomShadow = () => {
+      const offsetX = Math.floor(Math.random() * 5);
+      const offsetY = Math.floor(Math.random() * 5);
+      const blur = 16 + Math.floor(Math.random() * 24);
+      const spread = 4 + Math.floor(Math.random() * 8);
+      const opacity = 0.1 + (Math.random() * 0.15);
+      return `${offsetX}px ${offsetY}px ${blur}px ${spread}px rgba(0, 0, 0, ${opacity.toFixed(2)})`;
+    };
+
+    const getRandomGradient = () => {
+      const directions = [
+        'to right',
+        'to left',
+        'to bottom',
+        'to top',
+        'to bottom right',
+        'to top left',
+        'to bottom left',
+        'to top right'
+      ];
+      const direction = directions[Math.floor(Math.random() * directions.length)];
+      const minLightness = 245;
+      const randomLightness = minLightness + Math.floor(Math.random() * (256 - minLightness));
+      const randomColor = `rgb(${randomLightness}, ${randomLightness}, ${randomLightness})`;
+
+      return `linear-gradient(${direction}, #FFFFFF, ${randomColor})`;
+    };
+
+    return SHAPE_CONFIGS.reduce<Map<number, ShapeStyle>>((acc, config) => {
+      acc.set(config.position, {
+        ...config,
+        background: getRandomGradient(),
+        boxShadow: getRandomShadow(),
+      });
+      return acc;
+    }, new Map());
+  }, []);
+
+  useEffect(() => {
+    let frame: number | null = null;
+
+    const updateProgress = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const sectionHeight = rect.height || 1;
+      const offset = Math.min(Math.max(-rect.top, 0), sectionHeight);
+      const progress = offset / sectionHeight;
+      setScrollProgress(progress);
+    };
+
+    const handleScroll = () => {
+      if (frame) {
+-        cancelAnimationFrame(frame);
++        cancelAnimationFrame(frame);
+      }
+      frame = requestAnimationFrame(updateProgress);
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (frame) {
+        cancelAnimationFrame(frame);
+      }
+    };
+  }, []);
+
+  const getScrollParallaxStyle = (strength: number) => ({
+    transform: `translate3d(0, ${scrollProgress * strength}px, 0)`
+  });
+
   return (
     <section 
-      className="relative w-screen h-screen overflow-hidden"
+      ref={sectionRef}
+      className="relative w-screen h-screen overflow-visible"
     >
       <div 
-        className="absolute inset-0 w-full h-full hidden lg:grid"
+        className="absolute inset-0 w-full h-full hidden lg:grid overflow-visible"
         style={{
           gridTemplateColumns: 'repeat(9, 1fr)',
           gridTemplateRows: 'repeat(6, 1fr)',
@@ -17,170 +125,8 @@ export function HeroSection() {
         }}
       >
         {Array.from({ length: 6 * 9 }).map((_, i) => {
-          // Function to generate random shadow within limits
-          const getRandomShadow = () => {
-            const offsetX = Math.floor(Math.random() * 5); // 0-4px
-            const offsetY = Math.floor(Math.random() * 5); // 0-4px
-            const blur = 10 + Math.floor(Math.random() * 16); // 10-25px
-            const spread = 3 + Math.floor(Math.random() * 5); // 1-5px
-            const opacity = 0.05 + (Math.random() * 0.1); // 0.05-0.15
-            return `${offsetX}px ${offsetY}px ${blur}px ${spread}px rgba(0, 0, 0, ${opacity.toFixed(2)})`;
-          };
-
-          // Function to generate random gradient
-          const getRandomGradient = () => {
-            const directions = [
-              'to right',
-              'to left',
-              'to bottom',
-              'to top',
-              'to bottom right',
-              'to top left',
-              'to bottom left',
-              'to top right'
-            ];
-            const direction = directions[Math.floor(Math.random() * directions.length)];
-            // Generate a random light gray (lighter than F3F3F3)
-            const minLightness = 245; // Lighter than F3F3F3 (243)
-            const randomLightness = minLightness + Math.floor(Math.random() * (256 - minLightness));
-            const randomColor = `rgb(${randomLightness}, ${randomLightness}, ${randomLightness})`;
-            
-            return `linear-gradient(${direction}, #FFFFFF, ${randomColor})`;
-          };
-          
-          // Shape configurations
-          const shapes = [
-            {
-              position: 10, // 2x2 (2nd row, 2nd column)
-              type: 'circle',
-              color: 'red',
-              borderWidth: '2px',
-              shadow: getRandomShadow()
-            },
-            {
-              position: 24, // 7x4 (4th row, 7th column)
-              type: 'circle',
-              color: 'red',
-              borderWidth: '2px',
-              shadow: getRandomShadow()
-            },
-            {
-              position: 15, // Position 16 (0-based index 15)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '0%', // Start with 0% (square), can be increased to make it rounded
-              shadow: getRandomShadow()
-            },
-            {
-              position: 16, // Position 17 (0-based index 16)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '0 0 65px 0',
-              shadow: getRandomShadow()
-            },
-             {
-              position: 19, // Position 18 (0-based index 17)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '0 65px 0 0',
-              shadow: getRandomShadow()
-            },
-             {
-              position: 27, // Position 28 (0-based index 27)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '0 65px 0 65px',
-              shadow: getRandomShadow()
-            },
-              {
-              position: 28, // Position 28 (0-based index 27)
-              type: 'circle',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '0%',
-              shadow: getRandomShadow()
-            },
-              {
-              position: 35, // Position 35 (0-based index 34)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '65px 0 65px 0',
-              shadow: getRandomShadow()
-            },
-             
-                 {
-              position: 37, // Position 37 (0-based index 36)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '65px 65px 0 65px',
-              shadow: getRandomShadow()
-            },
-                 {
-              position: 42, // Position 37 (0-based index 36)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '65px 65px 0 0',
-              shadow: getRandomShadow()
-            },
-             {
-              position: 45, // Position 37 (0-based index 36)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '65px 65px 0 0',
-              shadow: getRandomShadow()
-            },
-                  {
-              position: 48, // Position 37 (0-based index 36)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '0%',
-              shadow: getRandomShadow()
-            },
-                  {
-              position: 49, // Position 37 (0-based index 36)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '0 0 65px 0',
-              shadow: getRandomShadow()
-            },
-                   {
-              position: 50, // Position 37 (0-based index 36)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '0 65px 0 65px',
-              shadow: getRandomShadow()
-            },
-                      {
-              position: 51, // Position 37 (0-based index 36)
-              type: 'square',
-              color: 'red',
-              borderWidth: '2px',
-              borderRadius: '0 0 65px 0 ',
-              shadow: getRandomShadow()
-            },
-                                  {
-              position: 52, // Position 37 (0-based index 36)
-              type: 'circle',
-              color: 'red',
-              borderWidth: '0',
-              borderRadius: '0%',
-              shadow: getRandomShadow()
-            },
-              
-          ];
-          
-          const currentShape = shapes.find(shape => shape.position === i);
+          const currentShape = shapes.get(i);
+          const depth = 140 + (Math.floor(i / 9) * 28);
           
           return (
             <div 
@@ -188,15 +134,18 @@ export function HeroSection() {
               className=" relative" // Grid cell border
             >
               {currentShape && (
-                <div className="absolute inset-0 flex items-center justify-center z-10 p-0">
+                <div 
+                  className="absolute inset-0 flex items-center justify-center z-10 p-0"
+                  style={getScrollParallaxStyle(depth)}
+                >
                   {currentShape.type === 'circle' ? (
                     <div className="relative flex items-center justify-center h-full" style={{ width: 'auto' }}>
                       <div 
                         className="relative h-full rounded-full "
                         style={{
                           aspectRatio: '1/1',
-                          boxShadow: currentShape.shadow,
-                          background: getRandomGradient()
+                          boxShadow: currentShape.boxShadow,
+                          background: currentShape.background
                         }}
                       />
                     </div>
@@ -204,8 +153,8 @@ export function HeroSection() {
                     <div 
                       className="w-full h-full "
                       style={{
-                        boxShadow: currentShape.shadow,
-                        background: getRandomGradient(),
+                        boxShadow: currentShape.boxShadow,
+                        background: currentShape.background,
                         borderRadius: currentShape.borderRadius
                       }}
                     />
@@ -222,14 +171,20 @@ export function HeroSection() {
         <div className="container px-4 md:px-6 relative">
         <div className="flex flex-col items-center space-y-6 text-center">
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter text-black sm:text-5xl md:text-6xl lg:text-7xl ">
+            <h1 
+              className="text-4xl font-bold tracking-tighter text-black sm:text-5xl md:text-6xl lg:text-7xl "
+            >
               Desbloquea el poder <br></br><span className="text-[#35F099]">de una marca poderosa</span>
             </h1>
-            <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
+            <p 
+              className="mx-auto max-w-[700px] text-gray-500 md:text-xl"
+            >
               Creación de marcas - Sitios Web - Redes sociales - Animación
             </p>
           </div>
-          <div className="flex flex-col gap-4 min-[400px]:flex-row">
+          <div 
+            className="flex flex-col gap-4 min-[400px]:flex-row"
+          >
             <Button 
               size="lg"
               className="hover:brightness-105 transition-all"
