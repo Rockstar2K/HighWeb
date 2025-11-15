@@ -1,15 +1,6 @@
 'use client';
 
 import React from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick-theme.less';
-import 'slick-carousel/slick/slick.less';
-import './proyectosSection.css';
-import { LottieAnimation } from '@/components/ui/lottie-animation';
-import { lottiePath } from '@/lib/lottiePaths';
-
 import ayro from '@/assets/proyectos/ayro.svg';
 import obliqua from '@/assets/proyectos/obliqua.svg';
 import florida from '@/assets/proyectos/florida.svg';
@@ -51,71 +42,31 @@ const projects = [
 ];
 
 const ProyectosSection = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    dotsClass: 'slick-dots',
-    arrows: false,
-    centerMode: false,
-    centerPadding: '0',
-    swipeToSlide: true,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          centerMode: false,
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          centerMode: true,
-          centerPadding: '20px',
-        }
-      }
-    ]
-  };
-
   return (
     <section className="relative py-8 sm:py-12 md:py-16 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Proyectos recientes</h2>
-        <div className="mx-[-8px]">
-          <Slider {...settings}>
-            {projects.map((project) => (
-              <div key={`${project.id}-${project.title}`} className="px-2">
-                <div className="project-card">
-                  <div className="h-48 sm:h-64 md:h-80 w-full flex items-center justify-center overflow-hidden bg-gray-50 p-4">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="max-w-[80%] max-h-[80%] sm:max-w-40 sm:max-h-40 object-contain transition-transform duration-300 hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-4 sm:p-6 flex-1 flex flex-col">
-                    <h3 className="text-lg sm:text-xl font-semibold mb-2 text-gray-900">{project.title}</h3>
-                    <p className="text-sm sm:text-base text-gray-600 flex-1">{project.description}</p>
-                  </div>
-                </div>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">
+          Proyectos recientes
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project) => (
+            <div
+              key={`${project.id}-${project.title}`}
+              className="bg-white rounded-3xl overflow-hidden shadow-[0_10px_35px_rgba(15,23,42,0.08)] border border-gray-100 flex flex-col"
+            >
+              <div className="h-48 sm:h-56 md:h-64 flex items-center justify-center bg-gray-50 p-6">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-105"
+                />
               </div>
-            ))}
-          </Slider>
+              <div className="p-6 flex flex-col gap-3 flex-1">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{project.title}</h3>
+                <p className="text-sm sm:text-base text-gray-600 flex-1">{project.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
