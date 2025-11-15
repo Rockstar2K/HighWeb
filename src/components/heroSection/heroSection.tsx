@@ -107,17 +107,20 @@ export function HeroSection() {
     };
   }, []);
 
-  const getScrollParallaxStyle = (strength: number) => ({
-    transform: `translate3d(0, ${scrollProgress * strength}px, 0)`
-  });
+  const getScrollParallaxStyle = (strength: number) => {
+    const effectiveProgress = Math.min(scrollProgress, 0.6);
+    return {
+      transform: `translate3d(0, ${effectiveProgress * strength}px, 0)`
+    };
+  };
 
   return (
     <section 
       ref={sectionRef}
-      className="relative w-screen h-screen overflow-visible"
+      className="relative w-screen h-screen overflow-visible z-0"
     >
       <div 
-        className="absolute inset-0 w-full h-full hidden lg:grid overflow-visible"
+        className="absolute inset-0 w-full h-full hidden lg:grid overflow-visible pointer-events-none -z-10"
         style={{
           gridTemplateColumns: 'repeat(9, 1fr)',
           gridTemplateRows: 'repeat(6, 1fr)',
@@ -135,7 +138,7 @@ export function HeroSection() {
             >
               {currentShape && (
                 <div 
-                  className="absolute inset-0 flex items-center justify-center z-10 p-0"
+                  className="absolute inset-0 flex items-center justify-center p-0"
                   style={getScrollParallaxStyle(depth)}
                 >
                   {currentShape.type === 'circle' ? (
@@ -166,7 +169,7 @@ export function HeroSection() {
         })}
       </div>
 
-      <div className="absolute inset-0 bg-white/5" />
+      <div className="absolute inset-0 bg-white/5 z-0 pointer-events-none" />
       <div className="h-full flex items-center justify-center relative z-10">
         <div className="container px-4 md:px-6 relative">
         <div className="flex flex-col items-center space-y-6 text-center">

@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ContactModal } from '@/components/contactModal/ContactModal';
-import directions from "@/assets/proceso/directions.png"
-import manual from "@/assets/proceso/manual.png"
-import text from "@/assets/proceso/text.png"
+import { LottieAnimation } from '@/components/ui/lottie-animation';
+import { lottiePath } from '@/lib/lottiePaths';
+import { AnimatePresence, motion } from 'motion/react';
 
 interface Plan {
   type: 'Pymes' | 'Startups' | 'Empresas';
@@ -21,6 +21,8 @@ interface TabItem {
   title: string;
   description: string;
   buttonText: string;
+  lottie: string;
+  lottieCropBottom?: number;
   plans: Plan[];
 }
 
@@ -46,7 +48,7 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, isPopular = false, onSelectPl
     <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.type}</h3>
     <div className="mb-4">
       <span className="text-3xl font-bold text-[#7741EA]">{plan.price}</span>
-      <span className="text-gray-500 text-sm">/proyecto</span>
+      <span className="text-gray-500 text-sm">/USD</span>
     </div>
     <p className="text-gray-600 text-sm mb-6 min-h-[40px]">{plan.description}</p>
     <ul className="space-y-3 mb-6 flex-grow">
@@ -77,30 +79,69 @@ interface TabContentProps extends Omit<TabItem, 'id' | 'label' | 'buttonText'> {
   onSelectPlan: (service: string, plan: string) => void;
 }
 
-const TabContent: React.FC<TabContentProps> = ({ title, description, plans, onSelectPlan }) => (
-  <div className="bg-white rounded-3xl p-8 shadow-md mx-auto w-full max-w-6xl">
-    <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">
-      {title}
-    </h2>
-    
-    <p className="text-gray-600 text-center mb-10 max-w-2xl mx-auto">
-      {description}
-    </p>
+const TabContent: React.FC<TabContentProps> = ({ title, description, plans, lottie, lottieCropBottom, onSelectPlan }) => {
+  const [isLottieReady, setIsLottieReady] = useState(false);
 
-    <div className="mb-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+  useEffect(() => {
+    setIsLottieReady(false);
+    const timeout = setTimeout(() => setIsLottieReady(true), 300);
+    return () => clearTimeout(timeout);
+  }, [lottie]);
+
+  return (
+    <div className="bg-white rounded-[32px] p-8 shadow-[0_30px_80px_rgba(15,23,42,0.12)] border border-gray-100 mx-auto w-full max-w-6xl">
+      <div className="text-center mb-12">
+        <p className="uppercase text-xs tracking-[0.35em] font-semibold text-[#7741EA] mb-4">Servicio activo</p>
+        <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-5">
+          {title}
+        </h2>
+        <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+          {description}
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {plans.map((plan, index) => (
-          <PlanCard 
-            key={plan.type}
-            plan={plan}
-            isPopular={index === 1} // Middle plan is marked as popular
-            onSelectPlan={onSelectPlan}
-          />
+          <motion.div 
+            key={`${title}-${plan.type}`}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 0.1 + index * 0.08, type: 'spring', stiffness: 200, damping: 25 }}
+          >
+            <PlanCard 
+              plan={plan}
+              isPopular={index === 1}
+              onSelectPlan={onSelectPlan}
+            />
+          </motion.div>
         ))}
       </div>
+
+      <motion.div
+        className="relative mt-14 hidden md:flex items-center justify-center w-full overflow-hidden rounded-[36px]"
+        animate={{ y: [0, -14, 0] }}
+        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+        style={lottieCropBottom ? { clipPath: `inset(0px 0px ${lottieCropBottom}px 0px)` } : undefined}
+      >
+        <div className="absolute inset-0" aria-hidden />
+        {isLottieReady ? (
+          <LottieAnimation 
+            path={lottie}
+            className="relative z-10 w-full max-w-[880px] h-[420px] sm:h-[480px]"
+            ariaLabel={`Animación destacada para ${title}`}
+          />
+        ) : (
+          <div className="relative z-10 w-full max-w-[880px] h-[420px] sm:h-[480px] rounded-[32px] bg-white border border-dashed border-gray-300 flex items-center justify-center">
+            <div className="flex flex-col items-center gap-3 text-gray-500">
+              <div className="h-12 w-12 border-4 border-[#7741EA]/30 border-t-[#7741EA] rounded-full animate-spin" />
+              <p className="text-sm font-medium">Cargando animación...</p>
+            </div>
+          </div>
+        )}
+      </motion.div>
     </div>
-  </div>
-);
+  );
+};
 
 const ServiciosPage = () => {
   const [activeTab, setActiveTab] = useState('branding');
@@ -122,6 +163,7 @@ const ServiciosPage = () => {
       title: 'Creación de Marca',
       description: 'Diseño de identidad de marca profesional que comunique la esencia de tu negocio',
       buttonText: 'Cotizar Ahora',
+      lottie: lottiePath('Caja de Branding.json'),
       plans: [
         {
           type: 'Pymes',
@@ -171,6 +213,8 @@ const ServiciosPage = () => {
       title: 'Desarrollo Web Profesional',
       description: 'Sitios web a medida, rápidos y optimizados para conversiones',
       buttonText: 'Cotizar Ahora',
+      lottie: lottiePath('Caja de Pagina Web 2.json'),
+      lottieCropBottom: 50,
       plans: [
         {
           type: 'Pymes',
@@ -220,10 +264,11 @@ const ServiciosPage = () => {
       title: 'Gestión de Redes Sociales',
       description: 'Estrategias de contenido que generan engagement y crecimiento orgánico',
       buttonText: 'Cotizar Ahora',
+      lottie: lottiePath('Caja de RRSS 2.json'),
       plans: [
         {
           type: 'Pymes',
-          price: '$600/mes',
+          price: '$1000/mes',
           description: 'Gestión básica de redes sociales',
           features: [
             '2 publicaciones por semana',
@@ -235,7 +280,7 @@ const ServiciosPage = () => {
         },
         {
           type: 'Startups',
-          price: '$1,200/mes',
+          price: '$1,500/mes',
           description: 'Estrategia completa para crecimiento',
           popular: true,
           features: [
@@ -269,10 +314,11 @@ const ServiciosPage = () => {
       title: 'Animaciones Creativas',
       description: 'Contenido animado que cuenta la historia de tu marca',
       buttonText: 'Cotizar Ahora',
+      lottie: lottiePath('Caja de Animaciones.json'),
       plans: [
         {
           type: 'Pymes',
-          price: '$800',
+          price: '$1500',
           description: 'Animaciones simples para redes sociales',
           features: [
             'Hasta 15 segundos',
@@ -333,26 +379,49 @@ const ServiciosPage = () => {
         </div>
 
         <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 rounded-full font-medium transition-colors ${
-                activeTab === tab.id
-                  ? 'bg-[#7741EA]! text-white!'
-                  : 'bg-gray-100! text-gray-700! hover:bg-gray-200!'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <motion.button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className="relative px-6 py-3 rounded-full font-semibold overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7741EA]"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                {isActive ? (
+                  <motion.span 
+                    layoutId="active-tab-pill"
+                    className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7741EA] via-[#a855f7] to-[#ec4899] shadow-[0_20px_45px_rgba(119,65,234,0.35)]"
+                    transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                  />
+                ) : (
+                  <span className="absolute inset-0 rounded-full bg-white/80 border border-gray-200" aria-hidden />
+                )}
+                <span className={`relative z-10 ${isActive ? 'text-white' : 'text-gray-700'}`}>
+                  {tab.label}
+                </span>
+              </motion.button>
+            );
+          })}
         </div>
 
         <div className="mt-8">
-          <TabContent 
-            {...activeTabData} 
-            onSelectPlan={handlePlanSelect}
-          />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 60, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -60, scale: 0.97 }}
+              transition={{ duration: 0.6, ease: 'easeInOut' }}
+            >
+              <TabContent 
+                {...activeTabData} 
+                onSelectPlan={handlePlanSelect}
+              />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </div>

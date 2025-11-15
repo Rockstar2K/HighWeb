@@ -28,6 +28,7 @@ export function TimelineSection() {
             className="w-full max-w-4xl lg:max-w-5xl -mt-30"
             ariaLabel="Línea de tiempo del proceso"
             loop={false}
+            startOnView={true}
           />
         </div>
 

@@ -9,6 +9,7 @@ interface LottieAnimationProps {
   autoplay?: boolean;
   speed?: number;
   ariaLabel?: string;
+  startOnView?: boolean;
 }
 
 /**
@@ -22,9 +23,16 @@ export function LottieAnimation({
   autoplay = true,
   speed = 1,
   ariaLabel,
+  startOnView = false,
 }: LottieAnimationProps) {
   const [animationData, setAnimationData] = useState<object | null>(null);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [hasStarted, setHasStarted] = useState(() => !startOnView);
+
+  useEffect(() => {
+    setHasStarted(!startOnView);
+  }, [startOnView]);
 
   useEffect(() => {
     let isMounted = true;
@@ -56,24 +64,69 @@ export function LottieAnimation({
     }
   }, [animationData, speed]);
 
-  if (!animationData) {
-    return (
-      <div
-        className={cn("bg-gray-100/60 rounded-2xl animate-pulse", className)}
-        aria-hidden="true"
-      />
-    );
-  }
+  useEffect(() => {
+    if (!startOnView) {
+      return;
+    }
 
-  return (
+    const element = containerRef.current;
+    if (!element) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setHasStarted(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [startOnView]);
+
+  useEffect(() => {
+    if (!startOnView || !hasStarted || !lottieRef.current) {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      lottieRef.current?.goToAndPlay(0, true);
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [startOnView, hasStarted]);
+
+  const content = animationData ? (
     <Lottie
       lottieRef={lottieRef}
       animationData={animationData}
       loop={loop}
-      autoplay={autoplay}
-      className={className}
+      autoplay={startOnView ? false : autoplay}
+      className="w-full h-full"
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
     />
+  ) : (
+    <div
+      className="bg-gray-100/60 rounded-2xl animate-pulse w-full h-full"
+      aria-hidden="true"
+    />
+  );
+
+  return (
+    <div ref={containerRef} className={cn("inline-block", className)}>
+      {content}
+    </div>
   );
 }
