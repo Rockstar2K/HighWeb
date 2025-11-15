@@ -14,11 +14,13 @@ const GRID_TEMPLATE = {
   gridTemplateRows: '1fr',
 } as React.CSSProperties;
 
-const SHAPE_HEIGHT = 110;
+const MID_LINK_ALIGNMENT = ['text-left', 'text-center', 'text-right'] as const;
+
+const SHAPE_HEIGHT = 168;
 
 const NAV_SHAPES = [
-  { id: 'home', column: '3 / span 2', borderRadius: '180px 0 0 180px', justify: 'start' as const },
-  { id: 'contact', column: '8 / span 2', borderRadius: '0 180px 180px 0', justify: 'end' as const },
+  { id: 'home', column: '4 / span 3', borderRadius: '180px 0 0 180px', justify: 'start' as const },
+  { id: 'contact', column: '7 / span 2', borderRadius: '0 180px 180px 0', justify: 'end' as const },
 ];
 
 const NavBar = () => {
@@ -29,7 +31,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50">
+    <nav className="fixed top-0 left-0 w-full z-50" style={{ color: '#000' }}>
       <div className="w-full px-4 sm:px-6 lg:px-0">
         <div className="w-full">
           <div className="flex items-center justify-between h-16 lg:hidden">
@@ -57,13 +59,13 @@ const NavBar = () => {
               {NAV_SHAPES.map((shape) => (
                 <div
                   key={shape.id}
-                  className={`relative flex items-center ${
+                  className={`relative flex items-center -ml-20 ${
                     shape.justify === 'end' ? 'justify-end' : 'justify-start'
                   }`}
                   style={{ gridColumn: shape.column }}
                 >
                   <div
-                    className="h-[110px]"
+                    className="h-[140px]"
                     style={{
                       width: `${SHAPE_HEIGHT}px`,
                       borderRadius: shape.borderRadius,
@@ -77,10 +79,14 @@ const NavBar = () => {
             </div>
 
             <div
-              className="relative z-10 grid h-full grid-cols-9 items-center text-sm text-slate-600"
-              style={{ ...GRID_TEMPLATE }}
+              className="relative z-10 grid h-full grid-cols-9 items-center text-sm text-black"
+              style={{ ...GRID_TEMPLATE, color: '#000' }}
             >
-              <Link to="/" className="col-span-2 flex items-center h-full px-6">
+              <Link
+                to="/"
+                className="col-span-2 flex items-center h-full px-6"
+                style={{ color: '#000' }}
+              >
                 <img
                   src={highLogo}
                   alt="High Design"
@@ -90,37 +96,49 @@ const NavBar = () => {
 
               <Link
                 to="/"
-                className="col-span-2 relative z-10 flex items-center justify-center px-6 py-6 text-lg font-semibold tracking-wide text-slate-600 hover:text-black transition-colors"
+                className="col-span-2 relative z-10 flex items-center justify-center px-6 py-6 text-lg font-semibold tracking-wide text-black"
+                style={{ color: '#000' }}
               >
                 Home
               </Link>
 
-              <div className="col-span-3 relative z-10 flex items-center justify-center gap-10 px-4 text-base font-medium">
-                {NAV_LINKS.map((link) =>
-                  link.disabled ? (
-                    <span
-                      key={link.label}
-                      className="text-slate-500/70 cursor-default"
-                      aria-disabled
-                    >
-                      {link.label}
-                    </span>
-                  ) : (
-                    <Link
-                      key={link.label}
-                      to={link.to}
-                      className="hover:text-black transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  ),
-                )}
+              <div className="col-span-3 relative z-10 h-full pl-0 pr-10">
+                <div
+                  className="flex h-full w-full items-center justify-between text-base font-medium text-black"
+                  style={{ color: '#000' }}
+                >
+                  {NAV_LINKS.map((link, index) => {
+                    const alignment = MID_LINK_ALIGNMENT[index] || 'text-center';
+                    const sharedClasses = `flex-1 ${alignment}`;
+
+                    return link.disabled ? (
+                      <span
+                        key={link.label}
+                        className={`${sharedClasses} cursor-default`}
+                        style={{ color: '#000' }}
+                        aria-disabled
+                      >
+                        {link.label}
+                      </span>
+                    ) : (
+                      <Link
+                        key={link.label}
+                        to={link.to}
+                        className={`${sharedClasses} text-black transition-colors`}
+                        style={{ color: '#000' }}
+                      >
+                        {link.label}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
 
               <div className="col-span-2 relative z-10 flex items-center justify-end gap-4 pr-6">
                 <Link
                   to="/contacto"
-                  className="flex-1 min-w-[180px] text-center text-sm font-semibold text-slate-500 tracking-wide uppercase py-5"
+                  className="flex-1 min-w-[180px] text-center text-sm font-semibold text-black tracking-wide uppercase py-5"
+                  style={{ color: '#000' }}
                 >
                   Contáctanos
                 </Link>
@@ -150,7 +168,8 @@ const NavBar = () => {
             <Link
               to="/"
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
+              className="block px-3 py-2 rounded-md text-base font-medium text-black hover:bg-slate-100"
+              style={{ color: '#000' }}
             >
               Home
             </Link>
@@ -158,7 +177,8 @@ const NavBar = () => {
               link.disabled ? (
                 <span
                   key={link.label}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-slate-500/70"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-black"
+                  style={{ color: '#000' }}
                 >
                   {link.label}
                 </span>
@@ -167,7 +187,8 @@ const NavBar = () => {
                   key={link.label}
                   to={link.to}
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-black hover:bg-slate-100"
+                  style={{ color: '#000' }}
                 >
                   {link.label}
                 </Link>
