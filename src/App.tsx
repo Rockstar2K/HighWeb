@@ -14,6 +14,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ServiciosPage from "./pages/Servicios/serviciosPage.tsx";
 import TrabajosPage from "./pages/Trabajos/trabajosPage.tsx";
 import ContactoPage from "./pages/Contacto/contactoPage.tsx";
+import BrandingPage from "./pages/Branding/Branding.tsx";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/servicios" element={<ServiciosPage />} />
       <Route path="/trabajos" element={<TrabajosPage />} />
       <Route path="/contacto" element={<ContactoPage />} />
+      <Route path="/branding" element={<BrandingPage />} />
       <Route path="/" element={
         <>
           <HeroSection />

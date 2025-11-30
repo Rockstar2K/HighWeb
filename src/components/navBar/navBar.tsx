@@ -49,7 +49,7 @@ const NavBar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/70 backdrop-blur-2xl border-b border-white/60 shadow-lg' : 'bg-transparent'
+        isScrolled ? 'bg-white/70 backdrop-blur-2xl border-b border-white/60 shadow-xs' : 'bg-transparent'
       }`}
       style={{ color: '#000' }}
     >
@@ -65,7 +65,7 @@ const NavBar = () => {
             </Link>
             <button
               onClick={toggleMenu}
-              className="text-gray-700 hover:text-black focus:outline-none"
+              className="text-gray-700 hover:text-black focus:outline-none bg-grey-500!"
               aria-label="Toggle menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -173,18 +173,12 @@ const NavBar = () => {
                 </Link>
                 <button
                   type="button"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 text-green-600 shadow-sm bg-white hover:shadow-md transition-shadow"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 text-green-600 shadow-sm bg-white! hover:shadow-md transition-shadow"
                   aria-label="Llámanos"
                 >
                   <PhoneCall size={18} strokeWidth={1.5} />
                 </button>
-                <button
-                  type="button"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 text-slate-700 shadow-sm bg-white hover:shadow-md transition-shadow"
-                  aria-label="Seleccionar idioma"
-                >
-                  <Globe size={18} strokeWidth={1.5} />
-                </button>
+              
               </div>
             </div>
           </div>
@@ -192,7 +186,7 @@ const NavBar = () => {
       </div>
 
       {isOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white shadow-lg">
+        <div className="lg:hidden border-t border-slate-200 bg-white! shadow-lg">
           <div className="px-4 py-4 space-y-2">
             <Link
               to="/"
