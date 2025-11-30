@@ -2,44 +2,14 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Link } from 'react-router-dom';
-import branding from '@/assets/servicios/branding.png';
-import web from '@/assets/servicios/web.png';
-import redes from '@/assets/servicios/redes.png';
-import animaciones from '@/assets/servicios/animaciones.png';
-
-const services = [
-  {
-    title: 'Branding',
-    description: 'Diseñamos contigo la marca de tus sueños basados en un proceso de estrategia único en Chile.',
-    icon: branding,
-    buttonText: 'Saber más'
-  },
-  {
-    title: 'Páginas Web',
-    description: 'Diseño y desarrollo de páginas web modernas y atractivas que se adaptan a todos los dispositivos.',
-    icon: web,
-    buttonText: 'Saber más'
-  },
-  {
-    title: 'Redes sociales',
-    description: 'Diseño y desarrollo de páginas web modernas y atractivas que se adaptan a todos los dispositivos.',
-    icon: redes,
-    buttonText: 'Saber más'
-  },
-  {
-    title: 'Animaciones',
-    description: 'Animaciones para tus proyectos web y redes sociales.',
-    icon: animaciones,
-    buttonText: 'Saber más'
-  }
-];
+import { services } from '@/data/services';
 
 const ServiciosSection = () => {
   return (
     <section className="py-16 z-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-4xl font-bold text-gray-900 mb-4">Servicios</h2>
+          <h2 className="text-4xl md:text-4xl font-bold text-gray-900 mb-4">Nuestros Servicios</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">Soluciones profesionales para potenciar tu presencia digital</p>
         </div>
         

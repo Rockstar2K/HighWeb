@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowDown, Check, Star, BadgeCheck, ArrowRight, ChevronRight } from 'lucide-react';
 import { SocialSection } from '@/components/socialSection/socialSection';
+import { LottieAnimation } from '@/components/ui/lottie-animation';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import PricingSection from '@/components/pricingSection/pricingSection';
+import { Button } from '@/components/ui/button';
 
 // --- Types ---
 
@@ -101,7 +104,7 @@ const FadeInOnScroll = ({ children, delay = 0 }: { children: React.ReactNode; de
   );
 };
 
-export default function App() {
+const BrandingPage = () => {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans relative overflow-x-hidden mt-[15vh]">
       <BackgroundShapes />
@@ -124,10 +127,10 @@ export default function App() {
 
         <FadeInOnScroll delay={0.4}>
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-24">
-            <button className="group relative overflow-hidden bg-[#35F099] hover:bg-[#2ad187] text-white font-semibold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <button className="group relative overflow-hidden bg-[#35F099]! hover:bg-[#7741EA]! text-white font-semibold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <span className="relative z-10">Nuestros Servicios</span>
-              <span className="absolute inset-0 bg-[#2ad187] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </button>
+
             <button className="group flex items-center gap-2 bg-white border border-[#e0e0e0] hover:border-[#35F099] text-[#333] font-medium py-4 px-8 rounded-full shadow-sm hover:shadow-md transition-all duration-300">
               <span>Ver Proyectos</span>
               <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
@@ -262,61 +265,47 @@ export default function App() {
         <h2 className="text-3xl md:text-5xl font-extrabold text-[#1a1a1a] mb-16">
           ¿Qué viene <span className="text-[#7741EA]">incluído</span>?
         </h2>
-
-        <div className="relative w-full max-w-4xl mx-auto">
-          {/* Main Placeholder Image for the complex diagram */}
-          <div className="w-full aspect-[4/3] bg-[#f8f8f8] rounded-xl overflow-hidden shadow-inner flex items-center justify-center relative border border-[#e0e0e0]">
-            <img 
-              src="https://picsum.photos/800/600" 
-              alt="Included Items Diagram" 
-              className="object-cover w-full h-full opacity-90 hover:scale-105 transition-transform duration-700" 
-            />
-            
-            {/* Overlay Badges replicating the diagram feel */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-10 left-10 md:left-20 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-md text-xs font-bold text-[#35F099]">
-                    Investigación de Clientes
-                </div>
-                <div className="absolute top-10 right-10 md:right-20 bg-[#35F099] px-4 py-2 rounded-full shadow-md text-xs font-bold text-white">
-                    3 Opciones de Logotipo
-                </div>
-                <div className="absolute bottom-20 left-10 bg-[#7741EA] px-4 py-2 rounded-full shadow-md text-xs font-bold text-white">
-                    Atributos de Marca
-                </div>
-                <div className="absolute bottom-40 right-20 bg-[#35F099] px-4 py-2 rounded-full shadow-md text-xs font-bold text-white">
-                    Manual de Marca
-                </div>
-                 <div className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur px-6 py-3 rounded-full shadow-lg border border-[#35F099] text-sm font-bold text-[#1a1a1a]">
-                   Box of Creativity
-                </div>
-            </div>
-          </div>
+        
+        <div className="max-w-3xl mx-auto">
+          <LottieAnimation 
+            path="/lottie/Caja de Branding.json"
+            className="w-full h-auto"
+            loop={true}
+            autoplay={true}
+          />
         </div>
       </section>
 
       {/* --- PRICING SECTION --- */}
-      <section className="py-20 px-4 md:px-8 max-w-5xl mx-auto text-center mb-20">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-[#1a1a1a] mb-8">
-          ¿Cuál es precio de todo esto?
-        </h2>
-
-        <div className="bg-gradient-to-r from-[#7741EA] to-[#5e2fbc] rounded-3xl p-8 md:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 transform hover:scale-[1.01] transition-transform">
-          <div className="flex-1 text-center md:text-left">
-             <div className="text-white text-8xl md:text-9xl font-black tracking-tighter leading-none drop-shadow-md">
-               -25%
-             </div>
+      <section className="py-20 ">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#7741EA] bg-[#F0EBFF] rounded-full mb-4">
+              Precios
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 bg-clip-text bg-[#7741EA] text-transparent">
+              Nuestros Planes de Branding
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Soluciones personalizadas que elevan tu marca al siguiente nivel
+            </p>
           </div>
+          <PricingSection />
           
-          <div className="flex-1 w-full md:w-auto border-t md:border-t-0 md:border-l border-purple-400 pt-6 md:pt-0 md:pl-12 flex flex-col justify-center items-center md:items-end">
-             <CountdownTimer />
-             <button className="mt-6 bg-white text-[#7741EA] font-bold py-3 px-8 rounded-full hover:bg-[#f5f5f5] transition-colors shadow-lg flex items-center gap-2">
-                Reclamar Oferta <ArrowRight size={18} />
-             </button>
+          <div className="mt-16 text-center">
+            <p className="text-gray-600 mb-6 text-lg">¿Necesitas una solución personalizada para tu marca?</p>
+            <Button 
+              variant="outline" 
+              className="group border-2 border-[#7741EA] text-[#7741EA] hover:bg-[#7741EA] hover:text-white px-8 py-4 text-base font-medium transition-all duration-300"
+            >
+              Solicitar cotización personalizada
+              <ArrowRight size={18} className="ml-2 transition-transform group-hover:translate-x-1" />
+            </Button>
           </div>
         </div>
       </section>
-
-     
     </div>
   );
-}
+};
+
+export default BrandingPage;

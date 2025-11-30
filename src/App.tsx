@@ -1,7 +1,7 @@
 import "./App.css";
 import { SocialSection } from "./components/socialSection/socialSection.tsx";
 import { HeroSection } from "./components/heroSection/heroSection.tsx";
-import ServiciosSection from "./components/serviciosSection/serviciosSection.tsx";
+import ServiciosSection from "./components/NuestrosServiciosSection/nuestrosServiciosSection.tsx";
 import CTASection from "./components/ctaSection/ctaSection.tsx";
 import NavBar from "./components/navBar/navBar";
 import ProcesoSection from "./components/procesoSection/procesoSection.tsx";

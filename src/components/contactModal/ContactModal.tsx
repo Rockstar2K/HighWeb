@@ -8,13 +8,22 @@ interface ContactModalProps {
 }
 
 export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, title }) => {
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
     telefono: '',
     organizacion: '',
-    sitioWeb: ''
+    sitioWeb: '',
+    servicios: ''
   });
+  
+  const services = [
+    { id: 'branding', label: 'Branding' },
+    { id: 'web', label: 'Sitios Web' },
+    { id: 'redes', label: 'Redes Sociales' },
+    { id: 'animaciones', label: 'Animaciones' }
+  ];
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null);
@@ -57,8 +66,30 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
     };
   }, [submitStatus, onClose]);
 
+  const handleServiceSelect = (serviceId: string) => {
+    setSelectedServices(prev => {
+      const newSelection = prev.includes(serviceId)
+        ? prev.filter(id => id !== serviceId) // Remove if already selected
+        : [...prev, serviceId]; // Add if not selected
+      
+      // Update form data with comma-separated list of services
+      setFormData(prev => ({
+        ...prev,
+        servicios: newSelection.join(', ')
+      }));
+      
+      return newSelection;
+    });
+  };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (selectedServices.length === 0) {
+      setSubmitStatus('error');
+      setSubmitMessage('Por favor selecciona al menos un servicio');
+      return;
+    }
     
     setIsSubmitting(true);
     setSubmitStatus(null);
@@ -74,9 +105,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
           email: '',
           telefono: '',
           organizacion: '',
-          sitioWeb: ''
+          sitioWeb: '',
+          servicios: ''
         });
         form.reset();
+        setSelectedServices([]);
       },
       onError: () => {
         setSubmitStatus('error');
@@ -98,13 +131,14 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
 
   return (
     <div 
-      className={`fixed inset-0 backdrop-blur-sm flex items-start justify-center z-50 p-4 pt-16 pb-8 overflow-y-auto transition-all duration-300 ${
-        isVisible ? 'opacity-100' : 'opacity-0'
+      className={`fixed inset-0 flex items-start justify-center p-4 pt-16 pb-8 overflow-y-auto transition-all duration-300 ${
+        isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
       } ${
         isSuccess 
           ? 'bg-gradient-to-br from-green-50/90 to-emerald-50/90' 
           : 'bg-gradient-to-br from-blue-50/90 to-purple-50/90'
       }`}
+      style={{ zIndex: 9999 }}
       onClick={onClose}
     >
       <div 
@@ -115,6 +149,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
             ? 'bg-green-50/90 border-green-200' 
             : 'bg-white/80 border-white/20'
         }`}
+        style={{ zIndex: 10000 }}
         onClick={e => e.stopPropagation()}
       >
         <button 
@@ -134,7 +169,26 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
           <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
             {title}
           </h2>
-          <p className="text-gray-500 text-sm mt-2">Completa el formulario y nos pondremos en contacto contigo</p>
+          <p className="text-gray-500 text-sm mt-2">Selecciona el servicio que te interesa</p>
+          
+          <div className="grid grid-cols-2 gap-3 mt-4">
+            {services.map(service => (
+              <button
+                key={service.id}
+                type="button"
+                onClick={() => handleServiceSelect(service.id)}
+                className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  selectedServices.includes(service.id)
+                    ? 'bg-[#7741EA]! text-white! shadow-md! shadow-[#7741EA]/30! '
+                    : 'bg-gray-100! text-gray-700! border border-gray-200! hover:border-[#7741EA]! hover:text-[#7741EA]! hover:shadow-md! hover:shadow-[#7741EA]/50!'
+                }`}
+              >
+                {service.label}
+              </button>
+            ))}
+          </div>
+          
+          <p className="text-gray-500 text-sm mt-6">Completa el formulario y nos pondremos en contacto contigo</p>
         </div>
         
         <form 
@@ -177,6 +231,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
               </div>
             </div>
           )}
+          <input type="hidden" name="servicio" value={selectedServices.join(', ')} />
           <div className="space-y-5">
             <div className="relative">
               <input
