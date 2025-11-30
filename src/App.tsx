@@ -34,7 +34,7 @@ function App() {
             <div className="z-15 mt-60">
             <ServiciosSection />
             </div>
-            <div className="pointer-events-none absolute -bottom-46  z-1 right-25 sm:right-55" aria-hidden="true">
+            <div className="pointer-events-none absolute -bottom-46  z-1 right-25 sm:right-55 hidden md:block" aria-hidden="true">
               <LottieAnimation
                 path={lottiePath('Linea1.json')}
                 className="w-32 h-32 sm:w-64 sm:h-64"
@@ -47,7 +47,7 @@ function App() {
           </div>
           <div className="relative w-full">
             <ProyectosSection />
-            <div className="pointer-events-none absolute -bottom-80 left-2 sm:left-8" aria-hidden="true">
+            <div className="pointer-events-none absolute -bottom-80 left-2 sm:left-8 hidden md:block" aria-hidden="true">
               <LottieAnimation
                 path={lottiePath('Linea2.json')}
                 className="w-28 h-28 sm:w-150 sm:h-150"

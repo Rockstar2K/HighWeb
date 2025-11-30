@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { LottieAnimation } from "@/components/ui/lottie-animation";
 import { lottiePath } from "@/lib/lottiePaths";
+import { Link } from "react-router-dom";
 
 export function TimelineSection() {
   return (
@@ -22,23 +23,25 @@ export function TimelineSection() {
           <li>Agenda la primera reunión.</li>
         </ol>
 
-        <div className="flex justify-center">
+        <div className="hidden md:flex justify-center mt-12 pointer-events-none">
           <LottieAnimation
             path={lottiePath("Proceso de compra.json")}
-            className="w-full max-w-4xl lg:max-w-5xl -mt-30"
+            className="w-full max-w-4xl lg:max-w-5xl"
             ariaLabel="Línea de tiempo del proceso"
             loop={false}
             startOnView={true}
           />
         </div>
 
-        <div className="flex flex-col items-center gap-4 -mt-20">
+        <div className="flex flex-col items-center gap-4 mt-8 md:mt-10 lg:-mt-20">
           <p className="text-gray-600 text-center">
             ¿Cuánto vale todo esto? Una inversión clara para resultados extraordinarios.
           </p>
-          <Button variant="purple" className="px-10 py-6 text-lg rounded-full shadow-lg">
-            Pide la propuesta completa
-          </Button>
+          <Link to="/servicios" className="inline-flex">
+            <Button variant="purple" className="px-10 py-6 text-lg rounded-full shadow-lg">
+              Pide la propuesta completa
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

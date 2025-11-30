@@ -23,3 +23,9 @@ dist-ssr
 *.sw?
 dist/assets/index-DqP26z0E.js
 dist/assets/css/index-BMlLskfr.css
+dist/assets/css/index-CuDcaxOA.css
+dist/index.html
+dist/index.html
+.gitignore
+dist/index.html
+*.cache
