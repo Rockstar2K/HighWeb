@@ -33,48 +33,50 @@ interface PlanCardProps {
   onSelectPlan: (service: string, plan: string) => void;
 }
 
-const PlanCard: React.FC<PlanCardProps> = ({ plan, isPopular = false, onSelectPlan }) => (
-  <div 
-    className={`relative flex flex-col p-6 rounded-2xl h-full transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
-      isPopular 
-        ? 'bg-[#F9F5FF] border-2 border-[#7741EA] hover:shadow-[#7741EA]/20' 
-        : 'bg-white border border-gray-200 hover:border-[#7741EA]/30 hover:shadow-[#7741EA]/10'
-    }`}
-  >
-    {isPopular && (
-      <div className="absolute top-0 right-4 -translate-y-1/2 bg-[#7741EA] text-white text-xs font-semibold px-3 py-1 rounded-full">
-        Más popular
-      </div>
-    )}
-    <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.type}</h3>
-    <div className="mb-4">
-      <span className="text-3xl font-bold text-[#7741EA]">{plan.price}</span>
-      <span className="text-gray-500 text-sm">/USD</span>
-    </div>
-    <p className="text-gray-600 text-sm mb-6 min-h-[40px]">{plan.description}</p>
-    <ul className="space-y-3 mb-6 flex-grow">
-      {plan.features.map((feature, idx) => (
-        <li key={idx} className="flex items-start">
-          <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
-          <span className="text-gray-700 text-sm">{feature}</span>
-        </li>
-      ))}
-    </ul>
-    <Button 
-      variant="purple" 
-      onClick={() => onSelectPlan(plan.type, plan.description)}
-      className={`w-full mt-auto transition-all duration-200 ease-in-out ${
+const PlanCard: React.FC<PlanCardProps> = ({ plan, isPopular = false, onSelectPlan }) => {
+  return (
+    <div 
+      className={`relative flex flex-col p-6 rounded-2xl h-full transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
         isPopular 
-          ? 'bg-[#7741EA] hover:bg-[#6a3ac8] text-white hover:shadow-md hover:shadow-[#7741EA]/30' 
-          : 'bg-white text-[#7741EA] border border-[#7741EA] hover:bg-[#F9F5FF] hover:border-[#7741EA] hover:text-[#6a3ac8]'
+          ? 'bg-[#F9F5FF] border-2 border-[#7741EA] hover:shadow-[#7741EA]/20' 
+          : 'bg-white border border-gray-200 hover:border-[#7741EA]/30 hover:shadow-[#7741EA]/10'
       }`}
     >
-      Contratar {plan.type}
-    </Button>
-  </div>
-);
+      {isPopular && (
+        <div className="absolute top-0 right-4 -translate-y-1/2 bg-[#7741EA] text-white text-xs font-semibold px-3 py-1 rounded-full">
+          Más popular
+        </div>
+      )}
+      <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.type}</h3>
+      <div className="mb-4">
+        <span className="text-3xl font-bold text-[#7741EA]">{plan.price}</span>
+        <span className="text-gray-500 text-sm">/USD</span>
+      </div>
+      <p className="text-gray-600 text-sm mb-6 min-h-[40px]">{plan.description}</p>
+      <ul className="space-y-3 mb-6 flex-grow">
+        {plan.features.map((feature, idx) => (
+          <li key={idx} className="flex items-start">
+            <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <span className="text-gray-700 text-sm">{feature}</span>
+          </li>
+        ))}
+      </ul>
+      <Button 
+        variant="purple" 
+        onClick={() => onSelectPlan(plan.type, plan.type)}
+        className={`w-full mt-auto transition-all duration-200 ease-in-out ${
+          isPopular 
+            ? 'bg-[#7741EA] hover:bg-[#6a3ac8] text-white hover:shadow-md hover:shadow-[#7741EA]/30' 
+            : 'bg-white text-[#7741EA] border border-[#7741EA] hover:bg-[#F9F5FF] hover:border-[#7741EA] hover:text-[#6a3ac8]'
+        }`}
+      >
+        Contratar {plan.type}
+      </Button>
+    </div>
+  );
+};
 
 interface TabContentProps extends Omit<TabItem, 'id' | 'label' | 'buttonText'> {
   onSelectPlan: (service: string, plan: string) => void;
@@ -112,7 +114,7 @@ const TabContent: React.FC<TabContentProps> = ({ title, description, plans, lott
             <PlanCard 
               plan={plan}
               isPopular={index === 1}
-              onSelectPlan={onSelectPlan}
+              onSelectPlan={(planType) => onSelectPlan(title, planType)}
             />
           </motion.div>
         ))}
@@ -149,10 +151,11 @@ const ServiciosPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState({ title: '', plan: '' });
 
-  const handlePlanSelect = (service: string, plan: string) => {
+  const handlePlanSelect = (service: string, planType: string) => {
+    const serviceName = tabs.find(tab => tab.id === activeTab)?.label || service;
     setSelectedPlan({
-      title: service,
-      plan: plan
+      title: serviceName,
+      plan: planType
     });
     setIsModalOpen(true);
   };
@@ -431,6 +434,11 @@ const ServiciosPage = () => {
             </AnimatePresence>
           </div>
         </div>
+        <ContactModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title={`Contratar Plan ${selectedPlan.plan} - ${selectedPlan.title}`}
+        />
       </div>
     </div>
   );
