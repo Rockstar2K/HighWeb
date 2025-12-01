@@ -118,11 +118,13 @@ const NavBar = () => {
                 className="col-span-3 flex items-center h-full px-6"
                 style={{ color: '#000' }}
               >
-                <img
-                  src={highLogo}
-                  alt="High Design"
-                  className="h-[80px] w-auto object-contain mx-20"
-                />
+                <div className="transform transition-transform duration-300 hover:scale-105">
+                  <img
+                    src={highLogo}
+                    alt="High Design"
+                    className="h-[80px] w-auto object-contain mx-20"
+                  />
+                </div>
               </Link>
 
               <div className="col-span-4 relative z-10 h-full pl-0 pr-10">

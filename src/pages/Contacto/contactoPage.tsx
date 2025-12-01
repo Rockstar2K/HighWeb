@@ -145,7 +145,7 @@ const ContactoPage = () => {
               </a>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 text-left">
               <div className="flex items-start space-x-4">
                 <i className="fas fa-map-marker-alt text-[#35F099] text-2xl mt-1"></i>
                 <div>
@@ -173,7 +173,7 @@ const ContactoPage = () => {
           <div className="lg:col-span-5">
             <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-[0_20px_60px_rgba(15,23,42,0.12)] border border-white/60">
               <h3 className="text-2xl font-semibold text-left mb-6 text-gray-900">Contáctanos por aquí</h3>
-              <form action="https://formspree.io/f/xvgdpypj" method="POST" onSubmit={handleSubmit} className="space-y-6">
+              <form action="https://formspree.io/f/xvgdpypj" method="POST" onSubmit={handleSubmit} className="space-y-6 text-left">
             {/* Honeypot field - hidden from users but visible to bots */}
             <div className="hidden">
               <label htmlFor="website-contact">No llenar este campo</label>
