@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, PhoneCall, Globe } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import highLogo from '@/assets/highLogo.png';
 import { Link } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ const GRID_TEMPLATE = {
   gridTemplateRows: '1fr',
 } as React.CSSProperties;
 
-const MID_LINK_ALIGNMENT = ['text-left', 'text-center', 'text-right'] as const;
+const MID_LINK_ALIGNMENT = ['text-center', 'text-center', 'text-center'] as const;
 
 const SHAPE_HEIGHT = 168;
 
@@ -49,7 +49,7 @@ const NavBar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/70 backdrop-blur-2xl border-b border-white/60 shadow-xs' : 'bg-transparent'
+        isScrolled ? 'bg-white/70 backdrop-blur-2xl border-b border-white/60 ' : 'bg-transparent'
       }`}
       style={{ color: '#000' }}
     >
@@ -169,15 +169,17 @@ const NavBar = () => {
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#7741EA] transition-all duration-300 group-hover:w-full"></span>
                   </span>
                 </Link>
-                {/* 
-                 <button
-                  type="button"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 text-green-600 shadow-sm bg-white! hover:shadow-md transition-shadow"
-                  aria-label="Llámanos"
+                
+                 <a
+                  href="https://wa.me/56985967414"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 text-green-600 shadow-sm bg-white hover:shadow-md transition-all duration-300 hover:bg-green-50"
+                  aria-label="Enviar mensaje por WhatsApp"
                 >
-                  <PhoneCall size={18} strokeWidth={1.5} />
-                </button>
-                */}
+                  <span className="text-xl">💬</span>
+                </a>
+              
                
               </div>
             </div>
