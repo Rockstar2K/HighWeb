@@ -113,25 +113,17 @@ const NavBar = () => {
             >
               <Link
                 to="/"
-                className="col-span-2 flex items-center h-full px-6"
+                className="col-span-3 flex items-center h-full px-6"
                 style={{ color: '#000' }}
               >
                 <img
                   src={highLogo}
                   alt="High Design"
-                  className="h-[100px] w-auto object-contain mx-20"
+                  className="h-[80px] w-auto object-contain mx-20"
                 />
               </Link>
 
-              <Link
-                to="/"
-                className="col-span-2 relative z-10 flex items-center justify-center px-6 py-6 text-lg font-semibold tracking-wide text-black"
-                style={{ color: '#000' }}
-              >
-                Home
-              </Link>
-
-              <div className="col-span-3 relative z-10 h-full pl-0 pr-10">
+              <div className="col-span-4 relative z-10 h-full pl-0 pr-10">
                 <div
                   className="flex h-full w-full items-center justify-between text-base font-medium text-black"
                   style={{ color: '#000' }}
@@ -153,10 +145,13 @@ const NavBar = () => {
                       <Link
                         key={link.label}
                         to={link.to}
-                        className={`${sharedClasses} text-black transition-colors`}
+                        className={`${sharedClasses} group relative`}
                         style={{ color: '#000' }}
                       >
-                        {link.label}
+                        <span className="relative group-hover:text-[#7741EA]">
+                          {link.label}
+                          <span className="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-[#7741EA] transition-all duration-300 group-hover:w-full"></span>
+                        </span>
                       </Link>
                     );
                   })}
@@ -166,19 +161,24 @@ const NavBar = () => {
               <div className="col-span-2 relative z-10 flex items-center justify-end gap-4 pr-6">
                 <Link
                   to="/contacto"
-                  className="flex-1 min-w-[180px] text-center text-base font-semibold text-black py-5"
+                  className="flex-1 min-w-[180px] text-center text-base font-semibold text-black py-5 group relative"
                   style={{ color: '#000' }}
                 >
-                  Contáctanos
+                  <span className="relative group-hover:text-[#7741EA] inline-flex flex-col items-center">
+                    Contáctanos
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#7741EA] transition-all duration-300 group-hover:w-full"></span>
+                  </span>
                 </Link>
-                <button
+                {/* 
+                 <button
                   type="button"
                   className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 text-green-600 shadow-sm bg-white! hover:shadow-md transition-shadow"
                   aria-label="Llámanos"
                 >
                   <PhoneCall size={18} strokeWidth={1.5} />
                 </button>
-              
+                */}
+               
               </div>
             </div>
           </div>
