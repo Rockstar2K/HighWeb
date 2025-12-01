@@ -11,6 +11,9 @@
     "deploy": "firebase deploy"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.1.0",
+    "@fortawesome/free-brands-svg-icons": "^7.1.0",
+    "@fortawesome/react-fontawesome": "^3.1.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.0.17",
     "@types/react-slick": "^0.23.13",

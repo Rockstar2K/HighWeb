@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import highLogo from '@/assets/highLogo.png';
 import { Link } from 'react-router-dom';
 
@@ -24,8 +26,8 @@ const MID_LINK_ALIGNMENT = ['text-center', 'text-center', 'text-center'] as cons
 const SHAPE_HEIGHT = 168;
 
 const NAV_SHAPES = [
-  { id: 'home', column: '4 / span 3', borderRadius: '180px 0 0 180px', justify: 'start' as const },
-  { id: 'contact', column: '7 / span 2', borderRadius: '0 180px 180px 0', justify: 'end' as const },
+  { id: 'home', column: '5 / span 3', borderRadius: '180px 0 0 180px', justify: 'start' as const },
+  { id: 'contact', column: '8 / span 2', borderRadius: '0 180px 180px 0', justify: 'end' as const },
 ];
 
 const NavBar = () => {
@@ -53,7 +55,7 @@ const NavBar = () => {
       }`}
       style={{ color: '#000' }}
     >
-      <div className="w-full px-4 sm:px-6 lg:px-0">
+      <div className="w-full px-4 sm:px-6 lg:px-1">
         <div className="w-full">
           <div className="flex items-center justify-between h-16 lg:hidden">
             <Link to="/" className="flex items-center h-full">
@@ -174,10 +176,11 @@ const NavBar = () => {
                   href="https://wa.me/56985967414"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 text-green-600 shadow-sm bg-white hover:shadow-md transition-all duration-300 hover:bg-green-50"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 shadow-sm bg-white hover:shadow-md transition-all duration-300 hover:bg-green-50"
+                  style={{ color: '#35F099' }}
                   aria-label="Enviar mensaje por WhatsApp"
                 >
-                  <span className="text-xl">💬</span>
+                  <FontAwesomeIcon icon={faWhatsapp} className="text-2xl" />
                 </a>
               
                
