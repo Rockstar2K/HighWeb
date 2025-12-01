@@ -9,8 +9,6 @@ import { Button } from '@/components/ui/button';
 
 
 
-
-
 const FadeInOnScroll = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => { 
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -29,7 +27,7 @@ const FadeInOnScroll = ({ children, delay = 0 }: { children: React.ReactNode; de
   );
 };
 
-const BrandingPage = () => {
+const SitiosWebPage = () => {
   return (
     <div className="min-h-screen bg-white text-gray-900  relative overflow-x-hidden mt-[15vh]">
 
@@ -38,14 +36,14 @@ const BrandingPage = () => {
 
         <FadeInOnScroll>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl leading-tight">
-            Demuestra tu calidad <br className="hidden md:block" />
-            con una marca que <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">impacte</span>.
+            Lleva tu negocio al <br className="hidden md:block" />
+            siguiente nivel con una web que <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">convierte</span>.
           </h1>
         </FadeInOnScroll>
         
         <FadeInOnScroll delay={0.2}>
           <p className="text-[#666] max-w-2xl mb-12 text-lg md:text-xl leading-relaxed">
-            Transformamos marcas en experiencias memorables. No solo creamos logos, construimos identidades que cuentan historias y generan conexiones duraderas.
+            Creamos sitios web profesionales, rápidos y optimizados que destacan tu negocio en línea. No solo diseñamos páginas, construimos experiencias digitales que convierten visitantes en clientes.
           </p>
         </FadeInOnScroll>
 
@@ -92,14 +90,14 @@ const BrandingPage = () => {
                 <span>Nuestro Enfoque</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mb-4">
-                No solo diseño,<br />
-                <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">solución estratégica</span>
+                No solo páginas web,<br />
+                <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">herramientas de crecimiento</span>
               </h2>
 
               <p className="text-gray-600 text-lg mb-10 leading-relaxed">
-                <span className="font-semibold text-[#1a1a1a]">Antes de crear el logo</span>, trabajaremos contigo para ayudarte a 
-                mejorar tu conexión con tus clientes potenciales, tu visión, tu cultura 
-                empresarial y sobre todo, la <span className="font-semibold text-[#1a1a1a]">estrategia de tu marca</span>.
+                <span className="font-semibold text-[#1a1a1a]">Ver ejemplos</span>, analizamos tu negocio para crear 
+                una web que no solo se vea bien, sino que también cumpla con tus objetivos 
+                comerciales y ofrezca una <span className="font-semibold text-[#1a1a1a]">experiencia de usuario excepcional</span>.
               </p>
 
               <div className="">
@@ -236,4 +234,4 @@ const BrandingPage = () => {
   );
 };
 
-export default BrandingPage;
+export default SitiosWebPage;

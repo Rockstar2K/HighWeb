@@ -75,8 +75,8 @@ const PricingSection = () => {
                       onClick={() => handleContactClick(plan)}
                       className={`w-full transition-all duration-200 ease-in-out ${
                         isPopular 
-                          ? 'bg-[#7741EA]! hover:bg-[#6a3ac8] text-white hover:shadow-md hover:shadow-[#7741EA]/30' 
-                          : 'bg-white text-[#7741EA] border border-[#7741EA] hover:bg-[#F9F5FF] hover:border-[#7741EA] hover:text-[#6a3ac8]'
+                          ? 'bg-[#7741EA]! hover:bg-[#6a3ac8]! text-white hover:shadow-md hover:shadow-[#7741EA]/30' 
+                          : 'bg-white! text-[#7741EA]! border border-[#7741EA]! hover:bg-[#F9F5FF]! hover:border-[#7741EA]! hover:text-[#6a3ac8]!'
                       }`}
                     >
                       {isPopular ? 'Comenzar ahora' : 'Seleccionar plan'}

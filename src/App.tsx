@@ -15,6 +15,8 @@ import ServiciosPage from "./pages/Servicios/serviciosPage.tsx";
 import TrabajosPage from "./pages/Trabajos/trabajosPage.tsx";
 import ContactoPage from "./pages/Contacto/contactoPage.tsx";
 import BrandingPage from "./pages/Branding/Branding.tsx";
+import SitiosWebPage from "./pages/SitiosWeb/sitiosWeb.tsx";
+import RedesSocialesPage from "./pages/RedesSociales/redesSociales.tsx";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
       <Route path="/trabajos" element={<TrabajosPage />} />
       <Route path="/contacto" element={<ContactoPage />} />
       <Route path="/branding" element={<BrandingPage />} />
+      <Route path="/sitios-web" element={<SitiosWebPage />} />
+      <Route path="/redes-sociales" element={<RedesSocialesPage />} />
       <Route path="/" element={
         <>
           <HeroSection />

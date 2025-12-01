@@ -7,9 +7,84 @@ import { useInView } from 'react-intersection-observer';
 import PricingSection from '@/components/pricingSection/pricingSection';
 import { Button } from '@/components/ui/button';
 
+// --- Types ---
+
+// --- Data ---
+const CHART_DATA = [
+  { name: 'Jan', value: 30 },
+  { name: 'Feb', value: 45 },
+  { name: 'Mar', value: 55 },
+  { name: 'Apr', value: 60 },
+  { name: 'May', value: 80 },
+  { name: 'Jun', value: 100 },
+];
 
 
+// --- Components ---
 
+const BackgroundShapes = () => {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 bg-white" />
+      
+      {/* Animated shapes */}
+      <motion.div 
+        animate={{
+          y: [0, -20, 0],
+          rotate: [0, 5, 0]
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#35F099] rounded-[100px] opacity-5"
+      />
+      
+      <motion.div 
+        animate={{
+          y: [0, 30, 0],
+          x: [0, 10, 0]
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1
+        }}
+        className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-[#7741EA] rounded-full opacity-5"
+      />
+      
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgPGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiMwMDAwMDAiLz4KICA8L2c+Cjwvc3ZnPg==')]" />
+    </div>
+  );
+};
+
+const CountdownTimer = () => {
+  const [timeLeft, setTimeLeft] = useState({ mins: 56, secs: 30 });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev.secs > 0) return { ...prev, secs: prev.secs - 1 };
+        if (prev.mins > 0) return { mins: prev.mins - 1, secs: 59 };
+        return prev;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="text-white text-right">
+      <p className="text-sm md:text-base font-light mb-1 opacity-90">Este descuento se acaba en:</p>
+      <div className="text-2xl md:text-3xl font-bold ">
+        {timeLeft.mins} mins y {timeLeft.secs.toString().padStart(2, '0')} secs
+      </div>
+    </div>
+  );
+};
 
 const FadeInOnScroll = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => { 
   const [ref, inView] = useInView({
@@ -29,23 +104,24 @@ const FadeInOnScroll = ({ children, delay = 0 }: { children: React.ReactNode; de
   );
 };
 
-const BrandingPage = () => {
+const RedesSocialesPage = () => {
   return (
     <div className="min-h-screen bg-white text-gray-900  relative overflow-x-hidden mt-[15vh]">
+      <BackgroundShapes />
 
       {/* --- HERO SECTION --- */}
       <section className="relative pt-28 pb-40 px-4 md:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
 
         <FadeInOnScroll>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl leading-tight">
-            Demuestra tu calidad <br className="hidden md:block" />
-            con una marca que <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">impacte</span>.
+            Potencia tu presencia <br className="hidden md:block" />
+            con una estrategia en <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">redes sociales</span> que genere impacto.
           </h1>
         </FadeInOnScroll>
         
         <FadeInOnScroll delay={0.2}>
           <p className="text-[#666] max-w-2xl mb-12 text-lg md:text-xl leading-relaxed">
-            Transformamos marcas en experiencias memorables. No solo creamos logos, construimos identidades que cuentan historias y generan conexiones duraderas.
+            Gestionamos tus redes sociales con estrategias personalizadas que aumentan tu alcance, engagement y conversiones. No solo publicamos contenido, creamos conexiones significativas con tu audiencia.
           </p>
         </FadeInOnScroll>
 
@@ -92,32 +168,32 @@ const BrandingPage = () => {
                 <span>Nuestro Enfoque</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mb-4">
-                No solo diseño,<br />
-                <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">solución estratégica</span>
+                No solo publicaciones,<br />
+                <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">resultados reales</span>
               </h2>
 
               <p className="text-gray-600 text-lg mb-10 leading-relaxed">
-                <span className="font-semibold text-[#1a1a1a]">Antes de crear el logo</span>, trabajaremos contigo para ayudarte a 
-                mejorar tu conexión con tus clientes potenciales, tu visión, tu cultura 
-                empresarial y sobre todo, la <span className="font-semibold text-[#1a1a1a]">estrategia de tu marca</span>.
+                <span className="font-semibold text-[#1a1a1a]">Antes de publicar</span>, analizamos tu audiencia, competencia y 
+                objetivos para crear una estrategia personalizada que impulse tu presencia 
+                digital y genere <span className="font-semibold text-[#1a1a1a]">resultados medibles</span> para tu negocio.
               </p>
 
               <div className="">
                 {[
                   {
                     icon: <Star className="text-[#35F099]" size={20} />,
-                    title: "Mayor valor percibido",
-                    description: "Posiciona tu marca en un nivel superior y justifica precios premium"
+                    title: "Mayor visibilidad",
+                    description: "Aumenta tu alcance y presencia en redes sociales de manera orgánica"
                   },
                   {
                     icon: <BadgeCheck className="text-[#7741EA]" size={20} />,
-                    title: "Diferenciación real",
-                    description: "Destaca en un mercado saturado con una identidad única y memorable"
+                    title: "Engagement real",
+                    description: "Conexiones auténticas con tu audiencia que generan lealtad"
                   },
                   {
                     icon: <ArrowRight className="text-[#35F099]" size={20} />,
-                    title: "Crecimiento sostenible",
-                    description: "Hemos ayudado a negocios a incrementar sus ventas hasta en un 258%"
+                    title: "Conversiones reales",
+                    description: "Estrategias enfocadas en generar leads y ventas para tu negocio"
                   }
                 ].map((item, index) => (
                   <motion.div 
@@ -173,10 +249,10 @@ const BrandingPage = () => {
                     className="relative bg-white p-8 rounded-3xl shadow-xl border border-[#35F099] overflow-hidden"
                   >
                     <div className="relative z-10">
-                      <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4">Estrategia de Marca</h3>
-                      <p className="text-[#666] mb-6">Desarrollamos una identidad que comunica tu valor único y resuena con tu audiencia ideal.</p>
+                      <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4">Estrategia de Redes Sociales</h3>
+                      <p className="text-[#666] mb-6">Desarrollamos contenido que conecta con tu audiencia y cumple con tus objetivos de negocio.</p>
                       <ul className="space-y-3">
-                        {['Investigación de mercado', 'Estrategia de marca', 'Diseño de identidad', 'Guías de estilo'].map((item, i) => (
+                        {['Gestión de comunidades', 'Creación de contenido', 'Publicidad en redes', 'Análisis de métricas'].map((item, i) => (
                           <li key={i} className="flex items-center text-[#333]">
                             <Check className="w-5 h-5 text-[#35F099] mr-2" />
                             <span>{item}</span>
@@ -200,7 +276,7 @@ const BrandingPage = () => {
       {/* --- INCLUDED SECTION --- */}
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto text-center">
         <h2 className="text-3xl md:text-5xl font-extrabold text-[#1a1a1a] mb-16">
-          ¿Qué viene <span className="text-[#7741EA]">incluído</span>?
+          ¿Qué incluye nuestro <span className="text-[#7741EA]">servicio</span>?
         </h2>
         
         <div className="max-w-5xl mx-auto">
@@ -221,10 +297,10 @@ const BrandingPage = () => {
               Precios
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 bg-clip-text bg-[#7741EA] text-transparent">
-              Nuestros Planes de Branding
+              Gestión de Redes Sociales
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Soluciones personalizadas que elevan tu marca al siguiente nivel
+              Estrategias personalizadas que potencian tu presencia digital
             </p>
           </div>
           <PricingSection />
@@ -236,4 +312,4 @@ const BrandingPage = () => {
   );
 };
 
-export default BrandingPage;
+export default RedesSocialesPage;
