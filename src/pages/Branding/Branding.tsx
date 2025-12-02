@@ -227,9 +227,7 @@ const BrandingPage = () => {
               Soluciones personalizadas que elevan tu marca al siguiente nivel
             </p>
           </div>
-          <PricingSection />
-          
-         
+          <PricingSection serviceId="branding" />
         </div>
       </section>
     </div>

@@ -281,7 +281,7 @@ const RedesSocialesPage = () => {
         
         <div className="max-w-5xl mx-auto">
           <LottieAnimation 
-            path="/lottie/Caja de Branding.json"
+            path="/lottie/Caja de RRSS 2.json"
             className="w-full h-auto"
             loop={true}
             autoplay={true}
@@ -303,9 +303,7 @@ const RedesSocialesPage = () => {
               Estrategias personalizadas que potencian tu presencia digital
             </p>
           </div>
-          <PricingSection />
-          
-         
+          <PricingSection serviceId="redes" />
         </div>
       </section>
     </div>

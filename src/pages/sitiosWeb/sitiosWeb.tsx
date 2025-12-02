@@ -203,7 +203,7 @@ const SitiosWebPage = () => {
         
         <div className="max-w-5xl mx-auto">
           <LottieAnimation 
-            path="/lottie/Caja de Branding.json"
+            path="/lottie/Caja de Pagina Web 2.json"
             className="w-full h-auto"
             loop={true}
             autoplay={true}
@@ -219,15 +219,13 @@ const SitiosWebPage = () => {
               Precios
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 bg-clip-text bg-[#7741EA] text-transparent">
-              Nuestros Planes de Branding
+              Nuestros Planes de Sitios Web
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Soluciones personalizadas que elevan tu marca al siguiente nivel
+              Soluciones personalizadas para tu presencia en línea
             </p>
           </div>
-          <PricingSection />
-          
-         
+          <PricingSection serviceId="web" />
         </div>
       </section>
     </div>

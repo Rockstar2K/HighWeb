@@ -9,6 +9,7 @@ export interface Service {
   description: string;
   icon: string;
   buttonText: string;
+  link: string;
   pricing?: {
     basic?: {
       price: string;
@@ -32,6 +33,7 @@ export const services: Service[] = [
     description: 'Diseñamos contigo la marca de tus sueños basados en un proceso de estrategia único en Chile.',
     icon: branding,
     buttonText: 'Saber más',
+    link: '/branding',
     pricing: {
       basic: {
         price: '$1,299,000',
@@ -64,10 +66,11 @@ export const services: Service[] = [
   },
   {
     id: 'web',
-    title: 'Páginas Web',
-    description: 'Diseño y desarrollo de páginas web modernas y atractivas que se adaptan a todos los dispositivos.',
+    title: 'Sitios Web',
+    description: 'Creamos sitios web a medida que convierten visitantes en clientes con diseños únicos y funcionales.',
     icon: web,
-    buttonText: 'Saber más',
+    buttonText: 'Ver más',
+    link: '/sitios-web',
     pricing: {
       basic: {
         price: '$1,199,000',
@@ -101,9 +104,10 @@ export const services: Service[] = [
   {
     id: 'redes',
     title: 'Redes Sociales',
-    description: 'Diseño y desarrollo de páginas web modernas y atractivas que se adaptan a todos los dispositivos.',
+    description: 'Gestionamos tus redes sociales con contenido atractivo que genera engagement y fideliza a tu audiencia.',
     icon: redes,
-    buttonText: 'Saber más',
+    buttonText: 'Ver más',
+    link: '/redes-sociales',
     pricing: {
       basic: {
         price: '$499,000/mes',
@@ -137,9 +141,10 @@ export const services: Service[] = [
   {
     id: 'animaciones',
     title: 'Animaciones',
-    description: 'Animaciones para tus proyectos web y redes sociales.',
+    description: 'Dale vida a tu marca con animaciones personalizadas que cuenten tu historia de manera única.',
     icon: animaciones,
-    buttonText: 'Saber más',
+    buttonText: 'Ver más',
+    link: '/animaciones',
     pricing: {
       basic: {
         price: '$299,000',

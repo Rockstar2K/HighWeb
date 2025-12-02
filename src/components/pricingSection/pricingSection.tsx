@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '../ui/button';
-import { services } from '@/data/services';
+import { services, Service } from '@/data/services';
 import { ContactModal } from '../contactModal/ContactModal';
 
-const PricingSection = () => {
+interface PricingSectionProps {
+  serviceId: string;
+}
+
+const PricingSection: React.FC<PricingSectionProps> = ({ serviceId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('');
   
-  // Get the branding service
-  const brandingService = services.find(service => service.id === 'branding');
+  // Get the specified service
+  const service = services.find(service => service.id === serviceId) as Service | undefined;
   
   const handleContactClick = (plan: string) => {
     setSelectedPlan(plan);
@@ -21,11 +25,11 @@ const PricingSection = () => {
     setSelectedPlan('');
   };
   
-  if (!brandingService?.pricing) return null;
+  if (!service?.pricing) return null;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {Object.entries(brandingService.pricing).map(([plan, details], index) => {
+          {Object.entries(service.pricing).map(([plan, details], index) => {
             const isPopular = plan === 'standard';
             return (
               <div 
