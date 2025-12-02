@@ -15,8 +15,8 @@ import ServiciosPage from "./pages/Servicios/serviciosPage.tsx";
 import TrabajosPage from "./pages/Trabajos/trabajosPage.tsx";
 import ContactoPage from "./pages/Contacto/contactoPage.tsx";
 import BrandingPage from "./pages/Branding/Branding.tsx";
-import SitiosWebPage from "./pages/SitiosWeb/sitiosWeb.tsx";
-import RedesSocialesPage from "./pages/RedesSociales/redesSociales.tsx";
+import SitiosWebPage from "./pages/sitiosWeb/sitiosWeb.tsx";
+import RedesSocialesPage from "./pages/redesSociales/redesSociales.tsx";
 import AnimacionesPage from "./pages/animaciones/animacionesPage.tsx";
 
 function App() {
