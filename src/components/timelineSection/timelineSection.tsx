@@ -23,7 +23,7 @@ export function TimelineSection() {
           <li>Agenda la primera reunión.</li>
         </ol>
 
-        <div className="hidden md:flex justify-center mt-12 pointer-events-none">
+        <div className="hidden md:flex justify-center -mt-30 pointer-events-none">
           <LottieAnimation
             path={lottiePath("Proceso de compra.json")}
             className="w-full max-w-4xl lg:max-w-5xl"
