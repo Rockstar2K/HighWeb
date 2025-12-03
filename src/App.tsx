@@ -7,6 +7,7 @@ import NavBar from "./components/navBar/navBar";
 import ProcesoSection from "./components/procesoSection/procesoSection.tsx";
 import ProyectosSection from "./components/proyectosSection/proyectosSection.tsx";
 import { TimelineSection } from "./components/timelineSection/timelineSection.tsx";
+import { CookieBanner } from "./components/cookieBanner/cookieBanner.tsx";
 import { LottieAnimation } from "./components/ui/lottie-animation.tsx";
 import { lottiePath } from "./lib/lottiePaths.ts";
 
@@ -70,6 +71,7 @@ function App() {
       } />
     </Routes>
   </div>
+  <CookieBanner />
 </Router>
     </>
   );

@@ -162,13 +162,13 @@ const NavBar = () => {
                 </div>
               </div>
 
-              <div className="col-span-2 relative z-10 flex items-center justify-end gap-4 pr-6">
+              <div className="col-span-2 relative z-10 flex items-center justify-end gap-4 pr-3 sm:pr-4 md:mr-10 lg:pr-6">
                 <Link
                   to="/contacto"
-                  className="flex-1 min-w-[180px] text-center text-base font-semibold text-black py-5 group relative"
+                  className="flex-1 min-w-[180px] text-center text-base font-semibold text-black py-5 group relative translate-x-[-8px]"
                   style={{ color: '#000' }}
                 >
-                  <span className="relative group-hover:text-[#7741EA] inline-flex flex-col items-center">
+                  <span className="relative group-hover:text-[#7741EA] inline-flex flex-col items-center md:mr-10">
                     Contáctanos
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#7741EA] transition-all duration-300 group-hover:w-full"></span>
                   </span>
@@ -178,7 +178,7 @@ const NavBar = () => {
                   href="https://wa.me/56985967414"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black/10 shadow-sm bg-white hover:shadow-md transition-all duration-300 hover:bg-green-50"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full  hover:shadow-md transition-all duration-300 hover:bg-green-50 translate-x-[-4px]"
                   style={{ color: '#35F099' }}
                   aria-label="Enviar mensaje por WhatsApp"
                 >
