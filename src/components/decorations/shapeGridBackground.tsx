@@ -114,7 +114,7 @@ export function ShapeGridBackground({
   return (
     <div
       {...rest}
-      className={`absolute inset-0 w-full h-full overflow-visible pointer-events-none z-0 grid ${className}`}
+      className={`absolute inset-0 w-full h-full overflow-visible pointer-events-none z-0 hidden lg:grid ${className}`}
       style={combinedStyle}
     >
       {Array.from({ length: rows * columns }).map((_, index) => {

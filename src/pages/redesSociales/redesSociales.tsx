@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import PricingSection from '@/components/pricingSection/pricingSection';
 import { Button } from '@/components/ui/button';
 import { ShapeGridBackground } from "@/components/decorations/shapeGridBackground";
+import CTASection from '@/components/ctaSection/ctaSection';
 
 // --- Types ---
 
@@ -108,14 +109,14 @@ const RedesSocialesPage = () => {
         <div className="relative z-10 px-4 md:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
         <FadeInOnScroll>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl leading-tight">
-            Potencia tu presencia <br className="hidden md:block" />
-            con una estrategia en <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">redes sociales</span> que genere impacto.
+            Llenemos tus <br className="hidden md:block" />
+            <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">redes sociales</span> de clientes.
           </h1>
         </FadeInOnScroll>
         
         <FadeInOnScroll delay={0.2}>
           <p className="text-[#666] max-w-2xl mb-12 text-lg md:text-xl leading-relaxed">
-            Gestionamos tus redes sociales con estrategias personalizadas que aumentan tu alcance, engagement y conversiones. No solo publicamos contenido, creamos conexiones significativas con tu audiencia.
+            Gestionamos tus redes sociales con estrategias personalizadas que aumentan tu alcance, engagement y conversiones. No solo publicamos contenido, creamos comunidades enamoradas de tu marca.
           </p>
         </FadeInOnScroll>
 
@@ -301,6 +302,7 @@ const RedesSocialesPage = () => {
           <PricingSection serviceId="redes" />
         </div>
       </section>
+      <CTASection />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import PricingSection from '@/components/pricingSection/pricingSection';
 import { Button } from '@/components/ui/button';
 import { ShapeGridBackground } from "@/components/decorations/shapeGridBackground";
+import CTASection from '@/components/ctaSection/ctaSection';
 
 
 
@@ -71,14 +72,14 @@ const SitiosWebPage = () => {
         <div className="relative z-10 px-4 md:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
         <FadeInOnScroll>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl leading-tight">
-            Lleva tu negocio al <br className="hidden md:block" />
-            siguiente nivel con una web que <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">convierte</span>.
+            Creamos páginas web que<br className="hidden md:block" />
+            <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent"> venden</span>. Y ya está.
           </h1>
         </FadeInOnScroll>
         
         <FadeInOnScroll delay={0.2}>
           <p className="text-[#666] max-w-2xl mb-12 text-lg md:text-xl leading-relaxed">
-            Creamos sitios web profesionales, rápidos y optimizados que destacan tu negocio en línea. No solo diseñamos páginas, construimos experiencias digitales que convierten visitantes en clientes.
+            Creamos sitios web profesionales, rápidos y optimizados que se vuelven máquinas de ventas. No solo diseñamos páginas, construimos experiencias digitales que convierten visitantes en clientes.
           </p>
         </FadeInOnScroll>
 
@@ -264,6 +265,8 @@ const SitiosWebPage = () => {
           <PricingSection serviceId="web" />
         </div>
       </section>
+      
+      <CTASection />
     </div>
   );
 };

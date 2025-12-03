@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import PricingSection from '@/components/pricingSection/pricingSection';
 import { Button } from '@/components/ui/button';
 import { ShapeGridBackground } from "@/components/decorations/shapeGridBackground";
+import CTASection from '@/components/ctaSection/ctaSection';
 
 
 
@@ -262,7 +263,7 @@ const AnimacionesPage = () => {
         </div>
       </section>
 
-      
+      <CTASection />
     </div>
   );
 };

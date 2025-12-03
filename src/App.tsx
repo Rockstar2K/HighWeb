@@ -19,6 +19,7 @@ import BrandingPage from "./pages/Branding/Branding.tsx";
 import SitiosWebPage from "./pages/sitiosWeb/sitiosWeb.tsx";
 import RedesSocialesPage from "./pages/redesSociales/redesSociales.tsx";
 import AnimacionesPage from "./pages/animaciones/animacionesPage.tsx";
+import Footer from "./components/footer/footer.tsx";
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
       } />
     </Routes>
   </div>
+  <Footer />
   <CookieBanner />
 </Router>
     </>
