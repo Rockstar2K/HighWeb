@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowDown, Check, Star, BadgeCheck, ArrowRight, ChevronRight } from 'lucide-react';
 import { SocialSection } from '@/components/socialSection/socialSection';
 import { LottieAnimation } from '@/components/ui/lottie-animation';
@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import PricingSection from '@/components/pricingSection/pricingSection';
 import { Button } from '@/components/ui/button';
+import { ShapeGridBackground } from "@/components/decorations/shapeGridBackground";
 
 // --- Types ---
 
@@ -21,46 +22,6 @@ const CHART_DATA = [
 
 
 // --- Components ---
-
-const BackgroundShapes = () => {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-white" />
-      
-      {/* Animated shapes */}
-      <motion.div 
-        animate={{
-          y: [0, -20, 0],
-          rotate: [0, 5, 0]
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#35F099] rounded-[100px] opacity-5"
-      />
-      
-      <motion.div 
-        animate={{
-          y: [0, 30, 0],
-          x: [0, 10, 0]
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1
-        }}
-        className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-[#7741EA] rounded-full opacity-5"
-      />
-      
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgPGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiMwMDAwMDAiLz4KICA8L2c+Cjwvc3ZnPg==')]" />
-    </div>
-  );
-};
 
 const CountdownTimer = () => {
   const [timeLeft, setTimeLeft] = useState({ mins: 56, secs: 30 });
@@ -105,13 +66,46 @@ const FadeInOnScroll = ({ children, delay = 0 }: { children: React.ReactNode; de
 };
 
 const RedesSocialesPage = () => {
+  const heroRef = useRef<HTMLElement | null>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    let frame: number | null = null;
+
+    const updateProgress = () => {
+      if (!heroRef.current) return;
+      const rect = heroRef.current.getBoundingClientRect();
+      const sectionHeight = rect.height || 1;
+      const offset = Math.min(Math.max(-rect.top, 0), sectionHeight);
+      setScrollProgress(offset / sectionHeight);
+    };
+
+    const handleScroll = () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(updateProgress);
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-white text-gray-900  relative overflow-x-hidden mt-[15vh]">
-      <BackgroundShapes />
 
       {/* --- HERO SECTION --- */}
-      <section className="relative pt-28 pb-40 px-4 md:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
+      <section ref={heroRef} className="relative w-screen pt-28 pb-40 overflow-hidden">
+        <ShapeGridBackground
+          scrollProgress={scrollProgress}
+          style={{ aspectRatio: "9/6" }}
+          className="opacity-80 left-1/2 -translate-x-1/2 w-[140vw] max-w-none"
+        />
+        <div className="absolute inset-0 bg-white/5 pointer-events-none z-0" />
 
+        <div className="relative z-10 px-4 md:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
         <FadeInOnScroll>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl leading-tight">
             Potencia tu presencia <br className="hidden md:block" />
@@ -156,6 +150,7 @@ const RedesSocialesPage = () => {
             <ArrowDown size={20} className="animate-pulse" />
           </div>
         </FadeInOnScroll>
+        </div>
       </section>
 
       {/* --- RESULTS SECTION --- */}
