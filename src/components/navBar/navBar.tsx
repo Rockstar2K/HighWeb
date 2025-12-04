@@ -12,6 +12,7 @@ type NavLink = {
 };
 
 const NAV_LINKS: NavLink[] = [
+  { label: 'Servicios', to: '/servicios' },
   { label: 'Precios', to: '/precios' },
   { label: 'Trabajo Destacado', to: '/trabajos' },
 ];
