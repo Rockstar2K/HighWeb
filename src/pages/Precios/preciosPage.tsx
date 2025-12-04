@@ -146,7 +146,7 @@ const TabContent: React.FC<TabContentProps> = ({ title, description, plans, lott
   );
 };
 
-const ServiciosPage = () => {
+const PreciosPage = () => {
   const [activeTab, setActiveTab] = useState('branding');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState({ title: '', plan: '' });
@@ -444,4 +444,4 @@ const ServiciosPage = () => {
   );
 };
 
-export default ServiciosPage;
+export default PreciosPage;

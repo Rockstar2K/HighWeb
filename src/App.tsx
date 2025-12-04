@@ -12,7 +12,7 @@ import { LottieAnimation } from "./components/ui/lottie-animation.tsx";
 import { lottiePath } from "./lib/lottiePaths.ts";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ServiciosPage from "./pages/Servicios/serviciosPage.tsx";
+import PreciosPage from "./pages/Precios/preciosPage.tsx";
 import TrabajosPage from "./pages/Trabajos/trabajosPage.tsx";
 import ContactoPage from "./pages/Contacto/contactoPage.tsx";
 import BrandingPage from "./pages/Branding/Branding.tsx";
@@ -28,7 +28,7 @@ function App() {
   <div className="flex flex-col items-stretch justify-center min-h-screen w-full gap-[15vh]">
     <NavBar />
     <Routes>
-      <Route path="/servicios" element={<ServiciosPage />} />
+      <Route path="/precios" element={<PreciosPage />} />
       <Route path="/trabajos" element={<TrabajosPage />} />
       <Route path="/contacto" element={<ContactoPage />} />
       <Route path="/branding" element={<BrandingPage />} />

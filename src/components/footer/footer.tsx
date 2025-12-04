@@ -1,16 +1,18 @@
 import React from "react";
-import { Instagram, Facebook, Linkedin, Behance } from "lucide-react";
+import { Instagram, Facebook, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBehance } from "@fortawesome/free-brands-svg-icons";
 
 const socials = [
   { icon: <Instagram className="h-5 w-5" />, href: "https://www.instagram.com" },
   { icon: <Facebook className="h-5 w-5" />, href: "https://www.facebook.com" },
   { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com" },
-  { icon: <Behance className="h-5 w-5" />, href: "https://www.behance.net" },
+  { icon: <FontAwesomeIcon icon={faBehance} className="h-5 w-5" />, href: "https://www.behance.net" },
 ];
 
 const links = [
-  { label: "Servicios", to: "/servicios" },
+  { label: "Precios", to: "/precios" },
   { label: "Trabajos", to: "/trabajos" },
   { label: "Contacto", to: "/contacto" },
 ];
@@ -22,7 +24,6 @@ export default function Footer() {
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
             <img src="/logo.svg" alt="High Web" className="h-8 w-auto" />
-            <span className="text-sm font-semibold text-gray-800">High Web</span>
           </div>
           <p className="text-xs text-gray-500">Creamos marcas, sitios y experiencias digitales.</p>
         </div>
