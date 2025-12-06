@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowDown, ArrowRight, Check, Palette, Globe, Share2, Play, Layers, Zap, Monitor, Smartphone } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowDown, ArrowRight, Check, Palette, Globe, Share2, Play, Layers, Zap, Monitor, Smartphone, Music, Heart } from 'lucide-react';
+import { motion, animate } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 import { ShapeGridBackground } from "@/components/decorations/shapeGridBackground";
@@ -98,6 +98,129 @@ const ServiceSection = ({
   );
 };
 
+
+
+const SocialMediaIllustration = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div 
+      className="relative w-full h-full min-h-[450px] bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-2xl p-8 flex items-center justify-center group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/10 to-purple-600/30 opacity-100 transition-all duration-500 group-hover:from-pink-500/20 group-hover:to-purple-600/40" />
+
+      {/* Phone */}
+      <div className="relative z-10 w-64 h-[400px] bg-white rounded-[2.5rem] border-8 border-gray-900 shadow-2xl overflow-hidden transform transition-all duration-500 group-hover:rotate-[-2deg]">
+        {/* Notch */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-900 rounded-b-xl z-20" />
+        
+        {/* Screen Content */}
+        <div className="w-full h-full bg-gray-50 pt-12 relative overflow-hidden">
+          {/* Scrolling Container */}
+          <div className="flex flex-col">
+            {[0, 1].map((i) => (
+              <div 
+                key={i} 
+                className="flex flex-col gap-4 p-4 animate-marquee-vertical [animation-play-state:paused] group-hover:[animation-play-state:running]"
+                style={{ "--duration": "15s", "--gap": "1rem" } as React.CSSProperties}
+              >
+                {/* Post 1 */}
+                <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-pink-500" />
+                    <div className="h-2 w-20 bg-gray-100 rounded-full" />
+                  </div>
+                  <div className="w-full aspect-square bg-gray-100 rounded-lg mb-2 overflow-hidden relative">
+                      <div className="absolute inset-0 bg-gradient-to-br from-pink-100 to-purple-100" />
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="w-5 h-5 rounded-full bg-pink-50" />
+                    <div className="w-5 h-5 rounded-full bg-gray-50" />
+                    <div className="w-5 h-5 rounded-full bg-gray-50" />
+                  </div>
+                </div>
+
+                {/* Post 2 */}
+                <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-blue-500" />
+                    <div className="h-2 w-24 bg-gray-100 rounded-full" />
+                  </div>
+                  <div className="w-full h-24 bg-gray-100 rounded-lg mb-2 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-cyan-100" />
+                  </div>
+                  <div className="space-y-1">
+                      <div className="h-2 w-full bg-gray-50 rounded-full" />
+                      <div className="h-2 w-2/3 bg-gray-50 rounded-full" />
+                  </div>
+                </div>
+
+                {/* Post 3 */}
+                <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+                    <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-green-500" />
+                    <div className="h-2 w-16 bg-gray-100 rounded-full" />
+                  </div>
+                  <div className="w-full aspect-video bg-gray-100 rounded-lg relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-bl from-green-100 to-emerald-100" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Gradient Overlays for smooth fade */}
+          <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-gray-50 to-transparent z-10" />
+        </div>
+      </div>
+
+      {/* Floating Notifications */}
+      <div className="absolute top-1/4 right-10 bg-white p-3 rounded-2xl shadow-lg border border-pink-100 flex items-center gap-3 transform transition-all duration-500 group-hover:translate-x-2 group-hover:-translate-y-4 z-20">
+          <div className="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-white">
+            <Share2 size={16} />
+          </div>
+          <div className="space-y-1">
+            <div className="h-1.5 w-16 bg-gray-200 rounded-full" />
+            <div className="h-1.5 w-10 bg-gray-100 rounded-full" />
+          </div>
+      </div>
+      
+      <div className="absolute bottom-1/3 left-8 bg-white p-3 rounded-2xl shadow-lg border border-pink-100 transform transition-all duration-500 group-hover:-translate-x-2 group-hover:scale-110 z-20 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
+            <Heart size={20} className="text-red-500 fill-red-500" />
+          </div>
+          <div className="flex flex-col pr-2">
+            <Counter from={4.2} to={8.5} isHovered={isHovered} />
+            <span className="text-[10px] text-gray-500 font-medium uppercase tracking-wide">Likes</span>
+          </div>
+      </div>
+    </div>
+  );
+};
+
+const Counter = ({ from, to, isHovered }: { from: number, to: number, isHovered: boolean }) => {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const node = nodeRef.current;
+    if (!node) return;
+
+    const controls = animate(from, isHovered ? to : from, {
+      duration: 1.5,
+      ease: "easeOut",
+      onUpdate(value) {
+        node.textContent = value.toFixed(1) + 'k';
+      }
+    });
+
+    return () => controls.stop();
+  }, [from, to, isHovered]);
+
+  return <span ref={nodeRef} className="text-sm font-bold text-gray-800">{from.toFixed(1)}k</span>;
+};
+
 const ServiciosPage = () => {
   const heroRef = useRef<HTMLElement | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -142,7 +265,7 @@ const ServiciosPage = () => {
           <FadeInOnScroll>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-5xl leading-tight">
               Todo lo que necesitas para <br className="hidden md:block" />
-              <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">dominar tu mercado</span>.
+              <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">dominar tu mercado</span>
             </h1>
           </FadeInOnScroll>
           
@@ -179,120 +302,51 @@ const ServiciosPage = () => {
         {/* --- BRANDING --- */}
         <ServiceSection 
           title="Branding"
-          subtitle="Identidad que deja huella."
+          subtitle="Identidad que deja huella"
           description="No diseñamos solo 'logos bonitos'. Construimos sistemas de identidad visual estratégicos que comunican la esencia de tu negocio, diferencian tu oferta y aumentan el valor percibido de tu marca."
           features={['Estrategia de Marca', 'Diseño de Logotipo', 'Manual de Identidad', 'Papelería Corporativa']}
           link="/branding"
           icon={Palette}
           color="bg-[#7741EA]!"
           align="left"
-          imageContainerClassName="h-auto min-h-[400px]"
-          imageContent={
-            <div className="relative w-full h-auto min-h-[400px] bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-2xl p-8 flex items-center justify-center group">
-              {/* Background - always visible but stronger on hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#7741EA]/10 to-[#7741EA]/30 opacity-100 transition-all duration-500 group-hover:from-[#7741EA]/20 group-hover:to-[#7741EA]/40" />
-              
-              {/* Decorative circles */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#7741EA]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#35F099]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
-              <div className="relative z-10 w-full max-w-sm">
-                {/* Main Card */}
-                <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 relative z-20 transform transition-all duration-500 group-hover:scale-105 group-hover:-translate-y-2">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-[#7741EA] flex items-center justify-center text-white">
-                      <Palette size={24} />
-                    </div>
-                    <div className="h-2 w-24 bg-gray-100 rounded-full" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="h-2 w-full bg-gray-50 rounded-full" />
-                    <div className="h-2 w-5/6 bg-gray-50 rounded-full" />
-                    <div className="h-2 w-4/6 bg-gray-50 rounded-full" />
-                  </div>
-                  {/* Color Swatches */}
-                  <div className="flex gap-2 mt-6">
-                    <div className="w-8 h-8 rounded-full bg-[#7741EA] transform transition-transform duration-300 group-hover:scale-110" />
-                    <div className="w-8 h-8 rounded-full bg-[#35F099] transform transition-transform duration-300 delay-75 group-hover:scale-110" />
-                    <div className="w-8 h-8 rounded-full bg-black transform transition-transform duration-300 delay-150 group-hover:scale-110" />
-                  </div>
-                </div>
-
-                {/* Floating Elements */}
-                <div className="absolute -top-6 -right-6 bg-white p-3 rounded-xl shadow-lg border border-gray-100 transform transition-all duration-700 group-hover:translate-x-2 group-hover:-translate-y-2 z-30">
-                  <span className="text-2xl font-serif font-bold text-[#1a1a1a]">Aa</span>
-                </div>
-                
-                <div className="absolute -bottom-4 -left-4 bg-black text-white px-4 py-2 rounded-lg shadow-lg transform transition-all duration-700 group-hover:-translate-x-2 group-hover:translate-y-2 z-30">
-                  <span className="font-bold text-xs tracking-widest">LOGO</span>
-                </div>
-                
-                {/* Pen Tool */}
-                 <div className="absolute top-1/2 -right-12 bg-white p-2 rounded-full shadow-md border border-gray-100 transform transition-all duration-500 group-hover:rotate-12 group-hover:translate-x-[-10px] z-10">
-                  <Layers size={20} className="text-gray-400" />
-                </div>
-              </div>
-            </div>
-          }
-        />
-
-        {/* --- SITIOS WEB --- */}
-        <ServiceSection 
-          title="Sitios Web"
-          subtitle="Tu mejor vendedor, 24/7."
-          description="Diseñamos experiencias digitales que convierten visitantes en clientes. Sitios web ultrarrápidos, optimizados para SEO y con un diseño que refleja la calidad premium de tu negocio."
-          features={['Diseño UI/UX', 'Desarrollo a Medida', 'E-commerce', 'Optimización SEO']}
-          link="/sitios-web"
-          icon={Globe}
-          color="bg-blue-500"
-          align="right"
           imageContent={
             <div className="relative w-full h-full min-h-[450px] bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-2xl p-8 flex items-center justify-center group">
-              <div className="absolute inset-0 bg-gradient-to-bl from-blue-500/10 to-blue-600/30 opacity-100 transition-all duration-500 group-hover:from-blue-500/20 group-hover:to-blue-600/40" />
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-100" />
               
-              {/* Browser Window */}
-              <div className="relative z-10 w-full max-w-md bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden transform transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-blue-500/20">
-                {/* Header */}
-                <div className="bg-gray-50 px-4 py-3 border-b border-gray-100 flex items-center gap-2">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-400" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                    <div className="w-3 h-3 rounded-full bg-green-400" />
+              {/* Branding Visual */}
+              <div className="relative z-10 grid grid-cols-2 gap-6 w-full max-w-sm">
+                
+                {/* Palette Card */}
+                <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 transform transition-all duration-500 group-hover:-rotate-3 group-hover:-translate-y-2">
+                  <div className="flex gap-2 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-[#7741EA]" />
+                    <div className="w-8 h-8 rounded-full bg-[#35F099]" />
+                    <div className="w-8 h-8 rounded-full bg-gray-900" />
                   </div>
-                  <div className="ml-4 flex-1 h-6 bg-white rounded-md border border-gray-200 shadow-sm" />
-                </div>
-                {/* Body */}
-                <div className="p-6 grid grid-cols-12 gap-4">
-                  {/* Sidebar */}
-                  <div className="col-span-3 space-y-2">
+                  <div className="space-y-2">
                     <div className="h-2 w-full bg-gray-100 rounded-full" />
-                    <div className="h-2 w-2/3 bg-gray-100 rounded-full" />
-                    <div className="h-2 w-3/4 bg-gray-100 rounded-full" />
-                  </div>
-                  {/* Main */}
-                  <div className="col-span-9 space-y-4">
-                    <div className="h-32 bg-blue-50 rounded-lg border border-blue-100 relative overflow-hidden group-hover:bg-blue-100 transition-colors">
-                       <div className="absolute top-4 left-4 w-12 h-12 bg-white rounded-full shadow-sm" />
-                       <div className="absolute bottom-4 right-4 px-3 py-1 bg-blue-500 text-white text-xs rounded-full">Button</div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="h-20 bg-gray-50 rounded-lg" />
-                      <div className="h-20 bg-gray-50 rounded-lg" />
-                    </div>
+                    <div className="h-2 w-2/3 bg-gray-50 rounded-full" />
                   </div>
                 </div>
+
+                {/* Logo Grid Card */}
+                <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 transform transition-all duration-500 group-hover:rotate-3 group-hover:translate-x-2 mt-8">
+                  <div className="grid grid-cols-2 gap-2 mb-2">
+                     <div className="w-full aspect-square border-2 border-dashed border-gray-200 rounded-lg flex items-center justify-center">
+                        <div className="w-4 h-4 bg-gray-900 rounded-sm transform rotate-45" />
+                     </div>
+                     <div className="w-full aspect-square bg-gray-50 rounded-lg" />
+                  </div>
+                  <div className="h-2 w-12 bg-gray-200 rounded-full mx-auto" />
+                </div>
+
+              </div>
+              
+              {/* Floating Element */}
+              <div className="absolute bottom-1/4 right-1/4 bg-white p-3 rounded-full shadow-xl border border-gray-100 transform transition-all duration-700 group-hover:scale-110 z-20">
+                 <Palette size={24} className="text-[#7741EA]" />
               </div>
 
-              {/* Floating Code Snippet */}
-              <div className="absolute bottom-10 right-10 bg-[#1e1e1e] p-4 rounded-lg shadow-xl transform transition-all duration-700 group-hover:translate-y-[-20px] group-hover:rotate-[-3deg] z-20">
-                <div className="space-y-1.5">
-                  <div className="flex gap-2"><span className="w-2 h-2 rounded-full bg-red-500" /><span className="text-[10px] text-blue-300">const</span> <span className="text-[10px] text-yellow-300">App</span> = () ={'>'} {'{'}</div>
-                  <div className="pl-4 text-[10px] text-green-300">return (</div>
-                  <div className="pl-8 text-[10px] text-white">{'<Hero />'}</div>
-                  <div className="pl-4 text-[10px] text-green-300">)</div>
-                  <div className="text-[10px] text-white">{'}'}</div>
-                </div>
-              </div>
             </div>
           }
         />
@@ -300,74 +354,20 @@ const ServiciosPage = () => {
         {/* --- REDES SOCIALES --- */}
         <ServiceSection 
           title="Redes Sociales"
-          subtitle="Domina la conversación."
+          subtitle="Domina la conversación"
           description="Deja de publicar por publicar. Creamos estrategias de contenido visualmente impactantes que detienen el scroll, generan comunidad y fidelizan a tu audiencia."
           features={['Gestión de Redes', 'Creación de Contenido', 'Diseño de Feed', 'Copywriting Estratégico']}
           link="/redes-sociales"
           icon={Share2}
           color="bg-pink-500"
           align="left"
-          imageContent={
-            <div className="relative w-full h-full min-h-[450px] bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-2xl p-8 flex items-center justify-center group">
-              <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/10 to-purple-600/30 opacity-100 transition-all duration-500 group-hover:from-pink-500/20 group-hover:to-purple-600/40" />
-
-              {/* Phone */}
-              <div className="relative z-10 w-64 h-[400px] bg-white rounded-[2.5rem] border-8 border-gray-900 shadow-2xl overflow-hidden transform transition-all duration-500 group-hover:rotate-[-2deg]">
-                {/* Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-900 rounded-b-xl z-20" />
-                
-                {/* Screen Content */}
-                <div className="w-full h-full bg-gray-50 pt-12 px-4 pb-4 flex flex-col gap-4">
-                  {/* Post */}
-                  <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
-                     <div className="flex items-center gap-2 mb-2">
-                       <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-pink-500" />
-                       <div className="h-2 w-20 bg-gray-100 rounded-full" />
-                     </div>
-                     <div className="w-full aspect-square bg-gray-100 rounded-lg mb-2 overflow-hidden relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-pink-100 to-purple-100 group-hover:scale-110 transition-transform duration-700" />
-                     </div>
-                     <div className="flex gap-2">
-                       <div className="w-5 h-5 rounded-full bg-pink-50" />
-                       <div className="w-5 h-5 rounded-full bg-gray-50" />
-                       <div className="w-5 h-5 rounded-full bg-gray-50" />
-                     </div>
-                  </div>
-                   {/* Post 2 */}
-                  <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 opacity-50">
-                     <div className="flex items-center gap-2 mb-2">
-                       <div className="w-8 h-8 rounded-full bg-gray-200" />
-                       <div className="h-2 w-20 bg-gray-100 rounded-full" />
-                     </div>
-                     <div className="w-full h-20 bg-gray-100 rounded-lg" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating Notifications */}
-              <div className="absolute top-1/4 right-10 bg-white p-3 rounded-2xl shadow-lg border border-pink-100 flex items-center gap-3 transform transition-all duration-500 group-hover:translate-x-2 group-hover:-translate-y-4 z-20">
-                 <div className="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-white">
-                   <Share2 size={16} />
-                 </div>
-                 <div className="space-y-1">
-                   <div className="h-1.5 w-16 bg-gray-200 rounded-full" />
-                   <div className="h-1.5 w-10 bg-gray-100 rounded-full" />
-                 </div>
-              </div>
-              
-              <div className="absolute bottom-1/3 left-8 bg-white p-2 rounded-full shadow-lg border border-pink-100 transform transition-all duration-500 group-hover:-translate-x-2 group-hover:scale-110 z-20">
-                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-white">
-                   <span className="font-bold text-xs">99+</span>
-                 </div>
-              </div>
-            </div>
-          }
+          imageContent={<SocialMediaIllustration />}
         />
 
         {/* --- ANIMACIONES --- */}
         <ServiceSection 
           title="Animaciones"
-          subtitle="Movimiento que hipnotiza."
+          subtitle="Movimiento que hipnotiza"
           description="El ojo humano se siente atraído por el movimiento. Utilizamos Motion Graphics y animación 3D para explicar conceptos complejos, contar historias y elevar la percepción de calidad de tu marca."
           features={['Motion Graphics', 'Videos Explicativos', 'Animación de Logo', 'Contenido 3D']}
           link="/animaciones"
@@ -396,18 +396,14 @@ const ServiciosPage = () => {
                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20" />
                    <Play size={64} className="text-white fill-white opacity-90 transform group-hover:scale-125 transition-transform duration-500" />
                    
-                   {/* Particles */}
-                   <div className="absolute top-4 right-4 w-4 h-4 bg-[#F0B708] rounded-full animate-pulse" />
-                   <div className="absolute bottom-8 left-8 w-6 h-6 bg-white/30 rounded-full" />
+
                 </div>
 
                 {/* Floating Elements */}
                 <div className="absolute -top-8 -right-8 bg-white p-3 rounded-xl shadow-lg transform transition-all duration-500 group-hover:translate-y-4 group-hover:-translate-x-4 z-0">
-                   <Layers size={24} className="text-[#F18807]" />
+                   <Music size={24} className="text-[#F18807]" />
                 </div>
-                <div className="absolute -bottom-4 -left-8 bg-white p-3 rounded-xl shadow-lg transform transition-all duration-500 group-hover:-translate-y-4 group-hover:translate-x-4 z-20">
-                   <Zap size={24} className="text-[#F0B708]" />
-                </div>
+
               </div>
             </div>
           }
