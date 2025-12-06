@@ -12,7 +12,7 @@ const socials = [
 ];
 
 const links = [
-  { label: "Precios", to: "/precios" },
+  { label: "Servicios", to: "/servicios" },
   { label: "Trabajos", to: "/trabajos" },
   { label: "Contacto", to: "/contacto" },
 ];

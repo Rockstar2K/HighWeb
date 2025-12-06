@@ -4,7 +4,7 @@ import { SocialSection } from '@/components/socialSection/socialSection';
 import { LottieAnimation } from '@/components/ui/lottie-animation';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import PricingSection from '@/components/pricingSection/pricingSection';
+
 import { Button } from '@/components/ui/button';
 import { ShapeGridBackground } from "@/components/decorations/shapeGridBackground";
 import CTASection from '@/components/ctaSection/ctaSection';
@@ -250,18 +250,7 @@ const AnimacionesPage = () => {
         </div>
       </section>
 
-      {/* --- PRICING SECTION --- */}
-      <section className="py-20 px-4 md:px-8 ">
-        <div className="max-w-7xl mx-auto">
-          <FadeInOnScroll>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Precios para Animaciones</h2>
-            <p className="text-[#666] text-center max-w-3xl mx-auto mb-12">
-              Ofrecemos planes flexibles para adaptarnos a tus necesidades de animación. Elige el que mejor se ajuste a tus objetivos.
-            </p>
-          </FadeInOnScroll>
-          <PricingSection serviceId="animaciones" />
-        </div>
-      </section>
+
 
       <CTASection />
     </div>
