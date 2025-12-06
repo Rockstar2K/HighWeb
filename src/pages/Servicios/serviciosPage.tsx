@@ -38,7 +38,8 @@ const ServiceSection = ({
   color, 
   align = 'left',
   imageContent,
-  imageContainerClassName
+  imageContainerClassName,
+  hoverColor
 }: { 
   title: string, 
   subtitle: string, 
@@ -49,7 +50,8 @@ const ServiceSection = ({
   color: string, 
   align?: 'left' | 'right',
   imageContent: React.ReactNode,
-  imageContainerClassName?: string
+  imageContainerClassName?: string,
+  hoverColor: string
 }) => {
   return (
     <section className="py-32 px-4 md:px-8 max-w-7xl mx-auto relative z-10">
@@ -83,8 +85,8 @@ const ServiceSection = ({
             </div>
 
             <Link to={link}>
-              <button className={`group flex items-center gap-3 font-bold text-lg ${color.replace('bg-', 'text-')} hover:opacity-70 transition-all duration-300`}>
-                <span className="border-b-2 border-current pb-0.5">Explorar servicio</span>
+              <button className={`group flex items-center gap-3 font-bold text-lg ${color.replace('bg-', 'text-').replace('!', '')} hover:!text-white transition-all duration-300 !bg-white ${hoverColor} px-4 py-2 rounded-lg shadow-sm border-2 border-current border-solid`}>
+                <span>Explorar servicio</span>
                 <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform duration-300" />
               </button>
             </Link>
@@ -195,6 +197,7 @@ const ServiciosPage = () => {
           color="bg-[#7741EA]!"
           align="left"
           imageContent={<BrandingIllustration />}
+          hoverColor="hover:!bg-[#7741EA]"
         />
 
 
@@ -209,6 +212,7 @@ const ServiciosPage = () => {
           color="bg-blue-500"
           align="right"
           imageContent={<WebDevIllustration />}
+          hoverColor="hover:!bg-blue-500"
         />
 
         {/* --- REDES SOCIALES --- */}
@@ -222,6 +226,7 @@ const ServiciosPage = () => {
           color="bg-pink-500"
           align="left"
           imageContent={<SocialMediaIllustration />}
+          hoverColor="hover:!bg-pink-500"
         />
 
         {/* --- ANIMACIONES --- */}
@@ -235,6 +240,7 @@ const ServiciosPage = () => {
           color="bg-high-orange"
           align="right"
           imageContent={<AnimationsIllustration />}
+          hoverColor="hover:!bg-high-orange"
         />
 
       </div>
