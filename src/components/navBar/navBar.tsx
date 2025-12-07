@@ -122,7 +122,7 @@ const NavBar = () => {
                   <img
                     src={highLogo}
                     alt="High Design"
-                    className="h-[80px] w-auto object-contain mx-20"
+                    className="h-[80px] w-auto object-contain ml-20"
                   />
                 </div>
               </Link>

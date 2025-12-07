@@ -8,6 +8,12 @@ import { ShapeGridBackground } from "@/components/decorations/shapeGridBackgroun
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const services = [
+    { label: "Creación de marcas", to: "/branding" },
+    { label: "Sitios Web", to: "/sitios-web" },
+    { label: "Redes sociales", to: "/redes-sociales" },
+    { label: "Animación", to: "/animaciones" },
+  ];
 
   useEffect(() => {
     let frame: number | null = null;
@@ -63,7 +69,17 @@ export function HeroSection() {
             <p 
               className="mx-auto max-w-[700px] text-gray-500 md:text-xl"
             >
-              Creación de marcas - Sitios Web - Redes sociales - Animación
+              {services.map((service, index) => (
+                <span key={service.to}>
+                  {index > 0 && " - "}
+                  <Link
+                    to={service.to}
+                    className="no-underline !text-gray-500 visited:!text-gray-500 transition-colors hover:!text-[#35F099]"
+                  >
+                    {service.label}
+                  </Link>
+                </span>
+              ))}
             </p>
           </div>
           <div 
