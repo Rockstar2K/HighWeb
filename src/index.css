@@ -201,6 +201,13 @@ button:focus-visible {
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  
+  /* Custom Brand Colors */
+  --color-high-orange: #F18807;
+  --color-high-yellow: #F0B708;
+  --color-high-purple: #7741EA;
+  --color-high-green: #35F099;
+  
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

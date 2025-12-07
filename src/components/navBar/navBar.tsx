@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import highLogo from '/logo.svg';
+import highLogo from '/highDesignLogo.svg';
 import { Link } from 'react-router-dom';
 
 type NavLink = {

@@ -1,445 +1,251 @@
-'use client';
+import React, { useState, useEffect, useRef } from 'react';
+import { ArrowDown, ArrowRight, Check, Palette, Globe, Share2, Play, Layers, Zap, Monitor, Smartphone, Music, Heart } from 'lucide-react';
+import { motion, animate } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { Link } from 'react-router-dom';
+import { ShapeGridBackground } from "@/components/decorations/shapeGridBackground";
+import CTASection from '@/components/ctaSection/ctaSection';
+import { SocialMediaIllustration } from './illustrations/SocialMediaIllustration';
+import { BrandingIllustration } from './illustrations/BrandingIllustration';
+import { AnimationsIllustration } from './illustrations/AnimationsIllustration';
+import { WebDevIllustration } from './illustrations/WebDevIllustration';
 
-import React, { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { ContactModal } from '@/components/contactModal/ContactModal';
-import { LottieAnimation } from '@/components/ui/lottie-animation';
-import { lottiePath } from '@/lib/lottiePaths';
-import { AnimatePresence, motion } from 'motion/react';
-import { ShapeGridBackground } from '@/components/decorations/shapeGridBackground';
+const FadeInOnScroll = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => { 
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
 
-interface Plan {
-  type: 'Pymes' | 'Startups' | 'Empresas';
-  price: string;
-  description: string;
-  features: string[];
-  popular?: boolean;
-}
-
-interface TabItem {
-  id: string;
-  label: string;
-  title: string;
-  description: string;
-  buttonText: string;
-  lottie: string;
-  lottieCropBottom?: number;
-  plans: Plan[];
-}
-
-interface PlanCardProps {
-  plan: Plan;
-  isPopular?: boolean;
-  onSelectPlan: (service: string, plan: string) => void;
-}
-
-const PlanCard: React.FC<PlanCardProps> = ({ plan, isPopular = false, onSelectPlan }) => {
   return (
-    <div 
-      className={`relative flex flex-col p-6 rounded-2xl h-full transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
-        isPopular 
-          ? 'bg-[#F9F5FF] border-2 border-[#7741EA] hover:shadow-[#7741EA]/20' 
-          : 'bg-white border border-gray-200 hover:border-[#7741EA]/30 hover:shadow-[#7741EA]/10'
-      }`}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.6, delay }}
     >
-      {isPopular && (
-        <div className="absolute top-0 right-4 -translate-y-1/2 bg-[#7741EA] text-white text-xs font-semibold px-3 py-1 rounded-full">
-          Más popular
-        </div>
-      )}
-      <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.type}</h3>
-      <div className="mb-4">
-        <span className="text-3xl font-bold text-[#7741EA]">{plan.price}</span>
-        <span className="text-gray-500 text-sm">/USD</span>
-      </div>
-      <p className="text-gray-600 text-sm mb-6 min-h-[40px]">{plan.description}</p>
-      <ul className="space-y-3 mb-6 flex-grow">
-        {plan.features.map((feature, idx) => (
-          <li key={idx} className="flex items-start">
-            <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            <span className="text-gray-700 text-sm">{feature}</span>
-          </li>
-        ))}
-      </ul>
-      <Button 
-        variant="purple" 
-        onClick={() => onSelectPlan(plan.type, plan.type)}
-        className={`w-full mt-auto transition-all duration-200 ease-in-out ${
-          isPopular 
-            ? 'bg-[#7741EA] hover:bg-[#6a3ac8] text-white hover:shadow-md hover:shadow-[#7741EA]/30' 
-            : 'bg-white text-[#7741EA] border border-[#7741EA] hover:bg-[#F9F5FF] hover:border-[#7741EA] hover:text-[#6a3ac8]'
-        }`}
-      >
-        Contratar {plan.type}
-      </Button>
-    </div>
+      {children}
+    </motion.div>
   );
 };
 
-interface TabContentProps extends Omit<TabItem, 'id' | 'label' | 'buttonText'> {
-  onSelectPlan: (service: string, plan: string) => void;
-}
-
-const TabContent: React.FC<TabContentProps> = ({ title, description, plans, lottie, lottieCropBottom, onSelectPlan }) => {
-  const [isLottieReady, setIsLottieReady] = useState(false);
-
-  useEffect(() => {
-    setIsLottieReady(false);
-    const timeout = setTimeout(() => setIsLottieReady(true), 300);
-    return () => clearTimeout(timeout);
-  }, [lottie]);
-
+const ServiceSection = ({ 
+  title, 
+  subtitle, 
+  description, 
+  features, 
+  link, 
+  icon: Icon, 
+  color, 
+  align = 'left',
+  imageContent,
+  imageContainerClassName,
+  hoverColor
+}: { 
+  title: string, 
+  subtitle: string, 
+  description: string, 
+  features: string[], 
+  link: string, 
+  icon: any, 
+  color: string, 
+  align?: 'left' | 'right',
+  imageContent: React.ReactNode,
+  imageContainerClassName?: string,
+  hoverColor: string
+}) => {
   return (
-    <div className="bg-white rounded-[32px] p-8 shadow-[0_30px_80px_rgba(15,23,42,0.12)] border border-gray-100 mx-auto w-full max-w-6xl">
-      <div className="text-center mb-12">
-        <p className="uppercase text-xs tracking-[0.35em] font-semibold text-[#7741EA] mb-4">Servicio activo</p>
-        <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-5">
-          {title}
-        </h2>
-        <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-          {description}
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {plans.map((plan, index) => (
-          <motion.div 
-            key={`${title}-${plan.type}`}
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: 0.1 + index * 0.08, type: 'spring', stiffness: 200, damping: 25 }}
-          >
-            <PlanCard 
-              plan={plan}
-              isPopular={index === 1}
-              onSelectPlan={(planType) => onSelectPlan(title, planType)}
-            />
-          </motion.div>
-        ))}
-      </div>
-
-      <motion.div
-        className="relative mt-14 hidden md:flex items-center justify-center w-full overflow-hidden rounded-[36px]"
-        animate={{ y: [0, -14, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-        style={lottieCropBottom ? { clipPath: `inset(0px 0px ${lottieCropBottom}px 0px)` } : undefined}
-      >
-        <div className="absolute inset-0" aria-hidden />
-        {isLottieReady ? (
-          <LottieAnimation 
-            path={lottie}
-            className="relative z-10 w-full max-w-[880px] h-[420px] sm:h-[480px]"
-            ariaLabel={`Animación destacada para ${title}`}
-          />
-        ) : (
-          <div className="relative z-10 w-full max-w-[880px] h-[420px] sm:h-[480px] rounded-[32px] bg-white border border-dashed border-gray-300 flex items-center justify-center">
-            <div className="flex flex-col items-center gap-3 text-gray-500">
-              <div className="h-12 w-12 border-4 border-[#7741EA]/30 border-t-[#7741EA] rounded-full animate-spin" />
-              <p className="text-sm font-medium">Cargando animación...</p>
+    <section className="py-32 px-4 md:px-8 max-w-7xl mx-auto relative z-10">
+      <div className={`grid grid-cols-1 lg:grid-cols-2 gap-20 items-center ${align === 'right' ? 'lg:grid-flow-dense' : ''}`}>
+        
+        {/* Text Content */}
+        <div className={`text-left ${align === 'right' ? 'lg:col-start-2' : ''}`}>
+          <FadeInOnScroll>
+            <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${color} text-white text-sm font-bold mb-8`}>
+              <Icon size={16} className="text-white" />
+              <span className="text-white">{title.toUpperCase()}</span>
             </div>
-          </div>
-        )}
-      </motion.div>
-    </div>
+            
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight text-[#1a1a1a] mb-6">
+              {subtitle}
+            </h2>
+
+            <p className="text-gray-600 text-lg md:text-xl mb-12 leading-relaxed">
+              {description}
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 mb-12">
+              {features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <div className={`w-6 h-6 rounded-full ${color} flex items-center justify-center flex-shrink-0`}>
+                    <Check size={12} className="text-white" strokeWidth={3} />
+                  </div>
+                  <span className="text-gray-800 font-semibold text-base">{feature}</span>
+                </div>
+              ))}
+            </div>
+
+            <Link to={link}>
+              <button className={`group flex items-center gap-3 font-bold text-lg ${color.replace('bg-', 'text-').replace('!', '')} hover:!text-white transition-all duration-300 !bg-white ${hoverColor} px-4 py-2 rounded-lg shadow-sm border-2 border-current border-solid`}>
+                <span>Explorar servicio</span>
+                <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform duration-300" />
+              </button>
+            </Link>
+          </FadeInOnScroll>
+        </div>
+
+        {/* Visual Content */}
+        <div className={`relative w-full ${imageContainerClassName || 'h-full min-h-[450px]'} ${align === 'right' ? 'lg:col-start-1' : ''}`}>
+          <FadeInOnScroll delay={0.2}>
+            {imageContent}
+          </FadeInOnScroll>
+        </div>
+      </div>
+    </section>
   );
 };
+
+
+
+
 
 const ServiciosPage = () => {
-  const [activeTab, setActiveTab] = useState('branding');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState({ title: '', plan: '' });
+  const heroRef = useRef<HTMLElement | null>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  const handlePlanSelect = (service: string, planType: string) => {
-    const serviceName = tabs.find(tab => tab.id === activeTab)?.label || service;
-    setSelectedPlan({
-      title: serviceName,
-      plan: planType
-    });
-    setIsModalOpen(true);
-  };
+  useEffect(() => {
+    let frame: number | null = null;
 
-  const tabs: TabItem[] = [
-    {
-      id: 'branding',
-      label: 'Branding',
-      title: 'Creación de Marca',
-      description: 'Diseño de identidad de marca profesional que comunique la esencia de tu negocio',
-      buttonText: 'Cotizar Ahora',
-      lottie: lottiePath('Caja de Branding.json'),
-      plans: [
-        {
-          type: 'Pymes',
-          price: '$1,200',
-          description: 'Ideal para emprendimientos que recién comienzan',
-          features: [
-            '1 Propuesta de identidad',
-            '2 Revisiones de diseño',
-            'Logo en formatos básicos',
-            'Paleta de colores',
-            'Manual de marca básico'
-          ]
-        },
-        {
-          type: 'Startups',
-          price: '$2,500',
-          description: 'Perfecto para empresas en crecimiento',
-          popular: true,
-          features: [
-            '3 Propuestas de identidad',
-            '4 Revisiones de diseño',
-            'Logo en múltiples formatos',
-            'Sistema de identidad visual',
-            'Manual de marca completo',
-            'Papelería básica'
-          ]
-        },
-        {
-          type: 'Empresas',
-          price: '$4,500',
-          description: 'Solución completa para marcas establecidas',
-          features: [
-            '5+ Propuestas de identidad',
-            'Revisiones ilimitadas',
-            'Sistema de identidad completo',
-            'Manual de marca extenso',
-            'Papelería corporativa',
-            'Brandbook digital',
-            'Soporte prioritario 24/7'
-          ]
-        }
-      ]
-    },
-    {
-      id: 'paginas-web',
-      label: 'Páginas Web',
-      title: 'Desarrollo Web Profesional',
-      description: 'Sitios web a medida, rápidos y optimizados para conversiones',
-      buttonText: 'Cotizar Ahora',
-      lottie: lottiePath('Caja de Pagina Web 2.json'),
-      lottieCropBottom: 50,
-      plans: [
-        {
-          type: 'Pymes',
-          price: '$1,500',
-          description: 'Sitio web básico para pequeñas empresas',
-          features: [
-            'Hasta 5 páginas',
-            'Diseño responsive',
-            'Formulario de contacto',
-            'Optimización básica SEO',
-            '1 mes de soporte'
-          ]
-        },
-        {
-          type: 'Startups',
-          price: '$3,500',
-          description: 'Solución completa para startups en crecimiento',
-          popular: true,
-          features: [
-            'Hasta 15 páginas',
-            'Diseño personalizado',
-            'Blog integrado',
-            'SEO avanzado',
-            '3 meses de soporte',
-            'Análisis de métricas'
-          ]
-        },
-        {
-          type: 'Empresas',
-          price: '$7,000+',
-          description: 'Solución empresarial a medida',
-          features: [
-            'Páginas ilimitadas',
-            'Diseño personalizado premium',
-            'Sistema de gestión de contenido',
-            'E-commerce básico',
-            'SEO avanzado',
-            '6 meses de soporte',
-            'Entrenamiento personalizado'
-          ]
-        }
-      ]
-    },
-    {
-      id: 'redes-sociales',
-      label: 'Redes Sociales',
-      title: 'Gestión de Redes Sociales',
-      description: 'Estrategias de contenido que generan engagement y crecimiento orgánico',
-      buttonText: 'Cotizar Ahora',
-      lottie: lottiePath('Caja de RRSS 2.json'),
-      plans: [
-        {
-          type: 'Pymes',
-          price: '$1000/mes',
-          description: 'Gestión básica de redes sociales',
-          features: [
-            '2 publicaciones por semana',
-            '1 red social a elección',
-            'Diseño de gráficos básicos',
-            'Informe mensual',
-            'Respuesta a mensajes'
-          ]
-        },
-        {
-          type: 'Startups',
-          price: '$1,500/mes',
-          description: 'Estrategia completa para crecimiento',
-          popular: true,
-          features: [
-            '4 publicaciones por semana',
-            'Hasta 3 redes sociales',
-            'Diseño de gráficos personalizados',
-            'Informe detallado semanal',
-            'Gestión de comunidad',
-            '1 campaña mensual'
-          ]
-        },
-        {
-          type: 'Empresas',
-          price: '$2,500+/mes',
-          description: 'Solución empresarial integral',
-          features: [
-            'Publicaciones diarias',
-            'Hasta 5 redes sociales',
-            'Contenido multimedia premium',
-            'Análisis de competencia',
-            'Estrategia de influencers',
-            '2+ campañas mensuales',
-            'Soporte prioritario 24/7'
-          ]
-        }
-      ]
-    },
-    {
-      id: 'animaciones',
-      label: 'Animaciones',
-      title: 'Animaciones Creativas',
-      description: 'Contenido animado que cuenta la historia de tu marca',
-      buttonText: 'Cotizar Ahora',
-      lottie: lottiePath('Caja de Animaciones.json'),
-      plans: [
-        {
-          type: 'Pymes',
-          price: '$1500',
-          description: 'Animaciones simples para redes sociales',
-          features: [
-            'Hasta 15 segundos',
-            '1 concepto',
-            '1 revisión',
-            'Formato para redes sociales',
-            'Música de stock'
-          ]
-        },
-        {
-          type: 'Startups',
-          price: '$2,000',
-          description: 'Animaciones profesionales para marketing',
-          popular: true,
-          features: [
-            'Hasta 60 segundos',
-            '2 conceptos',
-            '2 revisiones',
-            'Múltiples formatos',
-            'Música personalizada',
-            'Voces en off opcionales'
-          ]
-        },
-        {
-          type: 'Empresas',
-          price: '$4,500+',
-          description: 'Producción audiovisual completa',
-          features: [
-            'Duración personalizada',
-            'Conceptos ilimitados',
-            'Revisiones ilimitadas',
-            'Todos los formatos',
-            'Banda sonora personalizada',
-            'Voces en off profesionales',
-            'Sesión fotográfica opcional'
-          ]
-        }
-      ]
-    },
-  ];
+    const updateProgress = () => {
+      if (!heroRef.current) return;
+      const rect = heroRef.current.getBoundingClientRect();
+      const sectionHeight = rect.height || 1;
+      const offset = Math.min(Math.max(-rect.top, 0), sectionHeight);
+      setScrollProgress(offset / sectionHeight);
+    };
 
-// ... (rest of the code remains the same)
+    const handleScroll = () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(updateProgress);
+    };
 
-  const activeTabData = tabs.find(tab => tab.id === activeTab);
-
-  if (!activeTabData) return null;
+    updateProgress();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
 
   return (
-    <div className="relative z-0 min-h-screen w-full overflow-hidden">
-      <ShapeGridBackground 
-        className="opacity-70 scale-100"
-        style={{ top: -25, height: '100vh' }}
-      />
-      <div className="absolute inset-0 bg-white/50 pointer-events-none z-0" aria-hidden />
-      <div className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
-        <ContactModal 
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          title={`Solicitar ${selectedPlan.title} - ${selectedPlan.plan}`}
+    <div className="min-h-screen bg-white text-gray-900 relative overflow-x-hidden mt-[15vh]">
+
+      {/* --- HERO SECTION --- */}
+      <section ref={heroRef} className="relative w-screen pt-28 pb-40 overflow-hidden">
+        <ShapeGridBackground
+          scrollProgress={scrollProgress}
+          style={{ aspectRatio: "9/6" }}
+          className="opacity-80 left-1/2 -translate-x-1/2 w-[140vw] max-w-none"
         />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-[15vh]">
-          <div className="flex flex-col items-center mb-12">
-            <h1 className="text-4xl font-bold z-0 text-center mb-6">¿Cuánto vale todo esto?</h1>
-          </div>
+        <div className="absolute inset-0 bg-white/5 pointer-events-none z-0" />
 
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {tabs.map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <motion.button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveTab(tab.id)}
-                  className="relative px-6 py-3 rounded-full font-semibold overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7741EA]"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  {isActive ? (
-                    <motion.span 
-                      layoutId="active-tab-pill"
-                      className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7741EA] via-[#a855f7] to-[#ec4899] shadow-[0_20px_45px_rgba(119,65,234,0.35)]"
-                      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-                    />
-                  ) : (
-                    <span className="absolute inset-0 rounded-full bg-white/80 border border-gray-200" aria-hidden />
-                  )}
-                  <span className={`relative z-10 ${isActive ? 'text-white' : 'text-gray-700'}`}>
-                    {tab.label}
-                  </span>
-                </motion.button>
-              );
-            })}
-          </div>
+        <div className="relative z-10 px-4 md:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
+          <FadeInOnScroll>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-5xl leading-tight">
+              Todo lo que necesitas para <br className="hidden md:block" />
+              <span className="bg-gradient-to-r from-[#35F099] to-[#7741EA] bg-clip-text text-transparent">dominar tu mercado</span>
+            </h1>
+          </FadeInOnScroll>
+          
+          <FadeInOnScroll delay={0.2}>
+            <p className="text-[#666] max-w-2xl mb-12 text-lg md:text-xl leading-relaxed">
+              Un ecosistema completo de servicios de diseño de alto impacto. Desde la identidad de tu marca hasta su expresión digital, creamos soluciones que venden.
+            </p>
+          </FadeInOnScroll>
 
-          <div className="mt-8">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 60, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -60, scale: 0.97 }}
-                transition={{ duration: 0.6, ease: 'easeInOut' }}
+          <FadeInOnScroll delay={0.4}>
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-32">
+              <button 
+                onClick={() => {
+                  const element = document.getElementById('servicios-list');
+                  element?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="group relative overflow-hidden bg-[#7741EA]! hover:bg-[#35F099]! text-white font-semibold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border-0"
               >
-                <TabContent 
-                  {...activeTabData} 
-                  onSelectPlan={handlePlanSelect}
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
+                <span className="relative z-10">Explorar Servicios</span>
+              </button>
+            </div>
+          </FadeInOnScroll>
+
+          <FadeInOnScroll delay={0.6}>
+            <div className="w-14 h-14 border border-[#e0e0e0] rounded-full flex items-center justify-center animate-bounce cursor-pointer text-[#999] hover:text-[#35F099] transition-colors bg-white/80 backdrop-blur-sm hover:shadow-md">
+              <ArrowDown size={20} className="animate-pulse" />
+            </div>
+          </FadeInOnScroll>
         </div>
-        <ContactModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          title={`Contratar Plan ${selectedPlan.plan} - ${selectedPlan.title}`}
+      </section>
+
+      <div id="servicios-list" className="flex flex-col gap-0">
+        
+        {/* --- BRANDING --- */}
+        <ServiceSection 
+          title="Branding"
+          subtitle="Identidad que deja huella"
+          description="No diseñamos solo 'logos bonitos'. Construimos sistemas de identidad visual estratégicos que comunican la esencia de tu negocio, diferencian tu oferta y aumentan el valor percibido de tu marca."
+          features={['Estrategia de Marca', 'Diseño de Logotipo', 'Manual de Identidad', 'Papelería Corporativa']}
+          link="/branding"
+          icon={Palette}
+          color="bg-[#7741EA]!"
+          align="left"
+          imageContent={<BrandingIllustration />}
+          hoverColor="hover:!bg-[#7741EA]"
         />
+
+
+        {/* --- SITIOS WEB --- */}
+        <ServiceSection 
+          title="Sitios Web"
+          subtitle="Tu mejor vendedor, 24/7"
+          description="Diseñamos experiencias digitales que convierten visitantes en clientes. Sitios web ultrarrápidos, optimizados para SEO y con un diseño que refleja la calidad premium de tu negocio."
+          features={['Diseño UI/UX', 'Desarrollo a Medida', 'E-commerce', 'Optimización SEO']}
+          link="/sitios-web"
+          icon={Globe}
+          color="bg-blue-500"
+          align="right"
+          imageContent={<WebDevIllustration />}
+          hoverColor="hover:!bg-blue-500"
+        />
+
+        {/* --- REDES SOCIALES --- */}
+        <ServiceSection 
+          title="Redes Sociales"
+          subtitle="Domina la conversación"
+          description="Deja de publicar por publicar. Creamos estrategias de contenido visualmente impactantes que detienen el scroll, generan comunidad y fidelizan a tu audiencia."
+          features={['Gestión de Redes', 'Creación de Contenido', 'Diseño de Feed', 'Copywriting Estratégico']}
+          link="/redes-sociales"
+          icon={Share2}
+          color="bg-pink-500"
+          align="left"
+          imageContent={<SocialMediaIllustration />}
+          hoverColor="hover:!bg-pink-500"
+        />
+
+        {/* --- ANIMACIONES --- */}
+        <ServiceSection 
+          title="Animaciones"
+          subtitle="Movimiento que hipnotiza"
+          description="El ojo humano se siente atraído por el movimiento. Utilizamos Motion Graphics y animación 3D para explicar conceptos complejos, contar historias y elevar la percepción de calidad de tu marca."
+          features={['Motion Graphics', 'Videos Explicativos', 'Animación de Logo', 'Contenido 3D']}
+          link="/animaciones"
+          icon={Play}
+          color="bg-high-orange"
+          align="right"
+          imageContent={<AnimationsIllustration />}
+          hoverColor="hover:!bg-high-orange"
+        />
+
       </div>
+
+      <CTASection />
     </div>
   );
 };

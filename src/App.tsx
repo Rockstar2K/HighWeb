@@ -12,13 +12,13 @@ import { LottieAnimation } from "./components/ui/lottie-animation.tsx";
 import { lottiePath } from "./lib/lottiePaths.ts";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ServiciosPage from "./pages/Servicios/serviciosPage.tsx";
 import TrabajosPage from "./pages/Trabajos/trabajosPage.tsx";
 import ContactoPage from "./pages/Contacto/contactoPage.tsx";
 import BrandingPage from "./pages/Branding/Branding.tsx";
 import SitiosWebPage from "./pages/sitiosWeb/sitiosWeb.tsx";
 import RedesSocialesPage from "./pages/redesSociales/redesSociales.tsx";
 import AnimacionesPage from "./pages/animaciones/animacionesPage.tsx";
+import ServiciosPage from "./pages/Servicios/serviciosPage.tsx";
 import Footer from "./components/footer/footer.tsx";
 
 function App() {
@@ -28,13 +28,14 @@ function App() {
   <div className="flex flex-col items-stretch justify-center min-h-screen w-full gap-[15vh]">
     <NavBar />
     <Routes>
-      <Route path="/servicios" element={<ServiciosPage />} />
       <Route path="/trabajos" element={<TrabajosPage />} />
       <Route path="/contacto" element={<ContactoPage />} />
       <Route path="/branding" element={<BrandingPage />} />
       <Route path="/sitios-web" element={<SitiosWebPage />} />
       <Route path="/redes-sociales" element={<RedesSocialesPage />} />
+
       <Route path="/animaciones" element={<AnimacionesPage />} />
+      <Route path="/servicios" element={<ServiciosPage />} />
       <Route path="/" element={
         <>
           <HeroSection />

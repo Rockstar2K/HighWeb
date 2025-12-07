@@ -122,8 +122,7 @@ const CTASection = () => {
                 </div>
               )}
               <Button 
-                className="w-full" 
-                style={{ backgroundColor: '#35F099' }} 
+                className="w-full bg-[#5E48F2]! text-white font-bold hover:bg-gradient-to-r hover:from-[#5E48F2] hover:to-[#35F099] transition-all duration-300" 
                 type="submit"
                 disabled={isSubmitting}
               >

@@ -14,6 +14,7 @@ interface TabItem {
   label: string;
   title: string;
   buttonText: string;
+  path: string;
   items: Array<{
     lottie?: string;
     icon?: TabIcon;
@@ -23,7 +24,7 @@ interface TabItem {
   }>;
 }
 
-const TabContent = ({ title, items, buttonText }: { title: string; items: TabItem['items']; buttonText: string }) => (
+const TabContent = ({ title, items, buttonText, path }: { title: string; items: TabItem['items']; buttonText: string; path: string }) => (
   <div className="bg-white rounded-3xl p-4 sm:p-6 md:p-8 shadow-md w-full max-w-5xl mx-auto">
     <h2 className="text-gray-500 text-base sm:text-lg font-semibold text-center mb-6 sm:mb-8">
       {title}
@@ -55,8 +56,8 @@ const TabContent = ({ title, items, buttonText }: { title: string; items: TabIte
       ))}
     </div>
     <div className="flex justify-center">
-      <Link to="/servicios">
-        <Button variant="white" className="text-sm sm:text-base font-semibold px-6 sm:px-8 py-2 sm:py-3 rounded-xl shadow-md">
+      <Link to={path}>
+        <Button variant="white" className="text-sm sm:text-base font-semibold px-6 sm:px-8 py-2 sm:py-3 rounded-3xl! shadow-md">
           {buttonText}
         </Button>
       </Link>
@@ -72,7 +73,8 @@ const ProcesoSection = () => {
       id: 'branding',
       label: 'Branding',
       title: 'Lo que recibirás',
-      buttonText: 'Cotizar',
+      buttonText: 'Saber más',
+      path: '/branding',
       items: [
         { lottie: lottiePath('3 direcciones de marca.json'), alt: 'Direcciones de marca', text: '3 Direcciones de marca' },
         { lottie: lottiePath('CreacionDeLogo.json'), alt: 'Opciones de logo', text: '3 Opciones de logotipo', size: 'large' },
@@ -83,7 +85,8 @@ const ProcesoSection = () => {
       id: 'paginas-web',
       label: 'Páginas Web',
       title: 'Lo que recibirás',
-      buttonText: 'Cotizar',
+      buttonText: 'Saber más',
+      path: '/sitios-web',
       items: [
         { lottie: lottiePath('Investigacion de Usuario.json'), alt: 'Investigación de usuario', text: 'Investigación de usuario y funnel de ventas' },
         { lottie: lottiePath('UX.json'), alt: 'Diseño UX', text: 'Diseño de interfaz y experiencia de usuario', size: 'large' },
@@ -94,7 +97,8 @@ const ProcesoSection = () => {
       id: 'redes-sociales',
       label: 'Redes Sociales',
       title: 'Lo que recibirás',
-      buttonText: 'Cotizar',
+      buttonText: 'Saber más',
+      path: '/redes-sociales',
       items: [
         { lottie: lottiePath('Target.json'), alt: 'Estrategia de contenidos', text: 'Diseño de estrategia de contenidos', size: 'large' },
         { lottie: lottiePath('Creacion de Comunidad.json'), alt: 'Comunidad', text: 'Creación de contenido y comunidad', size: 'large' },
@@ -105,7 +109,8 @@ const ProcesoSection = () => {
       id: 'animaciones',
       label: 'Animaciones',
       title: 'Lo que recibirás',
-      buttonText: 'Cotizar',
+      buttonText: 'Saber más',
+      path: '/animaciones',
       items: [
         { icon: Clapperboard, alt: 'Estrategia', text: 'Diseño de estrategia y guionización', size: 'large' },
         { icon: PenSquare, alt: 'Animación personalizada', text: 'Animación personalizada' },
@@ -149,6 +154,7 @@ const ProcesoSection = () => {
             title={activeTabData.title}
             items={activeTabData.items}
             buttonText={activeTabData.buttonText}
+            path={activeTabData.path}
           />
         )}
       </div>

@@ -4,7 +4,7 @@ import { SocialSection } from '@/components/socialSection/socialSection';
 import { LottieAnimation } from '@/components/ui/lottie-animation';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import PricingSection from '@/components/pricingSection/pricingSection';
+
 import { Button } from '@/components/ui/button';
 import { ShapeGridBackground } from "@/components/decorations/shapeGridBackground";
 import CTASection from '@/components/ctaSection/ctaSection';
@@ -250,23 +250,7 @@ const BrandingPage = () => {
         </div>
       </section>
 
-      {/* --- PRICING SECTION --- */}
-      <section className="py-20 ">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#7741EA] bg-[#F0EBFF] rounded-full mb-4">
-              Precios
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 bg-clip-text bg-[#7741EA] text-transparent">
-              Nuestros Planes de Branding
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Soluciones personalizadas que elevan tu marca al siguiente nivel
-            </p>
-        </div>
-        <PricingSection serviceId="branding" />
-      </div>
-    </section>
+
 
     <CTASection />
     </div>
