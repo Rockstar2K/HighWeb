@@ -1,12 +1,14 @@
 import React from "react";
-import { Instagram, Facebook, Linkedin, Behance } from "lucide-react";
+import { Instagram, Facebook, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBehance } from "@fortawesome/free-brands-svg-icons";
 
 const socials = [
-  { icon: <Instagram className="h-5 w-5" />, href: "https://www.instagram.com" },
-  { icon: <Facebook className="h-5 w-5" />, href: "https://www.facebook.com" },
-  { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com" },
-  { icon: <Behance className="h-5 w-5" />, href: "https://www.behance.net" },
+  { icon: <Instagram className="h-5 w-5" />, href: "https://www.instagram.com/highdesign.cl/" },
+  { icon: <Facebook className="h-5 w-5" />, href: "https://www.facebook.com/HighDesignAgency" },
+  { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com/company/high-design-cl/" },
+  { icon: <FontAwesomeIcon icon={faBehance} className="h-5 w-5" />, href: "https://www.behance.net/natnortega" },
 ];
 
 const links = [
