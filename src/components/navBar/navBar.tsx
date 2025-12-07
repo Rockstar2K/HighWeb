@@ -11,6 +11,13 @@ type NavLink = {
   disabled?: boolean;
 };
 
+type NavShape = {
+  id: string;
+  column: string;
+  borderRadius: string;
+  justify: "start" | "center" | "end";
+};
+
 const NAV_LINKS: NavLink[] = [
   { label: 'Servicios', to: '/servicios' },
   { label: 'Trabajo Destacado', to: '/trabajos' },
@@ -25,9 +32,9 @@ const MID_LINK_ALIGNMENT = ['text-center', 'text-center', 'text-center'] as cons
 
 const SHAPE_SIZE = 150;
 
-const NAV_SHAPES = [
-  { id: 'servicios-shape', column: '4 / span 2', borderRadius: '0 65px 0 65px', justify: 'center' as const },
-  { id: 'whatsapp-shape', column: '8 / span 1', borderRadius: '65px 0 65px 0', justify: 'center' as const },
+const NAV_SHAPES: NavShape[] = [
+  { id: 'servicios-shape', column: '4 / span 1', borderRadius: '0 65px 0 65px', justify: 'center' },
+  { id: 'whatsapp-shape', column: '8 / span 1', borderRadius: '65px 0 65px 0', justify: 'center' },
 ];
 
 const NavBar = () => {
@@ -84,26 +91,32 @@ const NavBar = () => {
                 className="absolute inset-0 hidden lg:grid pointer-events-none z-0"
                 style={{ ...GRID_TEMPLATE }}
               >
-                {NAV_SHAPES.map((shape) => (
-                  <div
-                    key={shape.id}
-                    className={`relative flex items-center ${
-                      shape.justify === 'end' ? 'justify-end' : 'justify-start'
-                    }`}
-                    style={{ gridColumn: shape.column }}
-                  >
+                {NAV_SHAPES.map((shape) => {
+                  const justifyClass =
+                    shape.justify === 'end'
+                      ? 'justify-end'
+                      : shape.justify === 'center'
+                        ? 'justify-center'
+                        : 'justify-start';
+
+                  return (
                     <div
-                      className="h-full w-full max-w-[180px] max-h-[150px] aspect-square"
-                      style={{
-                        width: `${SHAPE_SIZE}px`,
-                        borderRadius: shape.borderRadius,
-                        boxShadow: '0 45px 60px rgba(15, 23, 42, 0.12)',
-                        background:
-                          'linear-gradient(145deg, rgba(255,255,255,0.95), rgba(240,240,240,0.9))',
-                      }}
-                    />
-                  </div>
-                ))}
+                      key={shape.id}
+                      className={`relative flex items-center ${justifyClass}`}
+                      style={{ gridColumn: shape.column }}
+                    >
+                      <div
+                        className="h-full w-full"
+                        style={{
+                          borderRadius: shape.borderRadius,
+                          boxShadow: '0 45px 60px rgba(15, 23, 42, 0.12)',
+                          background:
+                            'linear-gradient(145deg, rgba(255,255,255,0.95), rgba(240,240,240,0.9))',
+                        }}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             )}
 
@@ -164,11 +177,13 @@ const NavBar = () => {
                 href="https://wa.me/56985967414"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="col-start-8 inline-flex h-12 w-12 items-center justify-center rounded-full hover:shadow-md transition-all duration-300 hover:bg-green-50"
+                className="col-start-8 flex items-center justify-center h-full"
                 style={{ color: '#35F099' }}
                 aria-label="Enviar mensaje por WhatsApp"
               >
-                <FontAwesomeIcon icon={faWhatsapp} className="text-2xl" />
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full hover:shadow-md transition-all duration-300 hover:bg-green-50 ">
+                  <FontAwesomeIcon icon={faWhatsapp} className="text-2xl" />
+                </span>
               </a>
             </div>
           </div>

@@ -66,6 +66,7 @@ const AnimacionesPage = () => {
       <section ref={heroRef} className="relative w-screen pt-28 pb-40 overflow-hidden">
         <ShapeGridBackground
           scrollProgress={scrollProgress}
+          hiddenPositions={[6,15,21,22,23,24,30,31,32,33]}
           style={{ aspectRatio: "9/6" }}
           className="opacity-80 left-1/2 -translate-x-1/2 w-[140vw] max-w-none"
         />

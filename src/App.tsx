@@ -48,8 +48,8 @@ function App() {
                 path={lottiePath('Linea1.json')}
                 className="w-32 h-32 sm:w-64 sm:h-64"
                 loop={false}
-                autoplay={true}
-                startOnView
+                autoplay={false}
+                scrollSync
 
               />
             </div>
@@ -61,7 +61,8 @@ function App() {
                 path={lottiePath('Linea2.json')}
                 className="w-28 h-28 sm:w-150 sm:h-150"
                 loop={false}
-                startOnView
+                autoplay={false}
+                scrollSync
               />
             </div>
           </div>

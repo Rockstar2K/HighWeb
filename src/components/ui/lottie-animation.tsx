@@ -10,6 +10,7 @@ interface LottieAnimationProps {
   speed?: number;
   ariaLabel?: string;
   startOnView?: boolean;
+  scrollSync?: boolean;
 }
 
 /**
@@ -24,15 +25,16 @@ export function LottieAnimation({
   speed = 1,
   ariaLabel,
   startOnView = false,
+  scrollSync = false,
 }: LottieAnimationProps) {
   const [animationData, setAnimationData] = useState<object | null>(null);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [hasStarted, setHasStarted] = useState(() => !startOnView);
+  const [hasStarted, setHasStarted] = useState(() => scrollSync || !startOnView);
 
   useEffect(() => {
-    setHasStarted(!startOnView);
-  }, [startOnView]);
+    setHasStarted(scrollSync || !startOnView);
+  }, [scrollSync, startOnView]);
 
   useEffect(() => {
     let isMounted = true;
@@ -65,7 +67,7 @@ export function LottieAnimation({
   }, [animationData, speed]);
 
   useEffect(() => {
-    if (!startOnView) {
+    if (scrollSync || !startOnView) {
       return;
     }
 
@@ -91,9 +93,12 @@ export function LottieAnimation({
     return () => {
       observer.disconnect();
     };
-  }, [startOnView]);
+  }, [startOnView, scrollSync]);
 
   useEffect(() => {
+    if (scrollSync) {
+      return;
+    }
     if (!startOnView || !hasStarted || !lottieRef.current) {
       return;
     }
@@ -105,14 +110,54 @@ export function LottieAnimation({
     return () => {
       clearTimeout(timeout);
     };
-  }, [startOnView, hasStarted]);
+  }, [startOnView, hasStarted, scrollSync]);
+
+  useEffect(() => {
+    if (!scrollSync || !animationData || !lottieRef.current) {
+      return;
+    }
+
+    const lottie = lottieRef.current;
+    const totalFrames = lottie.getDuration(true);
+    if (!totalFrames || totalFrames <= 0) return;
+
+    let rafId: number | null = null;
+
+    const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
+    const updateFrame = () => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+
+      const viewport = window.innerHeight || 1;
+      const rawProgress = 1 - (rect.top + rect.height) / (viewport + rect.height);
+      const progress = clamp(rawProgress, 0, 1);
+
+      lottie.goToAndStop(progress * totalFrames, true);
+    };
+
+    const handleScroll = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(updateFrame);
+    };
+
+    updateFrame();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [scrollSync, animationData]);
 
   const content = animationData ? (
     <Lottie
       lottieRef={lottieRef}
       animationData={animationData}
-      loop={loop}
-      autoplay={startOnView ? false : autoplay}
+      loop={scrollSync ? false : loop}
+      autoplay={scrollSync ? false : startOnView ? false : autoplay}
       className="w-full h-full"
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}

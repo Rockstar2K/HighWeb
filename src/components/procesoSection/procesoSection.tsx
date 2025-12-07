@@ -45,6 +45,8 @@ const TabContent = ({ title, items, buttonText, path }: { title: string; items: 
                   path={item.lottie}
                   className={item.size === 'large' ? 'w-40 h-40' : 'w-20 h-20'}
                   ariaLabel={item.alt}
+                  autoplay={false}
+                  scrollSync
                 />
               )
             )}
@@ -170,7 +172,8 @@ const ProcesoSection = () => {
           path={lottiePath('Linea3.json')} 
           className="w-80 h-50" 
           loop={false}
-          autoplay={true}
+          autoplay={false}
+          scrollSync
           />
         </div>
       </div>
