@@ -3,6 +3,8 @@ import { Instagram, Facebook, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBehance } from "@fortawesome/free-brands-svg-icons";
+import highLogo from '/highDesignLogo.svg';
+
 
 const socials = [
   { icon: <Instagram className="h-5 w-5" />, href: "https://www.instagram.com/highdesign.cl/" },
@@ -23,8 +25,7 @@ export default function Footer() {
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
-            <img src="/logo.svg" alt="High Web" className="h-8 w-auto" />
-            <span className="text-sm font-semibold text-gray-800">High Web</span>
+            <img src={highLogo} alt="High Web" className="h-8 w-auto" />
           </div>
           <p className="text-xs text-gray-500">Creamos marcas, sitios y experiencias digitales.</p>
         </div>

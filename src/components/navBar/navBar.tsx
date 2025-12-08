@@ -122,7 +122,7 @@ const NavBar = () => {
 
             <div
               className={`relative z-10 grid h-full grid-cols-9 items-center justify-items-center text-sm text-black transition-all duration-300 ${
-                isScrolled ? 'rounded-3xl bg-white/80 backdrop-blur-xl border border-white/70 shadow-xl px-4' : ''
+                isScrolled ? 'rounded-3xl bg-white/80 backdrop-blur-xl border border-white/70 shadow-sm px-4' : ''
               }`}
               style={{ ...GRID_TEMPLATE, color: '#000' }}
             >
@@ -135,7 +135,7 @@ const NavBar = () => {
                   <img
                     src={highLogo}
                     alt="High Design"
-                    className="h-[80px] w-auto object-contain"
+                    className="h-[50px] w-auto object-contain"
                   />
                 </div>
               </Link>
