@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { handleFormSubmit } from '@/lib/formUtils';
+import { sendContactEmail } from '@/lib/emailService';
 import { ShapeGridBackground } from '@/components/decorations/shapeGridBackground';
 
 // Add Font Awesome CSS
@@ -19,6 +21,7 @@ const addFontAwesome = () => {
 };
 
 const ContactoPage = () => {
+  const navigate = useNavigate();
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null);
@@ -64,9 +67,13 @@ const ContactoPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus(null);
-    
+
     const form = e.target as HTMLFormElement;
-    
+    const formData = new FormData(form);
+    const nombre = (formData.get('name') as string) || '';
+    const email = (formData.get('email') as string) || '';
+    const mensaje = (formData.get('message') as string) || '';
+
     try {
       const { success, message } = await handleFormSubmit(form, {
         formName: 'global_submissions',
@@ -78,15 +85,20 @@ const ContactoPage = () => {
           setSubmitStatus('error');
         }
       });
-      
+
       if (message) {
         setSubmitMessage(message);
       }
-      
-      if (!success) {
+
+      if (success) {
+        sendContactEmail({ nombre, email, mensaje });
+        const params = new URLSearchParams({ nombre });
+        navigate(`/gracias?${params.toString()}`);
+        return;
+      } else {
         setSubmitStatus('error');
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
       setSubmitMessage('Hubo un error inesperado. Por favor, inténtalo de nuevo.');
     } finally {

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { handleFormSubmit } from '../../lib/formUtils';
+import { sendContactEmail } from '../../lib/emailService';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -8,6 +10,7 @@ interface ContactModalProps {
 }
 
 export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, title }) => {
+  const navigate = useNavigate();
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     nombre: '',
@@ -84,18 +87,18 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (selectedServices.length === 0) {
       setSubmitStatus('error');
       setSubmitMessage('Por favor selecciona al menos un servicio');
       return;
     }
-    
+
     setIsSubmitting(true);
     setSubmitStatus(null);
-    
+
     const form = e.target as HTMLFormElement;
-    
+
     const { success, message } = await handleFormSubmit(form, {
       formName: 'global_submissions',
       onSuccess: () => {
@@ -115,15 +118,33 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
         setSubmitStatus('error');
       }
     });
-    
+
     if (message) {
       setSubmitMessage(message);
     }
-    
-    if (!success) {
+
+    if (success) {
+      // Send email notification via Resend (fire-and-forget — navigation happens regardless)
+      sendContactEmail({
+        nombre: formData.nombre,
+        email: formData.email,
+        telefono: formData.telefono,
+        organizacion: formData.organizacion,
+        sitioWeb: formData.sitioWeb,
+        servicios: selectedServices.join(','),
+      });
+
+      onClose();
+      const params = new URLSearchParams({
+        nombre: formData.nombre,
+        servicios: selectedServices.join(','),
+      });
+      navigate(`/gracias?${params.toString()}`);
+      return;
+    } else {
       setSubmitStatus('error');
     }
-    
+
     setIsSubmitting(false);
   };
 

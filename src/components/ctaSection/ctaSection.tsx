@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { handleFormSubmit } from '../../lib/formUtils';
+import { sendContactEmail } from '../../lib/emailService';
 import { LottieAnimation } from '@/components/ui/lottie-animation';
 import { lottiePath } from '@/lib/lottiePaths';
 
 const CTASection = () => {
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null);
   const [submitMessage, setSubmitMessage] = useState('');
@@ -36,8 +39,13 @@ const CTASection = () => {
                 e.preventDefault();
                 setIsSubmitting(true);
                 setSubmitStatus(null);
-                
+
                 const form = e.target as HTMLFormElement;
+                const formData = new FormData(form);
+                const nombre = (formData.get('nombre') as string) || '';
+                const email = (formData.get('email') as string) || '';
+                const mensaje = (formData.get('mensaje') as string) || '';
+
                 const { success, message } = await handleFormSubmit(form, {
                   formName: 'global_submissions',
                   onSuccess: () => {
@@ -48,15 +56,20 @@ const CTASection = () => {
                     setSubmitStatus('error');
                   }
                 });
-                
+
                 if (message) {
                   setSubmitMessage(message);
                 }
-                
-                if (!success) {
+
+                if (success) {
+                  sendContactEmail({ nombre, email, mensaje });
+                  const params = new URLSearchParams({ nombre });
+                  navigate(`/gracias?${params.toString()}`);
+                  return;
+                } else {
                   setSubmitStatus('error');
                 }
-                
+
                 setIsSubmitting(false);
               }}
             >

@@ -19,6 +19,7 @@ import SitiosWebPage from "./pages/sitiosWeb/sitiosWeb.tsx";
 import RedesSocialesPage from "./pages/redesSociales/redesSociales.tsx";
 import AnimacionesPage from "./pages/animaciones/animacionesPage.tsx";
 import ServiciosPage from "./pages/Servicios/serviciosPage.tsx";
+import GraciasPage from "./pages/Gracias/GraciasPage.tsx";
 import Footer from "./components/footer/footer.tsx";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
 
       <Route path="/animaciones" element={<AnimacionesPage />} />
       <Route path="/servicios" element={<ServiciosPage />} />
+      <Route path="/gracias" element={<GraciasPage />} />
       <Route path="/" element={
         <>
           <HeroSection />
