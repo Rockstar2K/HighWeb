@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'motion/react';
+import { useSearchParams } from 'react-router-dom';
 import { ShapeGridBackground } from '@/components/decorations/shapeGridBackground';
 import { ALL_BEHANCE_ASSETS, shuffleAssets, type BehanceAsset } from '@/data/behanceProjects';
 
@@ -15,7 +16,74 @@ const localFallbacks: BehanceAsset[] = Object.entries(localModules).map(([path, 
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+// ─── Curation panel ────────────────────────────────────────────────────────────
+function CurationPanel({
+  skipped,
+  total,
+  onClear,
+}: {
+  skipped: Set<string>;
+  total: number;
+  onClear: () => void;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    const ids = [...skipped].join('\n');
+    navigator.clipboard.writeText(ids).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    });
+  };
+
+  return (
+    <div
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-2xl shadow-2xl text-sm font-medium"
+      style={{ background: '#1a1028', border: '1px solid rgba(119,65,234,0.5)', color: '#fff', minWidth: 340 }}
+    >
+      <div className="flex-1">
+        <span style={{ color: '#a78bfa' }}>Modo curación</span>
+        <span className="mx-2 text-white/30">·</span>
+        <span>
+          {skipped.size > 0 ? (
+            <><span style={{ color: '#f87171' }}>{skipped.size}</span> marcadas para eliminar de {total}</>
+          ) : (
+            <span className="text-white/50">Clic en una imagen para excluirla</span>
+          )}
+        </span>
+      </div>
+      {skipped.size > 0 && (
+        <>
+          <button
+            onClick={onClear}
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"
+            style={{ background: 'rgba(255,255,255,0.08)', color: '#d1d5db' }}
+          >
+            Limpiar
+          </button>
+          <button
+            onClick={handleCopy}
+            className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all"
+            style={{
+              background: copied ? '#16a34a' : '#7741EA',
+              color: '#fff',
+              boxShadow: copied ? '0 0 12px rgba(22,163,74,0.4)' : '0 0 12px rgba(119,65,234,0.4)',
+            }}
+          >
+            {copied ? '¡Copiado!' : 'Copiar IDs → pegar a Claude'}
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ─── Main page ─────────────────────────────────────────────────────────────────
 export default function TrabajosPage() {
+  const [searchParams] = useSearchParams();
+  const curateMode = searchParams.get('curate') === 'true';
+
+  // Stable shuffled list — same order across renders within a session
   const assets = useMemo(
     () =>
       ALL_BEHANCE_ASSETS.length
@@ -24,7 +92,19 @@ export default function TrabajosPage() {
     [],
   );
 
+  // Images that failed to load from CDN
   const [failedIds, setFailedIds] = useState<Set<string>>(new Set());
+  // Images the user has clicked to skip (curation mode only)
+  const [skippedIds, setSkippedIds] = useState<Set<string>>(new Set());
+
+  const toggleSkip = (id: string) => {
+    setSkippedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
   const visible = assets.filter((a) => !failedIds.has(a.id));
 
   return (
@@ -65,52 +145,88 @@ export default function TrabajosPage() {
           </a>
         </motion.div>
 
-        {/*
-          CSS columns masonry — the browser places each image at its natural
-          aspect ratio, so portrait shots are tall, landscape shots are wide,
-          and nothing gets cropped or stretched. No JS sizing needed.
-        */}
-        <div
-          className="columns-1 sm:columns-2 lg:columns-3"
-          style={{ columnGap: '1rem' }}
-        >
-          {visible.map((asset, index) => (
-            <motion.a
-              key={asset.id}
-              href={asset.projectUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="group relative block w-full overflow-hidden rounded-2xl bg-gray-100 shadow-[0_8px_30px_-8px_rgba(0,0,0,0.18)] border border-white/60 break-inside-avoid mb-4"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: Math.min(index * 0.02, 0.45), duration: 0.45, ease: EASE }}
-            >
-              <img
-                src={asset.src}
-                alt={asset.alt}
-                className="block w-full h-auto transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105"
-                onError={() => setFailedIds((prev) => new Set(prev).add(asset.id))}
-                loading={index < 12 ? 'eager' : 'lazy'}
-                decoding="async"
-              />
+        {/* CSS columns masonry */}
+        <div className="columns-1 sm:columns-2 lg:columns-3" style={{ columnGap: '1rem' }}>
+          {visible.map((asset, index) => {
+            const isSkipped = skippedIds.has(asset.id);
 
-              {/* Hover overlay */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100 rounded-2xl" />
-              <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-end justify-between opacity-0 translate-y-1 transition-all duration-400 group-hover:opacity-100 group-hover:translate-y-0">
-                <div className="max-w-[76%]">
-                  <p className="text-[10px] uppercase tracking-widest text-white/60 mb-0.5">
-                    Ver proyecto
-                  </p>
-                  <p className="font-bold text-base text-white leading-tight line-clamp-2">
-                    {asset.projectName}
-                  </p>
-                </div>
-                <span className="shrink-0 ml-2 inline-flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-[11px] font-semibold text-gray-900 shadow">
-                  Behance
-                </span>
-              </div>
-            </motion.a>
-          ))}
+            return (
+              <motion.div
+                key={asset.id}
+                className="relative block w-full break-inside-avoid mb-4"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: Math.min(index * 0.02, 0.45), duration: 0.45, ease: EASE }}
+              >
+                {/* The card — either a link (normal) or a div (curate mode) */}
+                {curateMode ? (
+                  <button
+                    type="button"
+                    onClick={() => toggleSkip(asset.id)}
+                    className="group relative block w-full overflow-hidden rounded-2xl bg-gray-100 shadow-[0_8px_30px_-8px_rgba(0,0,0,0.18)] border-2 transition-all duration-200 text-left"
+                    style={{
+                      borderColor: isSkipped ? '#ef4444' : 'rgba(255,255,255,0.6)',
+                      opacity: isSkipped ? 0.45 : 1,
+                    }}
+                  >
+                    <img
+                      src={asset.src}
+                      alt={asset.alt}
+                      className="block w-full h-auto"
+                      onError={() => setFailedIds((prev) => new Set(prev).add(asset.id))}
+                      loading={index < 12 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                    {/* Curate overlay */}
+                    <div
+                      className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 rounded-2xl"
+                      style={{ background: isSkipped ? 'rgba(239,68,68,0.35)' : 'rgba(0,0,0,0)', pointerEvents: 'none' }}
+                    >
+                      {isSkipped && (
+                        <span className="text-white font-black text-4xl drop-shadow-lg select-none">✕</span>
+                      )}
+                    </div>
+                    {/* Project label always visible in curate mode */}
+                    <div
+                      className="absolute bottom-2 left-2 right-2 flex items-center justify-between px-2 py-1 rounded-lg text-[10px] font-semibold"
+                      style={{ background: 'rgba(0,0,0,0.55)', color: '#fff' }}
+                    >
+                      <span className="truncate">{asset.projectName}</span>
+                      <span style={{ color: isSkipped ? '#f87171' : '#86efac' }} className="ml-2 shrink-0">
+                        {isSkipped ? 'Excluir' : 'OK'}
+                      </span>
+                    </div>
+                  </button>
+                ) : (
+                  <a
+                    href={asset.projectUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group relative block w-full overflow-hidden rounded-2xl bg-gray-100 shadow-[0_8px_30px_-8px_rgba(0,0,0,0.18)] border border-white/60"
+                  >
+                    <img
+                      src={asset.src}
+                      alt={asset.alt}
+                      className="block w-full h-auto transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105"
+                      onError={() => setFailedIds((prev) => new Set(prev).add(asset.id))}
+                      loading={index < 12 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100 rounded-2xl" />
+                    <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-end justify-between opacity-0 translate-y-1 transition-all duration-400 group-hover:opacity-100 group-hover:translate-y-0">
+                      <div className="max-w-[76%]">
+                        <p className="text-[10px] uppercase tracking-widest text-white/60 mb-0.5">Ver proyecto</p>
+                        <p className="font-bold text-base text-white leading-tight line-clamp-2">{asset.projectName}</p>
+                      </div>
+                      <span className="shrink-0 ml-2 inline-flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-[11px] font-semibold text-gray-900 shadow">
+                        Behance
+                      </span>
+                    </div>
+                  </a>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Footer CTA */}
@@ -137,6 +253,15 @@ export default function TrabajosPage() {
           </a>
         </motion.div>
       </div>
+
+      {/* Curation HUD — only visible in ?curate=true mode */}
+      {curateMode && (
+        <CurationPanel
+          skipped={skippedIds}
+          total={visible.length}
+          onClear={() => setSkippedIds(new Set())}
+        />
+      )}
     </div>
   );
 }
