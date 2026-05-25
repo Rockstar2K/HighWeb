@@ -3,44 +3,28 @@ import { motion } from 'motion/react';
 import { ShapeGridBackground } from '@/components/decorations/shapeGridBackground';
 import { ALL_BEHANCE_ASSETS, shuffleAssets, type BehanceAsset } from '@/data/behanceProjects';
 
-// Local fallback images (used if a CDN image fails to load)
+// Local fallback images
 const localModules = import.meta.glob('@/assets/trabajos/*.{png,jpg,jpeg,JPG}', { eager: true });
-const localFallbacks: BehanceAsset[] = Object.entries(localModules).map(([path, mod], i) => {
-  const name = path.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '';
-  return {
-    id: `local-${i}`,
-    src: (mod as { default: string }).default,
-    alt: name,
-    projectUrl: 'https://www.behance.net/natnortega',
-    projectName: 'HighDesign',
-  };
-});
+const localFallbacks: BehanceAsset[] = Object.entries(localModules).map(([path, mod], i) => ({
+  id: `local-${i}`,
+  src: (mod as { default: string }).default,
+  alt: path.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '',
+  projectUrl: 'https://www.behance.net/natnortega',
+  projectName: 'HighDesign',
+}));
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 export default function TrabajosPage() {
   const assets = useMemo(
-    () => (ALL_BEHANCE_ASSETS.length ? shuffleAssets(ALL_BEHANCE_ASSETS) : shuffleAssets(localFallbacks)),
+    () =>
+      ALL_BEHANCE_ASSETS.length
+        ? shuffleAssets(ALL_BEHANCE_ASSETS)
+        : shuffleAssets(localFallbacks),
     [],
   );
 
-  const [rowSpans, setRowSpans] = useState<Record<string, number>>({});
   const [failedIds, setFailedIds] = useState<Set<string>>(new Set());
-
-  const handleLoad = (id: string, e: React.SyntheticEvent<HTMLImageElement>) => {
-    if (rowSpans[id]) return;
-    const { naturalWidth, naturalHeight } = e.currentTarget;
-    if (!naturalWidth || !naturalHeight) return;
-    const span = Math.max(Math.round((naturalHeight / naturalWidth) * 28), 18);
-    setRowSpans((prev) => ({ ...prev, [id]: span }));
-  };
-
-  const handleError = (id: string) => {
-    setFailedIds((prev) => new Set(prev).add(id));
-  };
-
-  const getSpan = (asset: BehanceAsset) => rowSpans[asset.id] ?? 26;
-
   const visible = assets.filter((a) => !failedIds.has(a.id));
 
   return (
@@ -54,6 +38,7 @@ export default function TrabajosPage() {
       <div className="absolute inset-0 bg-white/40 pointer-events-none z-0" aria-hidden />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-20 mt-[10vh]">
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
@@ -64,8 +49,8 @@ export default function TrabajosPage() {
           <p className="text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold">Portafolio</p>
           <h1 className="text-4xl md:text-5xl font-black text-gray-900">Trabajo Destacado</h1>
           <p className="max-w-xl text-gray-500 text-base leading-relaxed">
-            Una selección de proyectos reales de branding, identidad y diseño. Cada pieza,
-            creada con propósito.
+            Una selección de proyectos reales de branding, identidad y diseño.
+            Cada pieza, creada con propósito.
           </p>
           <a
             href="https://www.behance.net/natnortega"
@@ -80,34 +65,39 @@ export default function TrabajosPage() {
           </a>
         </motion.div>
 
-        {/* Masonry grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 auto-rows-[10px]">
+        {/*
+          CSS columns masonry — the browser places each image at its natural
+          aspect ratio, so portrait shots are tall, landscape shots are wide,
+          and nothing gets cropped or stretched. No JS sizing needed.
+        */}
+        <div
+          className="columns-1 sm:columns-2 lg:columns-3"
+          style={{ columnGap: '1rem' }}
+        >
           {visible.map((asset, index) => (
             <motion.a
               key={asset.id}
               href={asset.projectUrl}
               target="_blank"
               rel="noreferrer"
-              className="group relative block w-full overflow-hidden rounded-2xl bg-white shadow-[0_8px_30px_-8px_rgba(0,0,0,0.2)] border border-white/60"
-              style={{ gridRow: `span ${getSpan(asset)}` }}
-              initial={{ opacity: 0, y: 20 }}
+              className="group relative block w-full overflow-hidden rounded-2xl bg-gray-100 shadow-[0_8px_30px_-8px_rgba(0,0,0,0.18)] border border-white/60 break-inside-avoid mb-4"
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: Math.min(index * 0.025, 0.5), duration: 0.5, ease: EASE }}
+              transition={{ delay: Math.min(index * 0.02, 0.45), duration: 0.45, ease: EASE }}
             >
               <img
                 src={asset.src}
                 alt={asset.alt}
-                className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-105"
-                onLoad={(e) => handleLoad(asset.id, e)}
-                onError={() => handleError(asset.id)}
-                loading={index < 9 ? 'eager' : 'lazy'}
+                className="block w-full h-auto transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105"
+                onError={() => setFailedIds((prev) => new Set(prev).add(asset.id))}
+                loading={index < 12 ? 'eager' : 'lazy'}
                 decoding="async"
               />
 
               {/* Hover overlay */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
-              <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-end justify-between opacity-0 transition-opacity duration-400 group-hover:opacity-100">
-                <div className="max-w-[78%]">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100 rounded-2xl" />
+              <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-end justify-between opacity-0 translate-y-1 transition-all duration-400 group-hover:opacity-100 group-hover:translate-y-0">
+                <div className="max-w-[76%]">
                   <p className="text-[10px] uppercase tracking-widest text-white/60 mb-0.5">
                     Ver proyecto
                   </p>
