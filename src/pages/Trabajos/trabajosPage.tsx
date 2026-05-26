@@ -16,6 +16,27 @@ const localFallbacks: BehanceAsset[] = Object.entries(localModules).map(([path, 
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+/** Copies text using clipboard API with execCommand fallback */
+function copyToClipboard(text: string): Promise<boolean> {
+  // Modern async clipboard API (requires HTTPS or localhost)
+  if (navigator.clipboard?.writeText) {
+    return navigator.clipboard.writeText(text).then(() => true).catch(() => legacyCopy(text));
+  }
+  return Promise.resolve(legacyCopy(text));
+}
+
+function legacyCopy(text: string): boolean {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  const ok = document.execCommand('copy');
+  document.body.removeChild(ta);
+  return ok;
+}
+
 // ─── Curation panel ────────────────────────────────────────────────────────────
 function CurationPanel({
   skipped,
@@ -27,52 +48,94 @@ function CurationPanel({
   onClear: () => void;
 }) {
   const [copied, setCopied] = useState(false);
+  const [showIds, setShowIds] = useState(false);
 
-  const handleCopy = () => {
-    const ids = [...skipped].join('\n');
-    navigator.clipboard.writeText(ids).then(() => {
+  const ids = [...skipped].join('\n');
+
+  const handleCopy = async () => {
+    const ok = await copyToClipboard(ids);
+    if (ok) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
-    });
+    } else {
+      // If copy fails, show the IDs in a text box so user can manually copy
+      setShowIds(true);
+    }
   };
 
   return (
     <div
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-2xl shadow-2xl text-sm font-medium"
-      style={{ background: '#1a1028', border: '1px solid rgba(119,65,234,0.5)', color: '#fff', minWidth: 340 }}
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 shadow-2xl text-sm font-medium"
+      style={{
+        background: '#1a1028',
+        border: '1px solid rgba(119,65,234,0.5)',
+        color: '#fff',
+        minWidth: 360,
+        maxWidth: 'calc(100vw - 2rem)',
+        borderRadius: 20,
+        overflow: 'hidden',
+      }}
     >
-      <div className="flex-1">
-        <span style={{ color: '#a78bfa' }}>Modo curación</span>
-        <span className="mx-2 text-white/30">·</span>
-        <span>
+      {/* Main bar */}
+      <div className="flex items-center gap-3 px-5 py-3">
+        <div className="flex-1 min-w-0">
+          <span style={{ color: '#a78bfa' }}>Modo curación</span>
+          <span className="mx-2 text-white/30">·</span>
           {skipped.size > 0 ? (
-            <><span style={{ color: '#f87171' }}>{skipped.size}</span> marcadas para eliminar de {total}</>
+            <span>
+              <span style={{ color: '#f87171' }}>{skipped.size}</span> marcadas de {total}
+            </span>
           ) : (
             <span className="text-white/50">Clic en una imagen para excluirla</span>
           )}
-        </span>
+        </div>
+        {skipped.size > 0 && (
+          <>
+            <button
+              onClick={onClear}
+              className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold"
+              style={{ background: 'rgba(255,255,255,0.08)', color: '#d1d5db' }}
+            >
+              Limpiar
+            </button>
+            <button
+              onClick={handleCopy}
+              className="shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all"
+              style={{
+                background: copied ? '#16a34a' : '#7741EA',
+                color: '#fff',
+                boxShadow: copied ? '0 0 12px rgba(22,163,74,0.4)' : '0 0 12px rgba(119,65,234,0.4)',
+              }}
+            >
+              {copied ? '¡Copiado!' : 'Copiar IDs'}
+            </button>
+          </>
+        )}
       </div>
-      {skipped.size > 0 && (
-        <>
-          <button
-            onClick={onClear}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"
-            style={{ background: 'rgba(255,255,255,0.08)', color: '#d1d5db' }}
-          >
-            Limpiar
-          </button>
-          <button
-            onClick={handleCopy}
-            className="px-4 py-1.5 rounded-lg text-xs font-bold transition-all"
+
+      {/* Expandable textarea fallback — shown when clipboard API fails */}
+      {showIds && skipped.size > 0 && (
+        <div className="px-4 pb-4">
+          <p className="text-xs text-white/50 mb-1.5">Seleccioná todo y copiá manualmente (Ctrl+A → Ctrl+C):</p>
+          <textarea
+            readOnly
+            value={ids}
+            rows={Math.min(skipped.size + 1, 6)}
+            onClick={(e) => (e.target as HTMLTextAreaElement).select()}
+            className="w-full text-xs font-mono rounded-lg p-2 resize-none outline-none"
             style={{
-              background: copied ? '#16a34a' : '#7741EA',
-              color: '#fff',
-              boxShadow: copied ? '0 0 12px rgba(22,163,74,0.4)' : '0 0 12px rgba(119,65,234,0.4)',
+              background: 'rgba(255,255,255,0.07)',
+              border: '1px solid rgba(119,65,234,0.4)',
+              color: '#e2e8f0',
             }}
+          />
+          <button
+            onClick={() => setShowIds(false)}
+            className="mt-1.5 text-xs text-white/30 hover:text-white/60 transition-colors"
           >
-            {copied ? '¡Copiado!' : 'Copiar IDs → pegar a Claude'}
+            Cerrar
           </button>
-        </>
+        </div>
       )}
     </div>
   );
