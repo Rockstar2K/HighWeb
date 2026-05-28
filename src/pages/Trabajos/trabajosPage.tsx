@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { useSearchParams } from 'react-router-dom';
 import { ShapeGridBackground } from '@/components/decorations/shapeGridBackground';
@@ -16,7 +16,7 @@ const localFallbacks: BehanceAsset[] = Object.entries(localModules).map(([path, 
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-// ─── Official Behance logo (Simple Icons — https://simpleicons.org/icons/behance.svg) ──
+// ─── Official Behance logo (Simple Icons — simpleicons.org/icons/behance.svg) ──
 function BehanceLogo({ className }: { className?: string }) {
   return (
     <svg
@@ -32,130 +32,107 @@ function BehanceLogo({ className }: { className?: string }) {
   );
 }
 
-// ─── IDs of images that span 2 columns ─────────────────────────────────────────
-const WIDE_IDS: Set<string> = new Set([
-  // Populated after user selects images in ?wide=true mode
-]);
+// ─── Bento grid layout constants ───────────────────────────────────────────────
+const ROW_H = 10;    // px — grid-auto-rows base unit
+const GAP   = 12;    // px — gap between cells
+const COLS_LG = 3;
+const COLS_SM = 2;
 
-/** Copies text using clipboard API with execCommand fallback */
-function copyToClipboard(text: string): Promise<boolean> {
-  if (navigator.clipboard?.writeText) {
-    return navigator.clipboard.writeText(text).then(() => true).catch(() => Promise.resolve(legacyCopy(text)));
-  }
-  return Promise.resolve(legacyCopy(text));
+/**
+ * Compute how many grid row units an image needs to display at its natural
+ * aspect ratio when placed in a column of `colSpan` width inside `containerW`.
+ * Formula: N × ROW_H + (N-1) × GAP = displayHeight  →  N = ⌈(H + GAP) / (ROW_H + GAP)⌉
+ */
+function calcSpan(
+  natW: number,
+  natH: number,
+  colSpan: number,
+  containerW: number,
+  numCols: number,
+): number {
+  if (!natW || !containerW) return 22; // ~square placeholder
+  const colW    = (containerW - (numCols - 1) * GAP) / numCols;
+  const displayW = colSpan * colW + (colSpan - 1) * GAP;
+  const displayH = (natH / natW) * displayW;
+  return Math.max(2, Math.ceil((displayH + GAP) / (ROW_H + GAP)));
 }
 
+// ─── IDs that span 2 columns ───────────────────────────────────────────────────
+const WIDE_IDS: Set<string> = new Set([
+  '204820493-0',
+  '209088035-5',
+  '204820493-1',
+  '209088035-7',
+  '209075645-8',
+  '204820493-2',
+  '209075645-20',
+  '209088035-0',
+  '164479665-2',
+  '209073881-8',
+]);
+
+// ─── Clipboard helpers ─────────────────────────────────────────────────────────
+function copyToClipboard(text: string): Promise<boolean> {
+  if (navigator.clipboard?.writeText)
+    return navigator.clipboard.writeText(text).then(() => true).catch(() => Promise.resolve(legacyCopy(text)));
+  return Promise.resolve(legacyCopy(text));
+}
 function legacyCopy(text: string): boolean {
   const ta = document.createElement('textarea');
   ta.value = text;
   ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
   document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
+  ta.focus(); ta.select();
   const ok = document.execCommand('copy');
   document.body.removeChild(ta);
   return ok;
 }
 
-// ─── Curation panel ────────────────────────────────────────────────────────────
-function CurationPanel({
-  skipped,
-  total,
+// ─── Reusable HUD panel ────────────────────────────────────────────────────────
+function HudPanel({
+  label, labelColor, borderColor,
+  count, total, ids,
   onClear,
 }: {
-  skipped: Set<string>;
-  total: number;
+  label: string; labelColor: string; borderColor: string;
+  count: number; total: number; ids: string;
   onClear: () => void;
 }) {
   const [copied, setCopied] = useState(false);
   const [showIds, setShowIds] = useState(false);
-  const ids = [...skipped].join('\n');
 
   const handleCopy = async () => {
     const ok = await copyToClipboard(ids);
     if (ok) { setCopied(true); setTimeout(() => setCopied(false), 2500); }
-    else { setShowIds(true); }
+    else setShowIds(true);
   };
 
   return (
     <div
       className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 shadow-2xl text-sm font-medium"
-      style={{ background: '#1a1028', border: '1px solid rgba(119,65,234,0.5)', color: '#fff', minWidth: 360, maxWidth: 'calc(100vw - 2rem)', borderRadius: 20, overflow: 'hidden' }}
+      style={{ background: '#0f0f1a', border: `1px solid ${borderColor}`, color: '#fff', minWidth: 360, maxWidth: 'calc(100vw - 2rem)', borderRadius: 20, overflow: 'hidden' }}
     >
       <div className="flex items-center gap-3 px-5 py-3">
         <div className="flex-1 min-w-0">
-          <span style={{ color: '#a78bfa' }}>Modo curación</span>
+          <span style={{ color: labelColor }}>{label}</span>
           <span className="mx-2 text-white/30">·</span>
-          {skipped.size > 0
-            ? <span><span style={{ color: '#f87171' }}>{skipped.size}</span> marcadas de {total}</span>
-            : <span className="text-white/50">Clic en una imagen para excluirla</span>}
+          {count > 0
+            ? <span><span style={{ color: labelColor }}>{count}</span> de {total}</span>
+            : <span className="text-white/50">Clic en una imagen para marcarla</span>}
         </div>
-        {skipped.size > 0 && (
+        {count > 0 && (
           <>
             <button onClick={onClear} className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold" style={{ background: 'rgba(255,255,255,0.08)', color: '#d1d5db' }}>Limpiar</button>
-            <button onClick={handleCopy} className="shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all" style={{ background: copied ? '#16a34a' : '#7741EA', color: '#fff', boxShadow: copied ? '0 0 12px rgba(22,163,74,0.4)' : '0 0 12px rgba(119,65,234,0.4)' }}>
+            <button onClick={handleCopy} className="shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all" style={{ background: copied ? '#16a34a' : labelColor, color: labelColor === '#35F099' ? '#0d1a28' : '#fff', boxShadow: `0 0 12px ${labelColor}55` }}>
               {copied ? '¡Copiado!' : 'Copiar IDs'}
             </button>
           </>
         )}
       </div>
-      {showIds && skipped.size > 0 && (
+      {showIds && count > 0 && (
         <div className="px-4 pb-4">
-          <p className="text-xs text-white/50 mb-1.5">Seleccioná todo y copiá manualmente (Ctrl+A → Ctrl+C):</p>
-          <textarea readOnly value={ids} rows={Math.min(skipped.size + 1, 6)} onClick={(e) => (e.target as HTMLTextAreaElement).select()} className="w-full text-xs font-mono rounded-lg p-2 resize-none outline-none" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(119,65,234,0.4)', color: '#e2e8f0' }} />
-          <button onClick={() => setShowIds(false)} className="mt-1.5 text-xs text-white/30 hover:text-white/60 transition-colors">Cerrar</button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ─── Wide-selection panel ───────────────────────────────────────────────────────
-function WidePanel({
-  wideSelected,
-  total,
-  onClear,
-}: {
-  wideSelected: Set<string>;
-  total: number;
-  onClear: () => void;
-}) {
-  const [copied, setCopied] = useState(false);
-  const [showIds, setShowIds] = useState(false);
-  const ids = [...wideSelected].join('\n');
-
-  const handleCopy = async () => {
-    const ok = await copyToClipboard(ids);
-    if (ok) { setCopied(true); setTimeout(() => setCopied(false), 2500); }
-    else { setShowIds(true); }
-  };
-
-  return (
-    <div
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 shadow-2xl text-sm font-medium"
-      style={{ background: '#0d1a28', border: '1px solid rgba(53,240,153,0.4)', color: '#fff', minWidth: 360, maxWidth: 'calc(100vw - 2rem)', borderRadius: 20, overflow: 'hidden' }}
-    >
-      <div className="flex items-center gap-3 px-5 py-3">
-        <div className="flex-1 min-w-0">
-          <span style={{ color: '#35F099' }}>Modo ancho</span>
-          <span className="mx-2 text-white/30">·</span>
-          {wideSelected.size > 0
-            ? <span><span style={{ color: '#35F099' }}>{wideSelected.size}</span> seleccionadas de {total}</span>
-            : <span className="text-white/50">Clic en una imagen para hacerla ancha</span>}
-        </div>
-        {wideSelected.size > 0 && (
-          <>
-            <button onClick={onClear} className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold" style={{ background: 'rgba(255,255,255,0.08)', color: '#d1d5db' }}>Limpiar</button>
-            <button onClick={handleCopy} className="shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all" style={{ background: copied ? '#16a34a' : '#35F099', color: '#0d1a28', boxShadow: copied ? '0 0 12px rgba(22,163,74,0.4)' : '0 0 12px rgba(53,240,153,0.4)' }}>
-              {copied ? '¡Copiado!' : 'Copiar IDs'}
-            </button>
-          </>
-        )}
-      </div>
-      {showIds && wideSelected.size > 0 && (
-        <div className="px-4 pb-4">
-          <p className="text-xs text-white/50 mb-1.5">Seleccioná todo y copiá manualmente (Ctrl+A → Ctrl+C):</p>
-          <textarea readOnly value={ids} rows={Math.min(wideSelected.size + 1, 6)} onClick={(e) => (e.target as HTMLTextAreaElement).select()} className="w-full text-xs font-mono rounded-lg p-2 resize-none outline-none" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(53,240,153,0.4)', color: '#e2e8f0' }} />
+          <p className="text-xs text-white/50 mb-1.5">Ctrl+A → Ctrl+C para copiar:</p>
+          <textarea readOnly value={ids} rows={Math.min(count + 1, 6)} onClick={(e) => (e.target as HTMLTextAreaElement).select()} className="w-full text-xs font-mono rounded-lg p-2 resize-none outline-none" style={{ background: 'rgba(255,255,255,0.07)', border: `1px solid ${borderColor}`, color: '#e2e8f0' }} />
           <button onClick={() => setShowIds(false)} className="mt-1.5 text-xs text-white/30 hover:text-white/60 transition-colors">Cerrar</button>
         </div>
       )}
@@ -167,65 +144,133 @@ function WidePanel({
 export default function TrabajosPage() {
   const [searchParams] = useSearchParams();
   const curateMode = searchParams.get('curate') === 'true';
-  const wideMode = searchParams.get('wide') === 'true';
+  const wideMode   = searchParams.get('wide')   === 'true';
 
-  // Stable shuffled list — same order across renders within a session
   const assets = useMemo(
     () => ALL_BEHANCE_ASSETS.length ? shuffleAssets(ALL_BEHANCE_ASSETS) : shuffleAssets(localFallbacks),
     [],
   );
 
-  const [failedIds, setFailedIds] = useState<Set<string>>(new Set());
-  const [skippedIds, setSkippedIds] = useState<Set<string>>(new Set());
+  // ── Bento grid state ─────────────────────────────────────────────────────────
+  const gridRef   = useRef<HTMLDivElement>(null);
+  const [containerW, setContainerW] = useState(0);
+  const [numCols,    setNumCols]    = useState(COLS_LG);
+  const [rowSpans,   setRowSpans]   = useState<Record<string, number>>({});
+  const naturalDims = useRef<Record<string, [number, number]>>({});
+
+  // Observe grid width changes
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const update = (w: number) => {
+      setContainerW(w);
+      setNumCols(w < 768 ? COLS_SM : COLS_LG);
+    };
+    const ro = new ResizeObserver(([e]) => update(e.contentRect.width));
+    ro.observe(el);
+    update(el.offsetWidth);
+    return () => ro.disconnect();
+  }, []);
+
+  // ── Curation / wide-select state ─────────────────────────────────────────────
+  const [failedIds,      setFailedIds]      = useState<Set<string>>(new Set());
+  const [skippedIds,     setSkippedIds]     = useState<Set<string>>(new Set());
   const [wideSelectedIds, setWideSelectedIds] = useState<Set<string>>(new Set());
 
-  const toggleSkip = (id: string) => {
-    setSkippedIds((prev) => { const next = new Set(prev); next.has(id) ? next.delete(id) : next.add(id); return next; });
-  };
+  const toggleSkip = (id: string) =>
+    setSkippedIds(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
 
-  const toggleWide = (id: string) => {
-    setWideSelectedIds((prev) => { const next = new Set(prev); next.has(id) ? next.delete(id) : next.add(id); return next; });
-  };
+  const toggleWideSelect = (id: string) =>
+    setWideSelectedIds(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
 
-  const visible = assets.filter((a) => !failedIds.has(a.id));
+  // Determine whether an asset is "wide" at render time
+  const isWideId = useCallback(
+    (id: string) => wideMode ? wideSelectedIds.has(id) : WIDE_IDS.has(id),
+    [wideMode, wideSelectedIds],
+  );
+
+  // Recompute all spans when layout changes (resize or wide-selection toggle)
+  useEffect(() => {
+    if (!containerW) return;
+    const next: Record<string, number> = {};
+    for (const [id, [natW, natH]] of Object.entries(naturalDims.current)) {
+      const colSpan = isWideId(id) ? 2 : 1;
+      next[id] = calcSpan(natW, natH, colSpan, containerW, numCols);
+    }
+    setRowSpans(prev => ({ ...prev, ...next }));
+  }, [containerW, numCols, isWideId]);
+
+  // Called when each image finishes loading
+  const handleLoad = useCallback((id: string, img: HTMLImageElement) => {
+    const { naturalWidth: natW, naturalHeight: natH } = img;
+    if (!natW || !containerW) return;
+    naturalDims.current[id] = [natW, natH];
+    const colSpan = isWideId(id) ? 2 : 1;
+    setRowSpans(prev => ({ ...prev, [id]: calcSpan(natW, natH, colSpan, containerW, numCols) }));
+  }, [containerW, numCols, isWideId]);
+
+  const visible = assets.filter(a => !failedIds.has(a.id));
 
   return (
     <div className="relative z-0 min-h-screen w-full overflow-hidden">
-      <ShapeGridBackground
-        visibleRows={1}
-        rowStart={1}
-        className="opacity-70"
-        style={{ top: 145, height: '10rem' }}
-      />
+      <ShapeGridBackground visibleRows={1} rowStart={1} className="opacity-70" style={{ top: 145, height: '10rem' }} />
       <div className="absolute inset-0 bg-white/40 pointer-events-none z-0" aria-hidden />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-20 mt-[10vh]">
 
-        {/* CSS Grid — images first */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* ── Bento masonry grid ─────────────────────────────────────────────── */}
+        <div
+          ref={gridRef}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${numCols}, 1fr)`,
+            gridAutoRows: `${ROW_H}px`,
+            gridAutoFlow: 'row dense',
+            gap: `${GAP}px`,
+          }}
+        >
           {visible.map((asset, index) => {
-            const isSkipped = skippedIds.has(asset.id);
+            const isSkipped     = skippedIds.has(asset.id);
+            const isWide        = isWideId(asset.id);
+            const span          = rowSpans[asset.id] ?? 22;
+            const colSpan       = isWide ? 2 : 1;
             const isWideSelected = wideSelectedIds.has(asset.id);
-            // In wide mode, preview selection live; otherwise read from WIDE_IDS
-            const isWide = wideMode ? isWideSelected : WIDE_IDS.has(asset.id);
 
             return (
               <motion.div
                 key={asset.id}
-                className={`relative w-full ${isWide ? 'col-span-2' : 'col-span-1'}`}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: Math.min(index * 0.02, 0.45), duration: 0.45, ease: EASE }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: Math.min(index * 0.012, 0.35), duration: 0.4, ease: EASE }}
+                style={{
+                  gridColumn: `span ${colSpan}`,
+                  gridRow: `span ${span}`,
+                  overflow: 'hidden',
+                  borderRadius: 16,
+                  position: 'relative',
+                  backgroundColor: '#e5e7eb',
+                  minHeight: 0,
+                }}
               >
                 {curateMode ? (
+                  /* ── Curate mode ── */
                   <button
                     type="button"
                     onClick={() => toggleSkip(asset.id)}
-                    className="group relative block w-full overflow-hidden rounded-2xl bg-gray-100 shadow-[0_8px_30px_-8px_rgba(0,0,0,0.18)] border-2 transition-all duration-200 text-left"
-                    style={{ borderColor: isSkipped ? '#ef4444' : 'rgba(255,255,255,0.6)', opacity: isSkipped ? 0.45 : 1 }}
+                    className="block w-full h-full text-left"
+                    style={{ outline: 'none', border: isSkipped ? '3px solid #ef4444' : '3px solid transparent', borderRadius: 16, opacity: isSkipped ? 0.45 : 1 }}
                   >
-                    <img src={asset.src} alt={asset.alt} className="block w-full h-auto" onError={() => setFailedIds((prev) => new Set(prev).add(asset.id))} loading={index < 12 ? 'eager' : 'lazy'} decoding="async" />
-                    <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 rounded-2xl" style={{ background: isSkipped ? 'rgba(239,68,68,0.35)' : 'rgba(0,0,0,0)', pointerEvents: 'none' }}>
+                    <img
+                      src={asset.src}
+                      alt={asset.alt}
+                      className="w-full h-full"
+                      style={{ objectFit: 'cover', display: 'block' }}
+                      onError={() => setFailedIds(p => new Set(p).add(asset.id))}
+                      onLoad={e => handleLoad(asset.id, e.currentTarget)}
+                      loading={index < 12 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center" style={{ background: isSkipped ? 'rgba(239,68,68,0.35)' : 'transparent', pointerEvents: 'none', borderRadius: 16 }}>
                       {isSkipped && <span className="text-white font-black text-4xl drop-shadow-lg select-none">✕</span>}
                     </div>
                     <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between px-2 py-1 rounded-lg text-[10px] font-semibold" style={{ background: 'rgba(0,0,0,0.55)', color: '#fff' }}>
@@ -233,15 +278,26 @@ export default function TrabajosPage() {
                       <span style={{ color: isSkipped ? '#f87171' : '#86efac' }} className="ml-2 shrink-0">{isSkipped ? 'Excluir' : 'OK'}</span>
                     </div>
                   </button>
+
                 ) : wideMode ? (
+                  /* ── Wide-select mode ── */
                   <button
                     type="button"
-                    onClick={() => toggleWide(asset.id)}
-                    className="group relative block w-full overflow-hidden rounded-2xl bg-gray-100 shadow-[0_8px_30px_-8px_rgba(0,0,0,0.18)] border-2 transition-all duration-200 text-left"
-                    style={{ borderColor: isWideSelected ? '#35F099' : 'rgba(255,255,255,0.6)' }}
+                    onClick={() => toggleWideSelect(asset.id)}
+                    className="block w-full h-full text-left"
+                    style={{ outline: 'none', border: isWideSelected ? '3px solid #35F099' : '3px solid transparent', borderRadius: 16 }}
                   >
-                    <img src={asset.src} alt={asset.alt} className="block w-full h-auto" onError={() => setFailedIds((prev) => new Set(prev).add(asset.id))} loading={index < 12 ? 'eager' : 'lazy'} decoding="async" />
-                    <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 rounded-2xl" style={{ background: isWideSelected ? 'rgba(53,240,153,0.18)' : 'rgba(0,0,0,0)', pointerEvents: 'none' }}>
+                    <img
+                      src={asset.src}
+                      alt={asset.alt}
+                      className="w-full h-full"
+                      style={{ objectFit: 'cover', display: 'block' }}
+                      onError={() => setFailedIds(p => new Set(p).add(asset.id))}
+                      onLoad={e => handleLoad(asset.id, e.currentTarget)}
+                      loading={index < 12 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center" style={{ background: isWideSelected ? 'rgba(53,240,153,0.2)' : 'transparent', pointerEvents: 'none', borderRadius: 16 }}>
                       {isWideSelected && <span className="text-white font-black text-3xl drop-shadow-lg select-none">⟷</span>}
                     </div>
                     <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between px-2 py-1 rounded-lg text-[10px] font-semibold" style={{ background: 'rgba(0,0,0,0.55)', color: '#fff' }}>
@@ -249,15 +305,26 @@ export default function TrabajosPage() {
                       <span style={{ color: isWideSelected ? '#35F099' : '#9ca3af' }} className="ml-2 shrink-0">{isWideSelected ? 'Ancha ⟷' : 'Normal'}</span>
                     </div>
                   </button>
+
                 ) : (
+                  /* ── Normal mode ── */
                   <a
                     href={asset.projectUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="group relative block w-full overflow-hidden rounded-2xl bg-gray-100 shadow-[0_8px_30px_-8px_rgba(0,0,0,0.18)] border border-white/60"
+                    className="group block w-full h-full"
                   >
-                    <img src={asset.src} alt={asset.alt} className="block w-full h-auto transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105" onError={() => setFailedIds((prev) => new Set(prev).add(asset.id))} loading={index < 12 ? 'eager' : 'lazy'} decoding="async" />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100 rounded-2xl" />
+                    <img
+                      src={asset.src}
+                      alt={asset.alt}
+                      className="w-full h-full transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105"
+                      style={{ objectFit: 'cover', display: 'block' }}
+                      onError={() => setFailedIds(p => new Set(p).add(asset.id))}
+                      onLoad={e => handleLoad(asset.id, e.currentTarget)}
+                      loading={index < 12 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
                     <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-end justify-between opacity-0 translate-y-1 transition-all duration-400 group-hover:opacity-100 group-hover:translate-y-0">
                       <div className="max-w-[76%]">
                         <p className="text-[10px] uppercase tracking-widest text-white/60 mb-0.5">Ver proyecto</p>
@@ -274,7 +341,7 @@ export default function TrabajosPage() {
           })}
         </div>
 
-        {/* Header + CTA — below the grid */}
+        {/* ── Header + CTA — below the grid ─────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -311,10 +378,7 @@ export default function TrabajosPage() {
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
-            style={{
-              background: 'linear-gradient(135deg, #7741EA, #5E48F2)',
-              boxShadow: '0 8px 32px rgba(119,65,234,0.3)',
-            }}
+            style={{ background: 'linear-gradient(135deg, #7741EA, #5E48F2)', boxShadow: '0 8px 32px rgba(119,65,234,0.3)' }}
           >
             <BehanceLogo className="w-4 h-4" />
             Ver todos los proyectos en Behance
@@ -322,13 +386,20 @@ export default function TrabajosPage() {
         </motion.div>
       </div>
 
-      {/* Curation HUD */}
+      {/* ── HUDs ──────────────────────────────────────────────────────────────── */}
       {curateMode && (
-        <CurationPanel skipped={skippedIds} total={visible.length} onClear={() => setSkippedIds(new Set())} />
+        <HudPanel
+          label="Modo curación" labelColor="#a78bfa" borderColor="rgba(119,65,234,0.5)"
+          count={skippedIds.size} total={visible.length} ids={[...skippedIds].join('\n')}
+          onClear={() => setSkippedIds(new Set())}
+        />
       )}
-      {/* Wide-selection HUD */}
       {wideMode && (
-        <WidePanel wideSelected={wideSelectedIds} total={visible.length} onClear={() => setWideSelectedIds(new Set())} />
+        <HudPanel
+          label="Modo ancho" labelColor="#35F099" borderColor="rgba(53,240,153,0.4)"
+          count={wideSelectedIds.size} total={visible.length} ids={[...wideSelectedIds].join('\n')}
+          onClear={() => setWideSelectedIds(new Set())}
+        />
       )}
     </div>
   );
