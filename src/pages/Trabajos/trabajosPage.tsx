@@ -218,6 +218,46 @@ export default function TrabajosPage() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-20 mt-[10vh]">
 
+        {/* ── Header + CTA ──────────────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="flex flex-col items-center text-center gap-3 mb-14"
+        >
+          <p className="text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold">Portafolio</p>
+          <h1 className="text-4xl md:text-5xl font-black text-gray-900">Trabajo Destacado</h1>
+          <p className="max-w-xl text-gray-500 text-base leading-relaxed">
+            Una selección de proyectos reales de branding, identidad y diseño.
+            Cada pieza, creada con propósito.
+          </p>
+          <a
+            href="https://www.behance.net/natnortega"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-1 inline-flex items-center gap-2 text-sm font-semibold text-[#7741EA] hover:text-[#5E48F2] transition-colors"
+          >
+            <BehanceLogo className="w-4 h-4" />
+            Ver perfil en Behance
+          </a>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            <a
+              href="https://www.behance.net/natnortega"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
+              style={{ background: 'linear-gradient(135deg, #7741EA, #5E48F2)', boxShadow: '0 8px 32px rgba(119,65,234,0.3)' }}
+            >
+              <BehanceLogo className="w-4 h-4" />
+              Ver todos los proyectos en Behance
+            </a>
+          </motion.div>
+        </motion.div>
+
         {/* ── Bento masonry grid ─────────────────────────────────────────────── */}
         <div
           ref={gridRef}
@@ -341,49 +381,6 @@ export default function TrabajosPage() {
           })}
         </div>
 
-        {/* ── Header + CTA — below the grid ─────────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.8, ease: EASE }}
-          className="flex flex-col items-center text-center gap-3 mt-20 mb-2"
-        >
-          <p className="text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold">Portafolio</p>
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900">Trabajo Destacado</h1>
-          <p className="max-w-xl text-gray-500 text-base leading-relaxed">
-            Una selección de proyectos reales de branding, identidad y diseño.
-            Cada pieza, creada con propósito.
-          </p>
-          <a
-            href="https://www.behance.net/natnortega"
-            target="_blank"
-            rel="noreferrer"
-            className="mt-1 inline-flex items-center gap-2 text-sm font-semibold text-[#7741EA] hover:text-[#5E48F2] transition-colors"
-          >
-            <BehanceLogo className="w-4 h-4" />
-            Ver perfil en Behance
-          </a>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="flex justify-center mt-8"
-        >
-          <a
-            href="https://www.behance.net/natnortega"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
-            style={{ background: 'linear-gradient(135deg, #7741EA, #5E48F2)', boxShadow: '0 8px 32px rgba(119,65,234,0.3)' }}
-          >
-            <BehanceLogo className="w-4 h-4" />
-            Ver todos los proyectos en Behance
-          </a>
-        </motion.div>
       </div>
 
       {/* ── HUDs ──────────────────────────────────────────────────────────────── */}
