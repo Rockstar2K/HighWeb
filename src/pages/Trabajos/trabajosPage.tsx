@@ -288,7 +288,7 @@ export default function TrabajosPage() {
                   overflow: 'hidden',
                   borderRadius: 16,
                   position: 'relative',
-                  backgroundColor: '#e5e7eb',
+                  backgroundColor: '#ffffff',
                   minHeight: 0,
                 }}
               >
