@@ -33,7 +33,7 @@ function BehanceLogo({ className }: { className?: string }) {
 }
 
 // ─── Bento grid layout constants ───────────────────────────────────────────────
-const ROW_H = 10;    // px — grid-auto-rows base unit
+const ROW_H = 1;     // px — grid-auto-rows base unit (1px = ≤1px rounding error, no visible gap)
 const GAP   = 12;    // px — gap between cells
 const COLS_LG = 3;
 const COLS_SM = 2;
@@ -203,8 +203,10 @@ export default function TrabajosPage() {
   // Called when each image finishes loading
   const handleLoad = useCallback((id: string, img: HTMLImageElement) => {
     const { naturalWidth: natW, naturalHeight: natH } = img;
-    if (!natW || !containerW) return;
+    if (!natW) return;
+    // Always store dims so the resize effect can pick them up even if containerW isn't ready yet
     naturalDims.current[id] = [natW, natH];
+    if (!containerW) return;
     const colSpan = isWideId(id) ? 2 : 1;
     setRowSpans(prev => ({ ...prev, [id]: calcSpan(natW, natH, colSpan, containerW, numCols) }));
   }, [containerW, numCols, isWideId]);
@@ -288,7 +290,6 @@ export default function TrabajosPage() {
                   overflow: 'hidden',
                   borderRadius: 16,
                   position: 'relative',
-                  backgroundColor: '#ffffff',
                   minHeight: 0,
                 }}
               >
@@ -303,8 +304,8 @@ export default function TrabajosPage() {
                     <img
                       src={asset.src}
                       alt={asset.alt}
-                      className="w-full h-full"
-                      style={{ objectFit: 'cover', display: 'block' }}
+                      className="w-full h-auto"
+                      style={{ display: 'block' }}
                       onError={() => setFailedIds(p => new Set(p).add(asset.id))}
                       onLoad={e => handleLoad(asset.id, e.currentTarget)}
                       loading={index < 12 ? 'eager' : 'lazy'}
@@ -330,8 +331,8 @@ export default function TrabajosPage() {
                     <img
                       src={asset.src}
                       alt={asset.alt}
-                      className="w-full h-full"
-                      style={{ objectFit: 'cover', display: 'block' }}
+                      className="w-full h-auto"
+                      style={{ display: 'block' }}
                       onError={() => setFailedIds(p => new Set(p).add(asset.id))}
                       onLoad={e => handleLoad(asset.id, e.currentTarget)}
                       loading={index < 12 ? 'eager' : 'lazy'}
@@ -358,7 +359,7 @@ export default function TrabajosPage() {
                       src={asset.src}
                       alt={asset.alt}
                       className="w-full h-full transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105"
-                      style={{ objectFit: 'cover', display: 'block' }}
+                      style={{ display: 'block' }}
                       onError={() => setFailedIds(p => new Set(p).add(asset.id))}
                       onLoad={e => handleLoad(asset.id, e.currentTarget)}
                       loading={index < 12 ? 'eager' : 'lazy'}
