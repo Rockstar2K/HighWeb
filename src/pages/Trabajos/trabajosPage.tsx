@@ -242,22 +242,6 @@ export default function TrabajosPage() {
             <BehanceLogo className="w-4 h-4" />
             Ver perfil en Behance
           </a>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            <a
-              href="https://www.behance.net/natnortega"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
-              style={{ background: 'linear-gradient(135deg, #7741EA, #5E48F2)', boxShadow: '0 8px 32px rgba(119,65,234,0.3)' }}
-            >
-              <BehanceLogo className="w-4 h-4" />
-              Ver todos los proyectos en Behance
-            </a>
-          </motion.div>
         </motion.div>
 
         {/* ── Bento masonry grid ─────────────────────────────────────────────── */}
