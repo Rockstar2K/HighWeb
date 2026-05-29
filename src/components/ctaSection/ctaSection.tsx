@@ -23,7 +23,7 @@ const CTASection = () => {
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">
             ¿Todavía te quedan <span className="text-[#7741EA]">dudas?</span>
           </h2>
-          <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+          <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
             Cuentanos sobre cualquier idea o consulta que tengas.
           </p>
         </div>
@@ -148,7 +148,7 @@ const CTASection = () => {
           <div className="flex flex-col justify-center space-y-6">
             <div className="space-y-4">
               <h3 className="text-4xl font-bold text-white">Agenda una reunión <span className="text-[#35F099]">sin compromiso</span></h3>
-              <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-gray-500">
                 Sin compromisos, sin obligaciónes. Solo una reunión de 15 minutos para concernos mejor y responder cualquier duda que tengas.
               </p>
             </div>
