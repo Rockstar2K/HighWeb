@@ -99,18 +99,18 @@ export function LottieAnimation({
     if (scrollSync) {
       return;
     }
-    if (!startOnView || !hasStarted || !lottieRef.current) {
+    if (!startOnView || !hasStarted || !animationData || !lottieRef.current) {
       return;
     }
 
     const timeout = setTimeout(() => {
       lottieRef.current?.goToAndPlay(0, true);
-    }, 500);
+    }, 100);
 
     return () => {
       clearTimeout(timeout);
     };
-  }, [startOnView, hasStarted, scrollSync]);
+  }, [startOnView, hasStarted, scrollSync, animationData]);
 
   useEffect(() => {
     if (!scrollSync || !animationData || !lottieRef.current) {
