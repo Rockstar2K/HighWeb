@@ -45,8 +45,7 @@ const TabContent = ({ title, items, buttonText, path }: { title: string; items: 
                   path={item.lottie}
                   className={item.size === 'large' ? 'w-40 h-40' : 'w-20 h-20'}
                   ariaLabel={item.alt}
-                  autoplay={false}
-                  scrollSync
+                  startOnView
                 />
               )
             )}
@@ -168,12 +167,11 @@ const ProcesoSection = () => {
           Nada de logos genéricos de ChatGPT.
         </div>
         <div className="hidden md:block absolute left-40 md:left-84 top-1/2 -translate-y-1/2 w-52 h-52 pointer-events-none">
-          <LottieAnimation 
-          path={lottiePath('Linea3.json')} 
-          className="w-80 h-50" 
+          <LottieAnimation
+          path={lottiePath('Linea3.json')}
+          className="w-80 h-50"
           loop={false}
-          autoplay={false}
-          scrollSync
+          startOnView
           />
         </div>
       </div>
